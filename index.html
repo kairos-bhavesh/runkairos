@@ -1064,7 +1064,7 @@ h3{color:#fff;}
 <header id="site-header">
   <div class="header-inner">
     <a href="#top" class="brand-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <svg id="kairosNavMark" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
         <circle cx="120" cy="120" r="100" fill="none" stroke="#2E7D5B" stroke-width="5"/>
         <g stroke="#4FAF82" stroke-width="3" stroke-linecap="round">
           <line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/>
@@ -2428,7 +2428,7 @@ h3{color:#fff;}
 ══════════════════════════════════════════ -->
 <div id="demo-lock">
   <div class="dl-card">
-    <div class="dl-brand"><svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;display:block;margin:0 auto 10px;"><circle cx="120" cy="120" r="100" fill="none" stroke="#2E7D5B" stroke-width="5"/><g stroke="#4FAF82" stroke-width="3" stroke-linecap="round"><line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(90 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(180 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(270 120 120)"/></g><line x1="120" y1="22" x2="120" y2="108" stroke="#C4933A" stroke-width="3.5" stroke-linecap="round" transform="rotate(45 120 120)"/><circle cx="120" cy="120" r="6" fill="#C4933A"/></svg><span class="k-wordmark">KAIROS</span></div>
+    <div class="dl-brand"><svg id="kairosDlMark" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;display:block;margin:0 auto 10px;"><circle cx="120" cy="120" r="100" fill="none" stroke="#2E7D5B" stroke-width="5"/><g stroke="#4FAF82" stroke-width="3" stroke-linecap="round"><line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(90 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(180 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(270 120 120)"/></g><line x1="120" y1="22" x2="120" y2="108" stroke="#C4933A" stroke-width="3.5" stroke-linecap="round" transform="rotate(45 120 120)"/><circle cx="120" cy="120" r="6" fill="#C4933A"/></svg><span class="k-wordmark">KAIROS</span></div>
     <div class="dl-lockicon">
       <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="11" width="17" height="10" rx="2"></rect><path d="M7.5 11V7.5a4.5 4.5 0 0 1 9 0V11"></path><circle cx="12" cy="16" r="1.4" fill="currentColor" stroke="none"></circle></svg>
     </div>
@@ -3021,7 +3021,7 @@ h3{color:#fff;}
             </div>
           </div>
           <!-- Three-panel grid — equal height, fills container -->
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;height:280px;" id="dte-vticker-grid">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;min-height:280px;" id="dte-vticker-grid">
             <!-- Signal Feed -->
             <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:12px;display:flex;flex-direction:column;overflow:hidden;">
               <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65);margin-bottom:8px;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;">🔴 Signal Feed</div>
@@ -3624,7 +3624,7 @@ h3{color:#fff;}
             <input type="range" min="0.7" max="1.3" step="0.05" value="1.0" style="width:100%;accent-color:var(--teal);" oninput="document.getElementById('kaira-speed-val').textContent=this.value+'×'">
             <div style="display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.62)"><span>Slow 0.7×</span><span id="kaira-speed-val" style="color:var(--teal);font-weight:700;">1.0×</span><span>Fast 1.3×</span></div></div>
             <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Accent</label>
-            <select style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;">
+            <select id="kaira-accent" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;">
               <option>Gulf Arabic — UAE (recommended)</option>
               <option>Gulf Arabic — KSA</option>
               <option>Modern Standard Arabic (Fusha)</option>
@@ -3641,7 +3641,7 @@ h3{color:#fff;}
               <option>Never escalate — AI only</option>
             </select></div>
             <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Opening Greeting Style</label>
-            <select style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;">
+            <select id="kaira-greeting" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;">
               <option>السلام عليكم — Traditional Islamic greeting</option>
               <option>مرحباً — Warm informal Arabic</option>
               <option>Good morning/afternoon — English</option>
@@ -5232,9 +5232,55 @@ function ragSafeColor(hex){
   }catch(e){ return hex; }
 }
 
-/* ── KAIROS brand logo (clock mark) — reused across every downloadable artifact ── */
+/* ── KAIROS brand logo — SINGLE SOURCE OF TRUTH ──
+   Every logo in the app (nav, downloads, and all PDF documents) is built from
+   this one function. To change the mark everywhere, edit ONLY here:
+     • KAIROS_LOGO_TICKS      → tick positions (currently 4 cardinal ticks)
+     • KAIROS_LOGO_HAND_ANGLE → gold hand angle
+   The two static homepage logos are re-rendered from this on load (see
+   kairosApplyBrandLogo), so nothing can drift out of sync. */
 /* [IDX:LOGO] */
-var KAIROS_LOGO_SVG = '<svg viewBox="0 0 240 240" width="34" height="34" style="display:inline-block;vertical-align:middle;flex:0 0 auto;"><circle cx="120" cy="120" r="100" fill="none" stroke="#2E7D5B" stroke-width="5"/><g stroke="#4FAF82" stroke-width="3" stroke-linecap="round"><line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(90 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(180 120 120)"/><line x1="120" y1="14" x2="120" y2="34" transform="rotate(270 120 120)"/></g><line x1="120" y1="22" x2="120" y2="108" stroke="#C4933A" stroke-width="3.5" stroke-linecap="round" transform="rotate(45 120 120)"/><circle cx="120" cy="120" r="6" fill="#C4933A"/></svg>';
+var KAIROS_LOGO_TICKS = [0, 90, 180, 270];   /* 4 ticks at 12 / 3 / 6 / 9 */
+var KAIROS_LOGO_HAND_ANGLE = 45;             /* gold hand, off-angle (~1:30) */
+function kairosClockSVG(o){
+  o = o || {};
+  var size = o.size || 34,
+      ring = o.ring || '#2E7D5B',
+      tick = o.tick || '#4FAF82',
+      hand = o.hand || '#C4933A',
+      opacity = (o.opacity != null) ? o.opacity : 1,
+      attrs = o.attrs || '';
+  var ticks = KAIROS_LOGO_TICKS.map(function(a){
+    return '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(' + a + ' 120 120)"/>';
+  }).join('');
+  return '<svg viewBox="0 0 240 240" width="' + size + '" height="' + size + '" xmlns="http://www.w3.org/2000/svg"' + (attrs ? ' ' + attrs : '') + '>' +
+    '<circle cx="120" cy="120" r="100" fill="none" stroke="' + ring + '" stroke-width="5"/>' +
+    '<g stroke="' + tick + '" stroke-width="3" stroke-linecap="round"' + (opacity < 1 ? ' opacity="' + opacity + '"' : '') + '>' + ticks + '</g>' +
+    '<line x1="120" y1="22" x2="120" y2="108" stroke="' + hand + '" stroke-width="3.5" stroke-linecap="round" transform="rotate(' + KAIROS_LOGO_HAND_ANGLE + ' 120 120)"/>' +
+    '<circle cx="120" cy="120" r="6" fill="' + hand + '"/>' +
+  '</svg>';
+}
+var KAIROS_LOGO_SVG = kairosClockSVG({ size:34, attrs:'style="display:inline-block;vertical-align:middle;flex:0 0 auto;"' });
+/* Re-render the two static homepage logos from the canonical builder so they
+   can never drift from the rest of the app. The inline SVG already matches, so
+   this swap is visually identical (no flash). */
+function kairosApplyBrandLogo(){
+  try{
+    ['kairosNavMark','kairosDlMark'].forEach(function(id){
+      var e = document.getElementById(id);
+      if(!e) return;
+      var tmp = document.createElement('div');
+      tmp.innerHTML = kairosClockSVG({});
+      var fresh = tmp.firstElementChild;
+      if(e.getAttribute('class')) fresh.setAttribute('class', e.getAttribute('class'));
+      if(e.getAttribute('style')) fresh.setAttribute('style', e.getAttribute('style'));
+      fresh.setAttribute('id', id);
+      e.parentNode.replaceChild(fresh, e);
+    });
+  }catch(err){ /* non-fatal: the static inline mark already shows correctly */ }
+}
+if(document.readyState !== 'loading'){ kairosApplyBrandLogo(); }
+else { document.addEventListener('DOMContentLoaded', kairosApplyBrandLogo); }
 
 function entityLogo(key, size){
   size = size || 26;
@@ -6325,7 +6371,7 @@ function renderDelinNews(id){
   if(isVertical){
     // Vertical scrolling ticker for treatment page
     var items=[...DELIN_NEWS,...DELIN_NEWS]; // doubled for seamless loop
-    el.style.cssText='display:flex;flex-direction:column;gap:0;';
+    el.style.cssText='display:flex;flex-direction:column;gap:0;position:absolute;top:0;left:0;right:0;';
     var html=items.map(function(s){
       return '<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);flex-shrink:0;">'+
         '<div style="width:7px;height:7px;border-radius:50%;background:'+dotMap[s.sev]+';flex-shrink:0;margin-top:3px;box-shadow:0 0 5px '+dotMap[s.sev]+'80;"></div>'+
@@ -6885,19 +6931,8 @@ function generateStrategyDocument(){
   function chById(id){ return SB_CHANNELS.find(function(c){return c.id===id;}) || {label:id, icon:'?', cost:0, color:'#fff'}; }
   function chLabelPlain(c){ return (c.label||c.id).replace(/<[^>]*>/g,'').trim(); }
 
-  /* ── KAIROS clock SVG ── */
-  var clockSVG =
-    '<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" width="38" height="38" style="display:inline-block;vertical-align:middle;">'+
-      '<circle cx="120" cy="120" r="100" fill="none" stroke="'+brandCol+'" stroke-width="5"/>'+
-      '<g stroke="'+brandCol+'" stroke-width="3" stroke-linecap="round" opacity=".7">'+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/>'+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(90 120 120)"/>'+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(180 120 120)"/>'+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(270 120 120)"/>'+
-      '</g>'+
-      '<line x1="120" y1="22" x2="120" y2="108" stroke="#C4933A" stroke-width="3.5" stroke-linecap="round" transform="rotate(45 120 120)"/>'+
-      '<circle cx="120" cy="120" r="6" fill="#C4933A"/>'+
-    '</svg>';
+  /* ── KAIROS clock SVG (from the single source of truth) ── */
+  var clockSVG = kairosClockSVG({ size:38, ring:brandCol, tick:brandCol, opacity:0.7, attrs:'style="display:inline-block;vertical-align:middle;"' });
 
   /* ── Rubber stamp SVG (semi-transparent red ink, slight rotation) ── */
   var stampText = (bank.toUpperCase().substring(0,16));
@@ -7943,6 +7978,8 @@ function kSelectChannel(ch, btn){
   document.querySelectorAll('.channel-state').forEach(function(s){s.classList.remove('active');});
   var target=document.getElementById('ch-'+ch);
   if(target)target.classList.add('active');
+  /* Keep the uploaded brand logo in the channel header on every tab switch */
+  if(typeof syncBrandToChannels==='function') syncBrandToChannels();
   /* Auto-play the relevant channel animation when its tab is opened */
   if(ch==='inapp'    && typeof showInappNotif==='function')   setTimeout(showInappNotif, 320);
   if(ch==='sms'      && typeof triggerSMSAnim==='function')   setTimeout(triggerSMSAnim, 320);
@@ -8573,26 +8610,8 @@ function generateWhitepaperText(name, institution, role, portSize, industry, del
   var logoBlock= hasLogo ? '<img alt="Client logo" src="'+SA_LOGO_URL+'" style="max-height:56px;max-width:200px;object-fit:contain;">' : '';
 
   /* KAIROS logo: clock SVG matching site header exactly */
-  var clockSVG =
-    '<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" width="44" height="44" style="display:inline-block;vertical-align:middle;">'+
-      '<circle cx="120" cy="120" r="100" fill="none" stroke="#2E7D5B" stroke-width="5"/>'+
-      '<g stroke="#4FAF82" stroke-width="3" stroke-linecap="round">'+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(0 120 120)"/>'+
-        ''+
-        ''+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(90 120 120)"/>'+
-        ''+
-        ''+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(180 120 120)"/>'+
-        ''+
-        ''+
-        '<line x1="120" y1="14" x2="120" y2="34" transform="rotate(270 120 120)"/>'+
-        ''+
-        ''+
-      '</g>'+
-      '<line x1="120" y1="22" x2="120" y2="108" stroke="#C4933A" stroke-width="3.5" stroke-linecap="round" transform="rotate(45 120 120)"/>'+
-      '<circle cx="120" cy="120" r="6" fill="#C4933A"/>'+
-    '</svg>';  /* end clockSVG */
+  /* KAIROS logo: from the single source of truth (matches site header exactly) */
+  var clockSVG = kairosClockSVG({ size:44, attrs:'style="display:inline-block;vertical-align:middle;"' });  /* end clockSVG */
   var html =
     '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>KAIROS Executive Whitepaper — '+bank+'</title>'+
     '<base target="_top">'+   /* All links open in the top window — fixes mailto: and external nav being blocked inside the iframe */
@@ -9440,6 +9459,29 @@ function closeSection(id){
   document.body.style.overflow='';
 }
 
+/* [IDX:BRANDSYNC] Push the uploaded brand logo (SA_LOGO_URL) into every
+   omnichannel channel-demo header slot. The original markup of each slot is
+   captured once (el._kDefaultHTML) so the monogram/emoji can be restored if
+   the logo is ever cleared. Kaira's voice avatar is deliberately excluded —
+   that slot is the AI agent, not the bank brand. */
+function syncBrandToChannels(){
+  var url = (typeof SA_LOGO_URL!=='undefined' && SA_LOGO_URL) ? SA_LOGO_URL : null;
+  var slotIds = ['wa-avatar-logo','sms-sender-logo','email-logo-slot','inapp-logo-slot','inapp-notif-logo'];
+  slotIds.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el) return;
+    if(typeof el._kDefaultHTML==='undefined') el._kDefaultHTML=el.innerHTML;
+    if(typeof el._kDefaultBg==='undefined')   el._kDefaultBg=el.style.background||'';
+    if(url){
+      el.style.background='#fff';
+      el.innerHTML='<img src="'+url+'" alt="Brand logo" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:inherit;padding:2px;box-sizing:border-box;">';
+    } else {
+      el.innerHTML=el._kDefaultHTML;
+      el.style.background=el._kDefaultBg;
+    }
+  });
+}
+
 function saLoadLogo(input){
   var file=input&&input.files&&input.files[0];
   if(!file) return;
@@ -9449,6 +9491,9 @@ function saLoadLogo(input){
   var reader=new FileReader();
   reader.onload=function(e){
     SA_LOGO_URL=e.target.result;
+    /* Immediately propagate the logo to all omnichannel header slots
+       (independent of colour extraction, which may be skipped for SVGs). */
+    if(typeof syncBrandToChannels==='function') syncBrandToChannels();
     /* Show preview inside the upload box */
     var up=document.getElementById('sa-logo');
     if(up){up.src=SA_LOGO_URL;up.style.display='block';}
@@ -9892,6 +9937,36 @@ function closeCloudSelector(){
   if(ov && ov.parentNode) ov.parentNode.removeChild(ov);
 }
 
+/* [IDX:KAIRALANG] Language-aware Accent + Opening-Greeting option sets.
+   When the Offer Language changes, the Accent and Greeting dropdowns below it
+   are rebuilt so the choices match the selected language (e.g. Hindi shows
+   Indian accents and a नमस्ते greeting rather than Gulf Arabic options). */
+var KAIRA_VOICE_OPTS = {
+  'auto':   { accent:['Auto-match to customer (recommended)','Gulf Arabic — UAE','Gulf Arabic — KSA','British English','Indian — Hindi','Pakistani — Urdu','Filipino — Tagalog'],
+              greet:['Auto-match to customer preference (recommended)','السلام عليكم — Traditional Islamic greeting','नमस्ते — Hindi greeting','Good morning/afternoon — English'] },
+  'ar-gulf':{ accent:['Gulf Arabic — UAE (recommended)','Gulf Arabic — KSA','Modern Standard Arabic (Fusha)'],
+              greet:['السلام عليكم — Traditional Islamic greeting','مرحباً — Warm informal Arabic','أهلاً وسهلاً — Warm welcome'] },
+  'en':     { accent:['British English (recommended)','American English','Indian English','Gulf-accented English'],
+              greet:['Good morning/afternoon — English (recommended)','Hello — Friendly English','Greetings — Formal English'] },
+  'hi':     { accent:['Hindi — Standard / Delhi (recommended)','Hindi — Mumbai','Hinglish (Hindi-English mix)','Indian English'],
+              greet:['नमस्ते — Traditional Hindi greeting (recommended)','नमस्कार — Respectful Hindi','Good morning — Hinglish'] },
+  'ur':     { accent:['Urdu — Standard (recommended)','Urdu — Karachi','Gulf-accented Urdu'],
+              greet:['السلام علیکم — Traditional greeting (recommended)','آداب — Respectful Urdu','خوش آمدید — Warm welcome'] },
+  'tl':     { accent:['Filipino — Manila (recommended)','Taglish (Tagalog-English mix)','Filipino English'],
+              greet:['Magandang araw — Filipino greeting (recommended)','Kumusta — Friendly Filipino','Hello po — Respectful Taglish'] },
+  'ar-eg':  { accent:['Egyptian Arabic (recommended)','Modern Standard Arabic (Fusha)'],
+              greet:['السلام عليكم — Traditional Islamic greeting','أهلاً — Warm Egyptian welcome'] },
+  'ar-lev': { accent:['Levantine Arabic (recommended)','Modern Standard Arabic (Fusha)'],
+              greet:['مرحبا — Warm Levantine','السلام عليكم — Traditional Islamic greeting'] }
+};
+function updateKairaVoiceOptions(val){
+  var cfg = KAIRA_VOICE_OPTS[val] || KAIRA_VOICE_OPTS['auto'];
+  var accSel = document.getElementById('kaira-accent');
+  var grtSel = document.getElementById('kaira-greeting');
+  if(accSel) accSel.innerHTML = cfg.accent.map(function(o){return '<option>'+o+'</option>';}).join('');
+  if(grtSel) grtSel.innerHTML = cfg.greet.map(function(o){return '<option>'+o+'</option>';}).join('');
+}
+
 function selectKairaLang(el){
   var val=el.getAttribute('data-val');
   var label=el.getAttribute('data-label');
@@ -9924,6 +9999,8 @@ function selectKairaLang(el){
   };
   var subtitle = document.getElementById('voice-lang-subtitle');
   if(subtitle) subtitle.textContent = subtitleMap[val] || 'Female · Auto-detect';
+  /* Rebuild Accent + Opening Greeting choices to match the selected language */
+  updateKairaVoiceOptions(val);
   var menu=document.getElementById('kaira-language-menu');
   if(menu) menu.style.display='none';
 }
@@ -10161,6 +10238,8 @@ function saApply(){
   }
 
   showToast('✓ '+name+' · '+SA_COUNT+' accounts · brand applied');
+  /* Propagate the uploaded logo into every omnichannel header slot on save */
+  if(typeof syncBrandToChannels==='function') syncBrandToChannels();
   /* stays on current page */
 }
 

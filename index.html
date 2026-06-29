@@ -3704,6 +3704,11 @@ h3{color:#fff;}
   <input type="text" placeholder="e.g. Checkout.com · Network International · Telr" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;">
 </div>
 <button onclick="cfgSave('sms')" style="background:var(--teal);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;">Save Configuration →</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);">
+  <button onclick="kairosSendTest('sms')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">📲 Send live SMS test</button>
+  <button onclick="kairosSendTest('whatsapp')" style="background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.4);color:#25D366;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">💬 Send live WhatsApp test</button>
+</div>
+<div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:7px;">Sends a real message to your test number via the KAIROS Channels worker.</div>
 
 </div></div>
       </div>
@@ -3769,6 +3774,10 @@ h3{color:#fff;}
   <span style="font-size:13px;color:rgba(255,255,255,.7);">Enable auto-response on email open (follow-up sequence)</span>
 </div>
 <button onclick="cfgSave('email')" style="background:var(--teal);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;">Save Configuration →</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);">
+  <button onclick="kairosSendTest('email',{subject:'KAIROS — live email test'})" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">📧 Send live email test</button>
+</div>
+<div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:7px;">Sends a real email to your test address via the KAIROS Channels worker.</div>
 
 </div></div>
       </div>
@@ -5525,28 +5534,85 @@ function buildCustomInstitution(name, type){
   PORTFOLIO_MODEL[key] = { totalB:totalB, mix:mix };
   return key;
 }
+/* [IDX:SEGMODAL] Styled institution + segment selector (replaces window.prompt).
+   Shows a name field and tick-box segment options; calls opts.onConfirm(name,type). */
+function openSegmentModal(opts){
+  opts = opts || {};
+  var ex=document.getElementById('seg-modal-overlay'); if(ex) ex.remove();
+  var segs=[
+    {v:'all',         t:'All institutions (industry average)'},
+    {v:'traditional', t:'Traditional Banks'},
+    {v:'islamic',     t:'Islamic Banks'},
+    {v:'digital',     t:'Digital Banks'},
+    {v:'bnpl',        t:'BNPL Providers'}
+  ];
+  var rows=segs.map(function(sg){
+    return '<label style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.10);border-radius:8px;cursor:pointer;background:rgba(255,255,255,.03);">'+
+      '<input type="radio" name="seg-modal-seg" value="'+sg.v+'"'+(sg.v==='all'?' checked':'')+' style="accent-color:var(--teal);width:16px;height:16px;flex-shrink:0;">'+
+      '<span style="font-size:13px;color:#fff;">'+sg.t+'</span></label>';
+  }).join('');
+  var ov=document.createElement('div');
+  ov.id='seg-modal-overlay';
+  ov.style.cssText='position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px;';
+  ov.innerHTML=
+    '<div style="background:#101C2E;border:1px solid rgba(255,255,255,.14);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.55);width:100%;max-width:440px;padding:22px;box-sizing:border-box;">'+
+      '<div style="font-family:var(--serif);font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;">'+(opts.title||'Add institution')+'</div>'+
+      '<div style="font-size:12px;color:rgba(255,255,255,.62);margin-bottom:16px;">'+(opts.subtitle||'It will be modelled against its industry peers / averages.')+'</div>'+
+      '<label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:6px;">Institution name</label>'+
+      '<input id="seg-modal-name" type="text" placeholder="e.g. Mashreq Bank" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 12px;font-size:14px;color:#fff;outline:none;margin-bottom:16px;box-sizing:border-box;">'+
+      '<label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:8px;">Compare against which segment?</label>'+
+      '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">'+rows+'</div>'+
+      '<div style="display:flex;gap:10px;justify-content:flex-end;">'+
+        '<button id="seg-modal-cancel" type="button" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Cancel</button>'+
+        '<button id="seg-modal-ok" type="button" style="background:var(--teal);border:none;color:#fff;padding:10px 22px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">'+(opts.okLabel||'Add')+'</button>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(ov);
+  var nameEl=document.getElementById('seg-modal-name');
+  if(nameEl) nameEl.focus();
+  function close(){ ov.remove(); }
+  ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+  document.getElementById('seg-modal-cancel').onclick=close;
+  document.getElementById('seg-modal-ok').onclick=function(){
+    var nm=(nameEl.value||'').trim();
+    if(!nm){ nameEl.style.borderColor='#F87171'; nameEl.focus(); return; }
+    var seg=(document.querySelector('input[name="seg-modal-seg"]:checked')||{}).value||'all';
+    close();
+    if(typeof opts.onConfirm==='function') opts.onConfirm(nm, seg);
+  };
+  if(nameEl){ nameEl.addEventListener('keydown',function(e){ if(e.key==='Enter'){ document.getElementById('seg-modal-ok').click(); } }); }
+}
 function selectCustomInstitution(){
   document.querySelectorAll('.ddx.open').forEach(function(d){ d.classList.remove('open'); });
-  var name = window.prompt('Enter the institution name \u2014 it will be modelled against its industry peers / averages:', '');
-  if(name === null) return;
-  name = String(name).trim();
-  if(!name) return;
-  var segIn = window.prompt('Compare against which segment?\n  1 = Traditional Banks\n  2 = Islamic Banks\n  3 = Digital Banks\n  4 = BNPL\n  (leave blank = average of ALL institutions)', '');
-  if(segIn === null) return;
-  var segMap = { '1':'traditional', '2':'islamic', '3':'digital', '4':'bnpl' };
-  var type = segMap[String(segIn).trim()] || 'all';
-  var key = buildCustomInstitution(name, type);
-  FLOWS_STATE.main = key;
-  if(typeof DECODE_OVERRIDE !== 'undefined'){ DECODE_OVERRIDE = null; }
-  populatePeerDropdowns();
-  var mainEl = document.getElementById('ddx-main');
-  if(mainEl) renderDdx(mainEl, FLOWS_STATE.main, Object.keys(FLOWS_DATA.entities));
-  renderFlowsENR();
-  if(typeof showToast==='function') showToast('Modelling \u201c'+name+'\u201d against '+(type==='all'?'all-institution':(FLOWS_DATA.types[type]||'peer'))+' averages');
+  openSegmentModal({
+    title:'Type a custom institution',
+    subtitle:'It will be modelled against its industry peers / averages.',
+    okLabel:'Add institution',
+    onConfirm:function(name, type){
+      var key = buildCustomInstitution(name, type);
+      FLOWS_STATE.main = key;
+      if(typeof DECODE_OVERRIDE !== 'undefined'){ DECODE_OVERRIDE = null; }
+      populatePeerDropdowns();
+      var mainEl = document.getElementById('ddx-main');
+      if(mainEl) renderDdx(mainEl, FLOWS_STATE.main, Object.keys(FLOWS_DATA.entities));
+      renderFlowsENR();
+      if(typeof ssPopulateProspects==='function') ssPopulateProspects();
+      if(typeof showToast==='function') showToast('Modelling \u201c'+name+'\u201d against '+(type==='all'?'all-institution':(FLOWS_DATA.types[type]||'peer'))+' averages');
+    }
+  });
 }
 function initFlowsControls(){
   var mainEl = document.getElementById('ddx-main');
   if(!mainEl) return;
+  /* Default the main institution to the demo portfolio benchmarked against ALL
+     institutions (industry average), instead of a specific bank such as FAB. */
+  if(!FLOWS_STATE._seededMain){
+    try{
+      var _nm = (typeof SA_PORTFOLIO!=='undefined' && SA_PORTFOLIO) ? SA_PORTFOLIO : 'Collections Demo';
+      FLOWS_STATE.main = buildCustomInstitution(_nm, 'all');
+    }catch(e){}
+    FLOWS_STATE._seededMain = true;
+  }
   var allKeys = Object.keys(FLOWS_DATA.entities);
   renderDdx(mainEl, FLOWS_STATE.main, allKeys);
   populatePeerDropdowns();
@@ -9830,6 +9896,31 @@ function cfgCsvDownload(type){
 
 function cfgPush(){showToast('✓ Portfolio pushed to external system via API');}
 
+/* [IDX:CHANNELSEND] Live channel test via the KAIROS Channels Cloudflare Worker.
+   Set KAIROS_WORKER to your deployed worker URL (ending in /send). Until then the
+   buttons show a friendly reminder instead of failing. */
+var KAIROS_WORKER = "https://kairos-channels.bhaveshsoni79.workers.dev/send";
+async function kairosSendTest(channel, opts){
+  opts = opts || {};
+  if(KAIROS_WORKER.indexOf('YOUR-SUBDOMAIN') !== -1){
+    if(typeof showToast==='function') showToast('Set KAIROS_WORKER to your Cloudflare Worker URL first');
+    return;
+  }
+  var labels={sms:'SMS',whatsapp:'WhatsApp',email:'email'};
+  if(typeof showToast==='function') showToast('Sending '+(labels[channel]||channel)+' test\u2026');
+  try{
+    var r=await fetch(KAIROS_WORKER,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ channel:channel, to:opts.to, subject:opts.subject,
+        body: opts.body || 'KAIROS live test \u2014 collections demo. Reply STOP to opt out.' })
+    });
+    var d=await r.json();
+    if(typeof showToast==='function') showToast(d.ok ? ('\u2713 '+(labels[channel]||channel)+' sent'+(d.id?' ('+d.id+')':'')) : ('\u2717 '+(d.error||'send failed')));
+  }catch(e){
+    if(typeof showToast==='function') showToast('\u2717 '+(e&&e.message||'network error'));
+  }
+}
+
 function cfgSave(id){
   showToast('✓ '+id.toUpperCase()+' configuration saved');
 }
@@ -10793,7 +10884,7 @@ function ssPopulateProspects(){
     return '<optgroup label="'+typeLabel+'">'+opts+'</optgroup>';
   }).join('');
   /* Start blank — the founder picks the prospect; no auto-selected default. */
-  sel.innerHTML = '<option value="" selected>Select a prospect\u2026</option>' + groups;
+  sel.innerHTML = '<option value="" selected>Select a prospect\u2026</option>' + groups + '<option value="__add_custom__" style="color:#C4933A;">+ Add custom prospect\u2026</option>';
   sel.value = '';
 }
 
@@ -10802,9 +10893,25 @@ function ssCurrentProspectKey(){
   return (sel && sel.value) ? sel.value : '';
 }
 
+function ssAddCustomProspect(){
+  openSegmentModal({
+    title:'Add a custom prospect',
+    subtitle:'Model a prospect bank against its industry peers / averages.',
+    okLabel:'Add prospect',
+    onConfirm:function(name, type){
+      var key = buildCustomInstitution(name, type);
+      ssPopulateProspects();
+      var sel=document.getElementById('ss-prospect');
+      if(sel){ sel.value=key; }
+      ssOnProspectChange();
+      if(typeof showToast==='function') showToast('Added prospect \u201c'+name+'\u201d');
+    }
+  });
+}
 function ssOnProspectChange(){
   var mathEl = document.getElementById('ss-math');
   var key = ssCurrentProspectKey();
+  if(key === '__add_custom__'){ var _s=document.getElementById('ss-prospect'); if(_s) _s.value=''; if(typeof ssAddCustomProspect==='function') ssAddCustomProspect(); return; }
   var ent = (typeof FLOWS_DATA !== 'undefined' && FLOWS_DATA.entities) ? FLOWS_DATA.entities[key] : null;
   /* No prospect chosen yet — prompt instead of leaving a stale dash. */
   if(!key || !ent){

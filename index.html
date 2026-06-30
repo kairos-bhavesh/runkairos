@@ -10,7 +10,7 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="KAIROS">
   <meta name="theme-color" content="#09111F">
-  <meta name="keywords" content="AI receivables decision engine, collections AI, banking AI, debt collection AI, GCC banking technology, predictive collections, digital collections, credit risk AI, next best action collections, receivables decision intelligence">
+  <meta name="keywords" content="GCC collections platform, AI collections platform, collections platform, collections agency alternative, omni channel collections, debt collections, recoveries platform, reducing net bad debt, loss rate improvement, collections efficiency, bucket performance, digital collections strategy, dialer strategy, portfolio strategy, right time to call, best channel to contact, Kairos, Kairo, perfect timing, opportune moment, timely actions, receivables decision intelligence">
 
   <link rel="canonical" href="https://runkairos.com/">
 
@@ -95,6 +95,123 @@
   "url": "https://runkairos.com/",
   "description": "GCC AI Receivables Decision Engine for banks and financial institutions."
 }
+  </script>
+
+
+
+  <!-- KAIROS V2 Foundation: single-source configuration, registries, safe utilities, and SOC2-ready frontend guardrails. -->
+  <script>
+  (function(){
+    'use strict';
+    var ROOT = window;
+    var CONFIG = Object.freeze({
+      version: '2.0-foundation',
+      environment: 'production-demo',
+      companyName: 'KAIROS',
+      defaultPortfolioName: 'Kairos Demo',
+      canonicalUrl: 'https://runkairos.com/',
+      website: 'https://runkairos.com/',
+      supportEmail: 'collections@runkairos.com',
+      paymentLink: 'https://pay.kairosdemo.com/9X2K',
+      referenceId: 'KAIROS-2026-9X2K',
+      sharepointHost: 'bankdemo.sharepoint.com',
+      dataPolicy: 'demo-only-no-real-pii',
+      securityModel: 'static-frontend-no-secrets'
+    });
+    var SEO_KEYWORDS = Object.freeze([
+      'GCC collections platform','AI collections platform','collections platform','omni channel collections',
+      'debt collections','recoveries platform','reducing net bad debt','loss rate improvement',
+      'collections efficiency','bucket performance','digital collections strategy','dialer strategy',
+      'portfolio strategy','right time to call','best channel to contact','Kairos','Kairo',
+      'perfect timing','opportune moment','timely actions','receivables decision intelligence'
+    ]);
+    var REGISTRY = Object.freeze({
+      logos: Object.freeze({ kairos: 'K', demoClient: 'K' }),
+      labels: Object.freeze({
+        portfolio: 'Portfolio / Client Name',
+        demoClient: CONFIG.defaultPortfolioName,
+        emailFrom: CONFIG.supportEmail,
+        paymentLink: CONFIG.paymentLink,
+        referenceId: CONFIG.referenceId,
+        sharepointHost: CONFIG.sharepointHost
+      }),
+      actions: Object.freeze({
+        requestDemo: 'Request Demo',
+        openApp: 'Open Demo',
+        downloadPdf: 'Download PDF',
+        generatePack: 'Generate Pack'
+      }),
+      seoKeywords: SEO_KEYWORDS
+    });
+    function toText(value, fallback){
+      if(value === null || value === undefined) return fallback || '';
+      return String(value);
+    }
+    function trimOr(value, fallback){
+      var out = toText(value, '').trim();
+      return out || (fallback || '');
+    }
+    function escapeHtml(value){
+      return toText(value, '').replace(/[&<>'"]/g, function(c){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[c];
+      });
+    }
+    function safeNumber(value, fallback){
+      var n = Number(value);
+      return Number.isFinite(n) ? n : (fallback || 0);
+    }
+    function safeArray(value){ return Array.isArray(value) ? value : []; }
+    function byId(id){ return document.getElementById(id); }
+    function setText(id, value){ var el = byId(id); if(el) el.textContent = toText(value); return el; }
+    function setHtml(id, value){ var el = byId(id); if(el) el.innerHTML = escapeHtml(value); return el; }
+    function getPortfolioName(){
+      var inp = byId('sa-portfolio-name');
+      return trimOr(inp && inp.value, CONFIG.defaultPortfolioName);
+    }
+    function auditFrontend(){
+      var text = document.documentElement ? document.documentElement.innerHTML : '';
+      /* Legacy-client scan intentionally avoids storing retired client names in source. */
+      var patterns = [/collections@[^\s'"]+\.ae/i, /\b[A-Z]{3}-2026-9X2K\b/, /sharepoint\.com\/sites\/Collections/i];
+      var found = patterns.filter(function(rx){ return rx.test(text); }).map(function(rx){ return rx.source; });
+      if(found.length && ROOT.console && console.warn){ console.warn('[KAIROS security audit] Review possible legacy/client-specific references:', found); }
+    }
+    function syncPortfolioName(){
+      var name = getPortfolioName();
+      ROOT.SA_PORTFOLIO = name;
+      setText('dash-portfolio-name', name);
+      setText('sa-brand-name', name);
+      setText('eng-portfolio-link', name);
+      setText('pyr-client-name', name);
+      setText('channel-mix-client-name', name);
+      setText('voice-agent-label', 'Kaira — ' + name + ' AI Agent');
+      var emailBrand = byId('email-brand-from');
+      if(emailBrand) emailBrand.textContent = CONFIG.supportEmail + ' (' + name + ' Collections)';
+      var smsSender = byId('sms-sender');
+      if(smsSender && !smsSender.value) smsSender.placeholder = name + ' · 40404';
+      var emailFrom = byId('email-from');
+      if(emailFrom && !emailFrom.value) emailFrom.placeholder = CONFIG.supportEmail;
+      var emailFromName = byId('email-from-name');
+      if(emailFromName && !emailFromName.value) emailFromName.placeholder = name + ' Collections';
+      document.querySelectorAll('[data-kairos-client-name]').forEach(function(n){ n.textContent = name; });
+      document.title = 'KAIROS | GCC AI Receivables Decision Engine for Banks & Financial Institutions';
+    }
+    ROOT.KAIROS = Object.freeze({
+      config: CONFIG,
+      registry: REGISTRY,
+      utils: Object.freeze({ toText:toText, trimOr:trimOr, escapeHtml:escapeHtml, safeNumber:safeNumber, safeArray:safeArray, byId:byId, setText:setText, setHtml:setHtml }),
+      state: Object.seal({ portfolioName: CONFIG.defaultPortfolioName }),
+      syncPortfolioName: syncPortfolioName,
+      auditFrontend: auditFrontend
+    });
+    ROOT.kairosGetPortfolioName = getPortfolioName;
+    ROOT.kairosSafeHtml = escapeHtml;
+    ROOT.addEventListener('DOMContentLoaded', function(){
+      var inp = byId('sa-portfolio-name');
+      if(inp && !trimOr(inp.value, '')) inp.value = CONFIG.defaultPortfolioName;
+      syncPortfolioName();
+      auditFrontend();
+    });
+  }());
   </script>
 
 <style>
@@ -1803,7 +1920,7 @@ h3{color:#fff;}
             <div class="wa-msg wa-msg-anim" id="waM1" style="display:none;background:#fff;color:#1A1A1A;border-radius:0 10px 10px 10px;padding:10px 12px;box-shadow:0 1px 3px rgba(0,0,0,.12);max-width:88%;">
               <div style="font-size:10px;color:#128C7E;margin-bottom:6px;font-weight:700;" id="wa-msg-sender">GCC Bank Portfolio · محفظة بنك خليجي</div>
               <!-- Arabic -->
-              <div style="direction:rtl;text-align:right;font-size:13px;color:#1A1A1A;line-height:1.6;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #F0F0F0;">مرحباً أحمد 👋 — تذكير ودي من بنك أبوظبي الأول.<br>تقديراً لسجلك الرائع (11 من 12 دفعة في موعدها)، أعفيناك من رسوم التأخير هذا الشهر 🎁<br>سدّد <strong style="color:#128C7E;">AED 12,500</strong> بنقرة واحدة.</div>
+              <div style="direction:rtl;text-align:right;font-size:13px;color:#1A1A1A;line-height:1.6;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid #F0F0F0;">مرحباً أحمد 👋 — تذكير ودي من بنك كايروس التجريبي.<br>تقديراً لسجلك الرائع (11 من 12 دفعة في موعدها)، أعفيناك من رسوم التأخير هذا الشهر 🎁<br>سدّد <strong style="color:#128C7E;">AED 12,500</strong> بنقرة واحدة.</div>
               <!-- English -->
               <div style="font-size:12px;color:#444;line-height:1.55;margin-bottom:6px;" id="wa-msg-en-body">Hi Ahmed 👋 — a friendly reminder from <span id="wa-msg-brand">your bank</span>.<br>In recognition of your excellent record (11 of 12 payments on time), we've waived your late fee this month 🎁<br>Settle <strong style="color:#128C7E;">AED 12,500</strong> in one tap.</div>
               <div class="wa-time" style="color:#8a8a8a;font-size:10px;margin-top:5px;">09:41 <span class="wa-ticks" style="color:#34B7F1;">✓✓</span></div>
@@ -1895,7 +2012,7 @@ h3{color:#fff;}
             <div style="background:#fff;border-radius:10px;overflow:hidden;max-width:480px;margin:0 auto;">
               <!-- Email header -->
               <div style="background:#F8F9FA;padding:12px 16px;border-bottom:1px solid #E5E7EB;font-size:11px;color:#4B5563;">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><div id="email-logo-slot" style="width:28px;height:28px;border-radius:5px;background:linear-gradient(135deg,#003366,#005B99);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;" >K</div><span><strong>From:</strong> <span id="email-brand-from">collections@runkairos.com (KAIROS Demo Bank Collections — بنك أبوظبي الأول)</span></span></div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><div id="email-logo-slot" style="width:28px;height:28px;border-radius:5px;background:linear-gradient(135deg,#003366,#005B99);display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;flex-shrink:0;overflow:hidden;" >K</div><span><strong>From:</strong> <span id="email-brand-from">collections@runkairos.com (Kairos Demo Collections — بنك كايروس التجريبي)</span></span></div>
                 <div style="margin-bottom:3px;"><strong>To:</strong> ahmed.almansouri@email.com</div>
                 <div style="font-weight:700;font-size:13px;color:#111;">تسوية حساب | Account Settlement — Ref KAIROS-2026-9X2K</div>
               </div>
@@ -2846,7 +2963,7 @@ h3{color:#fff;}
         </div>
         </div><!-- /dash-tab-overview -->
 
-        <!-- Flows & ENR panel — UAE banking stress cycle: EIB vs KAIROS Demo Bank, 2020–2024 -->
+        <!-- Flows & ENR panel — UAE banking stress cycle: EIB vs Kairos Demo, 2020–2024 -->
         <div class="dash-tab-panel" id="dash-tab-flows">
           <!-- Hero Executive Brief — translates the trends into AED impact -->
           <div class="flows-hero" id="flows-hero"></div>
@@ -3641,7 +3758,7 @@ h3{color:#fff;}
             <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Voice AI Base URL</label>
             <input type="text" placeholder="https://api.elevenlabs.io/v1" id="kaira-api-url" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;"></div>
             <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Voice Agent Model ID</label>
-            <input type="text" placeholder="kaira-fab-arabic-v2" id="kaira-model" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;"></div>
+            <input type="text" placeholder="kaira-kairos-arabic-v2" id="kaira-model" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;"></div>
             <!-- Influence Principle -->
             <div>
               <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Influence Principle (Auto-Applied per Account)</label>
@@ -3771,7 +3888,7 @@ h3{color:#fff;}
   <div id="sms-principle-preview" style="margin-top:8px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;min-height:38px;"></div>
 </div>
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">SMS Text (Arabic)</label>
-<textarea rows="3" placeholder="مرحباً &#123;CustomerName&#125;، تذكير ودي من بنك أبوظبي الأول..." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;font-family:var(--sans);direction:rtl;"></textarea></div>
+<textarea rows="3" placeholder="مرحباً &#123;CustomerName&#125;، تذكير ودي من بنك كايروس التجريبي..." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;font-family:var(--sans);direction:rtl;"></textarea></div>
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">SMS Text (English)</label>
 <textarea rows="3" placeholder="Hi &#123;CustomerName&#125;, this is Kairos Demo. Your payment of AED &#123;Amount&#125; is due..." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;font-family:var(--sans);"></textarea></div>
 <div style="display:flex;align-items:center;gap:10px;">
@@ -3879,7 +3996,7 @@ h3{color:#fff;}
 </div>
 <div>
   <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">App Bundle ID</label>
-  <input type="text" placeholder="ae.fab.mobilebanking" id="inapp-bundle" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;">
+  <input type="text" placeholder="com.runkairos.demo" id="inapp-bundle" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;font-family:var(--sans);outline:none;">
 </div>
 <div>
   <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Webhook for delivery confirmation</label>
@@ -3902,7 +4019,7 @@ h3{color:#fff;}
   <div id="inapp-principle-preview" style="margin-top:8px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:7px;font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;min-height:38px;"></div>
 </div>
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Notification Title (Arabic)</label>
-<input type="text" placeholder="تذكير من بنك أبوظبي الأول" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;direction:rtl;"></div>
+<input type="text" placeholder="تذكير من بنك كايروس التجريبي" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;direction:rtl;"></div>
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Notification Body</label>
 <textarea rows="2" placeholder="&#123;CustomerName&#125;، رسوم التأخير مُعفاة. ادفع AED &#123;Amount&#125; الآن." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;direction:rtl;"></textarea></div>
 <div style="display:flex;align-items:center;gap:10px;">
@@ -4732,7 +4849,7 @@ const PEOPLE=[
   {first:'James',last:'Thompson',nat:'UK',lang:'ENGLISH',flag:'🇬🇧'},
   {first:'Sarah',last:'Mitchell',nat:'UK',lang:'ENGLISH',flag:'🇬🇧'},
 ];
-const EMPLOYERS=['Emirates Group','Etisalat (e&)','ADNOC','Emaar Properties','DP World','Majid Al Futtaim','Noon.com','Careem','Dubai Airports','KAIROS Demo Bank','ENOC','Dubai Islamic Bank','Mashreq Bank','RTA Dubai'];
+const EMPLOYERS=['Emirates Group','Etisalat (e&)','ADNOC','Emaar Properties','DP World','Majid Al Futtaim','Noon.com','Careem','Dubai Airports','Kairos Demo','ENOC','Dubai Islamic Bank','Mashreq Bank','RTA Dubai'];
 const PRODUCTS=['CREDIT_CARD','PERSONAL_LOAN','BNPL','TELECOM','AUTO_LOAN'];
 const CHANNELS=['WHATSAPP','SMS','EMAIL'];
 
@@ -4841,7 +4958,7 @@ let auditLog=[];
 var ENG_STATE = { running:false, timer:null, processed:0, ptp:0, recoveryM:0, startTs:0 };
 
 function engCurrentBank(){
-  /* Pull live brand name if user uploaded a logo; default to KAIROS Demo Bank */
+  /* Pull live brand name if user uploaded a logo; default to Kairos Demo */
   var nameEl = document.getElementById('sa-brand-name');
   var nm = nameEl && nameEl.textContent ? nameEl.textContent.trim() : '';
   if(!nm || nm === 'Kairos Demo') return 'KAIROS';
@@ -5182,7 +5299,7 @@ const FLOWS_DATA = {
   },
   entities: {
     /* ── Traditional Banks ── */
-    fab:    { name:'KAIROS Demo Bank', short:'KAIROS Demo Bank',     type:'traditional',
+    kairosDemo: { name:'Kairos Demo', short:'Kairos Demo',     type:'traditional',
       npl:{ cards:[3.0,2.4,2.2,2.7,3.2], personal:[1.4,1.1,1.0,1.4,1.6], auto:[0.5,0.4,0.3,0.4,0.5], home:[0.2,0.1,0.1,0.1,0.3] },
       enr:{ cards:[7.8,6.5,5.8,6.8,7.8], personal:[3.8,3.0,2.6,3.4,3.8], auto:[1.5,1.1,0.9,1.2,1.4], home:[0.5,0.4,0.3,0.4,0.6] } },
     enbd:   { name:'Emirates NBD', short:'ENBD',           type:'traditional',
@@ -5265,14 +5382,14 @@ const FLOWS_COLORS = {
 };
 
 /* Current selection state */
-const FLOWS_STATE = { main:'fab', peers:['enbd','adcb','hsbc'] };
+const FLOWS_STATE = { main:'kairosDemo', peers:['enbd','adcb','hsbc'] };
 
 /* ── Brand-evocative monogram palette per entity ─────────────────────────────
    Real bank logos are trademarked — these are stylized monogram tiles in each
    bank's signature colors. Brand-evocative, not brand-reproducing. */
 const ENTITY_BRAND = {
   /* Traditional — predominantly red/blue/navy */
-  fab:     { bg:'#1F4E8C', fg:'#FFFFFF', m:'F' },
+  kairosDemo: { bg:'#1F4E8C', fg:'#FFFFFF', m:'F' },
   enbd:    { bg:'#D71920', fg:'#FFFFFF', m:'E' },
   hsbc:    { bg:'#DB0011', fg:'#FFFFFF', m:'H' },
   adcb:    { bg:'#1F2956', fg:'#E8B85F', m:'A' },
@@ -5401,7 +5518,7 @@ function entityLogo(key, size){
    These are rough, illustrative estimates (in AED billions). Used to translate
    NPL/ENR percentages into AED impact for the CRO-grade executive brief. */
 const PORTFOLIO_MODEL = {
-  fab:     { totalB:320, mix:{cards:0.08, personal:0.18, auto:0.12, home:0.62} },
+  kairosDemo: { totalB:320, mix:{cards:0.08, personal:0.18, auto:0.12, home:0.62} },
   enbd:    { totalB:280, mix:{cards:0.09, personal:0.20, auto:0.13, home:0.58} },
   hsbc:    { totalB:90,  mix:{cards:0.15, personal:0.20, auto:0.10, home:0.55} },
   adcb:    { totalB:180, mix:{cards:0.10, personal:0.22, auto:0.13, home:0.55} },
@@ -5694,7 +5811,7 @@ function initFlowsControls(){
   var mainEl = document.getElementById('ddx-main');
   if(!mainEl) return;
   /* Default the main institution to the demo portfolio benchmarked against ALL
-     institutions (industry average), instead of a specific bank such as KAIROS Demo Bank. */
+     institutions (industry average), instead of a specific bank such as Kairos Demo. */
   if(!FLOWS_STATE._seededMain){
     try{
       var _nm = (typeof SA_PORTFOLIO!=='undefined' && SA_PORTFOLIO) ? SA_PORTFOLIO : 'Kairos Demo';
@@ -9867,7 +9984,7 @@ function saExtractDominantColor(dataUrl, cb){
      red   → stress / NPL / at-risk
      amber → warning / watch-list / monitor
      green → cure / recovery / success
-   When a bank's brand uses these colors (e.g. KAIROS Demo Bank red, ENBD red), applying
+   When a bank's brand uses these colors (e.g. Kairos Demo red, ENBD red), applying
    the brand color as the platform accent visually conflicts with risk
    indicators. These helpers detect that and substitute a safe alternative. */
 function hexToHsl(hex){
@@ -10037,7 +10154,7 @@ var CLOUD_FOLDERS={
   onedrive:['/Collections/Inbound','/Collections/Outbound','/Shared/Portfolio'],
   gdrive:['My Drive › Collections › Portfolio','Shared drives › KAIROS › Extracts','Shared drives › Risk › Feeds'],
   dropbox:['/KAIROS/Portfolio','/KAIROS/Extracts','/Team/Collections'],
-  s3:['s3://fab-collections/portfolio/','s3://fab-collections/extracts/','s3://fab-risk/feeds/'],
+  s3:['s3://kairosdemo-collections/portfolio/','s3://kairosdemo-collections/extracts/','s3://kairosdemo-risk/feeds/'],
   azure:['portfolio/inbound','portfolio/outbound','risk/feeds']
 };
 function openCloudSelector(opts){
@@ -10319,7 +10436,7 @@ var VOICE_SCRIPT = [
 
   // ── KAIRA INTRODUCES ──
   {speaker:'kaira', phase:'script',
-   ar:'أهلاً أحمد، أنا كايرا من فريق علاقات العملاء في بنك أبوظبي الأول. أتصل بخصوص حسابك — هل لديك دقيقة؟',
+   ar:'أهلاً أحمد، أنا كايرا من فريق علاقات العملاء في بنك كايروس التجريبي. أتصل بخصوص حسابك — هل لديك دقيقة؟',
    en:'Hello Ahmed, I\'m Kaira from the customer relations team at '+pName+'. I\'m calling about your account — do you have a moment?'},
 
   // ── CUSTOMER AGREES ──
@@ -10520,7 +10637,7 @@ function _kairaCleanText(text, isArabicVoice){
     .replace(/Assalamu Alaikum/gi, 'Assalaamu Alaykum')
     .replace(/Wa Alaikum Assalam/gi, 'Walaykum Assalaam')
     .replace(/AED\s*([\d,]+)/g, '$1 Dirhams')
-    .replace(/KAIROS Demo Bank\b/g, 'KAIROS Demo Bank')
+    .replace(/Kairos Demo\b/g, 'Kairos Demo')
     .replace(/WPS\b/g, 'W. P. S.')
     .replace(/SMS\b/g, 'S. M. S.')
     .replace(/KAIROS-10001/g, 'KAIROS-2026-9X2K')
@@ -11494,5 +11611,24 @@ function kairosSyncClientName(){
 function saUpdatePortfolio(){
   kairosSyncClientName();
 }</script>
+
+<script>
+(function(){
+  'use strict';
+  if(!window.KAIROS) return;
+  window.kairosGetPortfolioName = function(){ return window.KAIROS.state.portfolioName = ((document.getElementById('sa-portfolio-name')||{}).value || window.KAIROS.config.defaultPortfolioName).trim() || window.KAIROS.config.defaultPortfolioName; };
+  var originalSync = window.kairosSyncClientName;
+  window.kairosSyncClientName = function(){
+    try { if(typeof originalSync === 'function') originalSync(); } catch(e) { if(console && console.warn) console.warn('[KAIROS] Legacy sync warning:', e); }
+    window.KAIROS.syncPortfolioName();
+  };
+  window.addEventListener('DOMContentLoaded', function(){
+    var inp = document.getElementById('sa-portfolio-name');
+    if(inp){ inp.addEventListener('input', window.kairosSyncClientName); }
+    window.kairosSyncClientName();
+  });
+}());
+</script>
+
 </body>
 </html>

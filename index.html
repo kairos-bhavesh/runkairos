@@ -10,7 +10,7 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="KAIROS">
   <meta name="theme-color" content="#09111F">
-  <meta name="keywords" content="Kairos, AI decision intelligence platform, decision sciences platform, GCC collections AI, receivables decision intelligence, next best action engine, dynamic treatment engine, banking AI platform, fintech AI platform, customer decision engine, collections optimization, recoveries platform, real time decisioning, behavioral AI, operational decision intelligence">
+  <meta name="keywords" content="Kairos, AI decision intelligence platform, decision science platform, GCC collections AI, receivables decision intelligence, next best action engine, dynamic treatment engine, banking AI platform, fintech AI platform, customer decision engine, collections optimization, recoveries platform, real time decisioning, behavioral AI, operational decision intelligence">
 
   <link rel="canonical" href="https://runkairos.com/">
   <link rel="icon" href="/favicon.ico" sizes="any">
@@ -128,7 +128,6 @@
   </script>
 
 
-
   <!-- KAIROS V2 Foundation: single-source configuration, registries, safe utilities, and SOC2-ready frontend guardrails. -->
   <script>
   (function(){
@@ -243,15 +242,7 @@
     });
   }());
   </script>
-/* Hide anything bleeding behind the sticky header */
-header {
-  background: #09111F !important;
-  overflow: hidden;
-}
 
-.hero-section {
-  overflow: hidden;
-}
 <style>
 
 /* ── Utility classes (replaces 100+ repeated inline style combos) ── */
@@ -501,7 +492,6 @@ section[id], div[id="top"] { scroll-margin-top: 68px; }
 
 /* ── AI ENGINE ── */
 .ai-engine-section{background:var(--ink);padding:var(--s96) 0;overflow:hidden;}
-@media(max-width:900px){}
 .ai-visual-panel::before{content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(14,168,154,.06),transparent 70%);
   pointer-events:none;}
@@ -668,7 +658,6 @@ section[id], div[id="top"] { scroll-margin-top: 68px; }
 .news-sig{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s;}
 
 /* ── BUILT FOR ── */
-@media(max-width:800px){}
 .industry-card{background:var(--paper2);border:1px solid var(--border);border-radius:var(--r-md);
   padding:var(--s20) var(--s24);font-size:15px;font-weight:600;color:var(--slate);
   transition:all .22s;cursor:default;}
@@ -1289,6 +1278,33 @@ h3{color:#fff;}
 .dl-back{margin-top:20px;background:none;border:none;color:rgba(255,255,255,.55);font-size:12.5px;cursor:pointer;font-family:var(--sans);transition:color .15s;}
 .dl-back:hover{color:rgba(255,255,255,.85);}
 .dl-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font-size:10.5px;color:rgba(255,255,255,.45);line-height:1.55;font-style:italic;}
+
+
+/* ===== KAIROS PRODUCTION CLEANUP PATCH ===== */
+/* Prevent hero/visual containers from bleeding behind the fixed header */
+body { padding-top: 64px; }
+header#site-header {
+  z-index: 9999;
+  background: #09111F !important;
+  overflow: hidden;
+}
+.hero-section {
+  padding-top: 88px !important;
+  overflow: hidden;
+}
+.hero-visual,
+.signal-canvas,
+.live-feed {
+  position: relative;
+  z-index: 1;
+}
+/* Keep the real clock logo crisp in navigation and app access screens */
+#kairosNavMark,
+#demo-login svg[id="kairosNavMark"],
+.app-brand svg,
+.brand-logo svg {
+  flex: 0 0 auto;
+}
 
 </style>
 </head>
@@ -2629,7 +2645,7 @@ h3{color:#fff;}
   <div class="container footer-grid">
     <div class="footer-brand">
       <span class="k-wordmark">KAIROS</span>
-      <p>Collections Decision Intelligence for the GCC. Built for banks, fintechs, telecoms and digital lenders.</p>
+      <p>AI Decision Intelligence for the GCC. Built for banks, fintechs, enterprises and operations teams.</p>
       <span class="ft-tagline">Opportune moments created by the right action at the right time.</span>
       <a href="https://runkairos.com" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;color:#C4933A;text-decoration:none;font-weight:600;font-size:13px;">runkairos.com</a>
     </div>
@@ -9269,7 +9285,6 @@ function generateWhitepaperText(name, institution, role, portSize, industry, del
 }
 
 
-
 /* ── Letter generation config (per letter type) ── */
 /* ──────────────────────────────────────────────────────────────────
    KAIROS Letter Generator — local library lookup
@@ -9988,7 +10003,6 @@ function closePyrModal(){
   var modal = document.getElementById('pyr-modal');
   if(modal) modal.style.display = 'none';
 }
-
 
 
 function saExtractDominantColor(dataUrl, cb){

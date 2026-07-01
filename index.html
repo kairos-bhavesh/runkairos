@@ -10,14 +10,14 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="KAIROS">
   <meta name="theme-color" content="#09111F">
-  <meta name="keywords" content="Kairos, AI decision intelligence platform, decision science platform, GCC collections AI, receivables decision intelligence, next best action engine, dynamic treatment engine, banking AI platform, fintech AI platform, customer decision engine, collections optimization, recoveries platform, real time decisioning, behavioral AI, operational decision intelligence">
+  <meta name="keywords" content="Kairos, AI decision intelligence platform, decision sciences platform, GCC collections AI, receivables decision intelligence, next best action engine, dynamic treatment engine, banking AI platform, fintech AI platform, customer decision engine, collections optimization, recoveries platform, real time decisioning, behavioral AI, operational decision intelligence">
 
   <link rel="canonical" href="https://runkairos.com/">
-  <link rel="icon" href="/favicon.ico?v=clock-20260702" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=clock-20260702">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=clock-20260702">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=clock-20260702">
-  <link rel="manifest" href="/site.webmanifest?v=clock-20260702">
+  <!-- KAIROS v1 Enterprise icons: clock logo only. No PWA manifest linked to avoid stale installed-app icon prompts. -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/kairos-clock-32.png?v=20260702-enterprise">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/kairos-clock-16.png?v=20260702-enterprise">
+  <link rel="shortcut icon" type="image/png" href="/assets/icons/kairos-clock-32.png?v=20260702-enterprise">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/kairos-clock-180.png?v=20260702-enterprise">
   <meta name="msapplication-TileColor" content="#09111F">
   <!-- Google Search Console: after verification, paste the provided token below.
   <meta name="google-site-verification" content="PASTE_YOUR_GOOGLE_VERIFICATION_CODE_HERE">
@@ -28,8 +28,8 @@
   <meta property="og:title" content="KAIROS | AI Decision Intelligence Platform">
   <meta property="og:description" content="AI-powered Decision Intelligence for banks, fintechs and enterprises. Predict behavior, optimize treatments and orchestrate next-best actions in real time.">
   <meta property="og:site_name" content="KAIROS">
-  <meta property="og:image" content="https://runkairos.com/kairos-og-image.png">
-  <meta property="og:image:secure_url" content="https://runkairos.com/kairos-og-image.png">
+  <meta property="og:image" content="https://runkairos.com/assets/images/kairos-og-image.png?v=20260702-enterprise?v=20260702">
+  <meta property="og:image:secure_url" content="https://runkairos.com/assets/images/kairos-og-image.png?v=20260702-enterprise?v=20260702">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -38,7 +38,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KAIROS | AI Decision Intelligence Platform">
   <meta name="twitter:description" content="AI-powered Decision Intelligence for banks, fintechs and enterprises across the GCC.">
-  <meta name="twitter:image" content="https://runkairos.com/kairos-og-image.png">
+  <meta name="twitter:image" content="https://runkairos.com/assets/images/kairos-og-image.png?v=20260702-enterprise?v=20260702">
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -126,6 +126,7 @@
   ]
 }
   </script>
+
 
 
   <!-- KAIROS V2 Foundation: single-source configuration, registries, safe utilities, and SOC2-ready frontend guardrails. -->
@@ -492,6 +493,7 @@ section[id], div[id="top"] { scroll-margin-top: 68px; }
 
 /* ── AI ENGINE ── */
 .ai-engine-section{background:var(--ink);padding:var(--s96) 0;overflow:hidden;}
+@media(max-width:900px){}
 .ai-visual-panel::before{content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(14,168,154,.06),transparent 70%);
   pointer-events:none;}
@@ -658,6 +660,7 @@ section[id], div[id="top"] { scroll-margin-top: 68px; }
 .news-sig{display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s;}
 
 /* ── BUILT FOR ── */
+@media(max-width:800px){}
 .industry-card{background:var(--paper2);border:1px solid var(--border);border-radius:var(--r-md);
   padding:var(--s20) var(--s24);font-size:15px;font-weight:600;color:var(--slate);
   transition:all .22s;cursor:default;}
@@ -1280,31 +1283,13 @@ h3{color:#fff;}
 .dl-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font-size:10.5px;color:rgba(255,255,255,.45);line-height:1.55;font-style:italic;}
 
 
-/* ===== KAIROS PRODUCTION CLEANUP PATCH ===== */
-/* Prevent hero/visual containers from bleeding behind the fixed header */
-body { padding-top: 64px; }
-header#site-header {
-  z-index: 9999;
-  background: #09111F !important;
-  overflow: hidden;
-}
-.hero-section {
-  padding-top: 88px !important;
-  overflow: hidden;
-}
-.hero-visual,
-.signal-canvas,
-.live-feed {
-  position: relative;
-  z-index: 1;
-}
-/* Keep the real clock logo crisp in navigation and app access screens */
-#kairosNavMark,
-#demo-login svg[id="kairosNavMark"],
-.app-brand svg,
-.brand-logo svg {
-  flex: 0 0 auto;
-}
+/* ===== KAIROS V1 PRODUCTION STABILITY FIXES ===== */
+header{z-index:1000;background:#09111F !important;}
+.hero-section{padding-top:88px !important;overflow:hidden;}
+.hero-visual,.signal-canvas,.live-feed{position:relative;z-index:1;}
+#demo-lock{z-index:2000;}
+#app-overlay{top:64px;height:calc(100vh - 64px);z-index:900;}
+@media(max-width:768px){#app-overlay{top:64px;height:calc(100vh - 64px);}}
 
 </style>
 </head>
@@ -1337,7 +1322,7 @@ header#site-header {
     </nav>
     <div class="header-cta-group">
       <button class="btn btn-ghost btn-sm" onclick="openApp()">Explore Live Platform</button>
-      <a href="#demo" class="btn btn-primary btn-sm" onclick="return kairosRequestDemo(event)">Request Demo</a>
+      <a href="#demo" onclick="return closeAppAndScroll('demo',event)" class="btn btn-primary btn-sm">Request Demo</a>
     </div>
     <button class="nav-toggle" onclick="toggleNav()">☰</button>
   </div>
@@ -1355,7 +1340,7 @@ header#site-header {
       <p class="hero-body">KAIROS replaces static, bucket-based collections with account-level recovery decisioning — powered by behavioural, salary, channel, cost and predictive intelligence. Purpose-built for the GCC.</p>
       <div class="btn-row">
         <button class="btn btn-gold" onclick="openApp()">Explore Live Platform <span class="arrow">→</span></button>
-        <a href="#demo" class="btn btn-ghost" onclick="return kairosRequestDemo(event)">Request Executive Demo</a>
+        <a href="#demo" onclick="return closeAppAndScroll('demo',event)" class="btn btn-ghost">Request Executive Demo</a>
       </div>
       <div class="hero-stats">
         <div class="stat-card"><div class="n">+18%</div><div class="l">Lift in 30-day cure rates</div></div>
@@ -2645,7 +2630,7 @@ header#site-header {
   <div class="container footer-grid">
     <div class="footer-brand">
       <span class="k-wordmark">KAIROS</span>
-      <p>AI Decision Intelligence for the GCC. Built for banks, fintechs, enterprises and operations teams.</p>
+      <p>Collections Decision Intelligence for the GCC. Built for banks, fintechs, telecoms and digital lenders.</p>
       <span class="ft-tagline">Opportune moments created by the right action at the right time.</span>
       <a href="https://runkairos.com" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;color:#C4933A;text-decoration:none;font-weight:600;font-size:13px;">runkairos.com</a>
     </div>
@@ -2660,8 +2645,8 @@ header#site-header {
     </div>
     <div class="footer-column">
       <h4>Company</h4>
-      <a href="#demo">Request Briefing</a>
-      <a href="#demo">White Paper</a>
+      <a href="#demo" onclick="return closeAppAndScroll('demo',event)">Request Briefing</a>
+      <a href="#demo" onclick="return closeAppAndScroll('demo',event)">White Paper</a>
       <a href="mailto:bps@runkairos.com?subject=KAIROS%20Privacy%20Policy%20Request">Privacy Policy</a>
       <a href="mailto:bps@runkairos.com?subject=KAIROS%20Terms%20of%20Service%20Request">Terms</a>
       <a href="mailto:bps@runkairos.com?subject=KAIROS%20Inquiry">Contact</a>
@@ -2690,7 +2675,7 @@ header#site-header {
       <button id="demo-unlock-btn" onclick="demoUnlock()">Enter</button>
     </div>
     <div id="demo-pwd-err" class="dl-err">Incorrect passphrase — try again.</div>
-    <button class="dl-back" onclick="kairosBackToSite(event)">← Back to site</button>
+    <button type="button" class="dl-back" onclick="closeDemoLock();return false;">← Back to site</button>
     <div class="dl-note">Browser-side gate — keeps the demo out of casual hands and search engines, but it isn't enterprise security. For a hard lock, host behind server authentication.</div>
   </div>
 </div>
@@ -4496,8 +4481,11 @@ header#site-header {
 <!-- Toast -->
 <div id="toast"></div>
 
+<script src="/html2pdf.bundle.min.js?v=20260702"></script>
 <script>
-/* html2pdf bundle removed from inline HTML. PDF exports now use the safe browser fallback to avoid source-code bleed and 404 artifacts. */
+/* html2pdf moved to /html2pdf.bundle.min.js to prevent inline script parsing failures. */
+
+
 /* ===== KAIROS offline PDF engine (parent-side, no popup, no print dialog) ===== */
 function kairosDownloadDoc(docHtml, filename, opts){
   try{
@@ -7796,7 +7784,69 @@ function generateStrategyDocument(){
     '<div class="kbar" style="position:fixed;top:12px;right:14px;z-index:99;"><button class="print-btn" onclick="stratDownloadPDF()" style="background:#0EA89A;color:#fff;border:none;padding:9px 16px;border-radius:7px;font:700 12px Inter,sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4);">\u2193 Download PDF</button></div>'+
     
     '<scr'+'ipt>function stratDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+bank.replace(/[^A-Za-z0-9]+/g,"_")+'_strategy.pdf",image:{type:"jpeg",quality:0.95},html2canvas:{scale:2,backgroundColor:"#06101F",useCORS:true},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
-    '</body></html>';
+    '
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a[href="#demo"]').forEach(function(a){
+    if(!a.getAttribute('onclick')) a.addEventListener('click',function(e){ if(typeof closeAppAndScroll==='function') closeAppAndScroll('demo',e); });
+  });
+});
+</script>
+
+
+<!-- KAIROS v1 Enterprise production stabilization patch -->
+<script>
+(function(){
+  'use strict';
+  // Remove stale service worker/cache state from earlier PWA experiments.
+  try {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+    }
+  } catch(e) {}
+
+  function byId(id){ return document.getElementById(id); }
+  function hideDemoLock(){
+    var lock = byId('demo-lock');
+    if (lock) lock.classList.remove('show');
+    document.body.style.overflow = '';
+    try { window.DEMO_PENDING_PAGE = null; } catch(e) {}
+  }
+  function scrollToSection(id){
+    var target = byId(id || 'demo');
+    if (!target) return false;
+    var top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    try { history.replaceState(null, '', '#' + (id || 'demo')); } catch(e) {}
+    return false;
+  }
+  // Harden Back to site.
+  window.closeDemoLock = function(){
+    hideDemoLock();
+    return false;
+  };
+  // Harden top navigation / Request Demo from any state.
+  window.closeAppAndScroll = function(sectionId, e){
+    if (e && e.preventDefault) e.preventDefault();
+    hideDemoLock();
+    var overlay = byId('app-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ scrollToSection(sectionId || 'demo'); }, 50);
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#demo"], button[data-scroll-demo]') : null;
+    if (!a) return;
+    window.closeAppAndScroll('demo', e);
+  }, true);
+})();
+</script>
+
+</body></html>';
 
   return html;
 }
@@ -9266,10 +9316,73 @@ function generateWhitepaperText(name, institution, role, portSize, industry, del
 
   '</div>'+
   '<div class="footer"><span>\u00a9 2026 KAIROS Collections Decision Intelligence \u00b7 Confidential</span><span>Prepared for '+name+' \u00b7 '+bank+' \u00b7 '+today+'</span></div>'+
-  '</body></html>';
+  '
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a[href="#demo"]').forEach(function(a){
+    if(!a.getAttribute('onclick')) a.addEventListener('click',function(e){ if(typeof closeAppAndScroll==='function') closeAppAndScroll('demo',e); });
+  });
+});
+</script>
+
+
+<!-- KAIROS v1 Enterprise production stabilization patch -->
+<script>
+(function(){
+  'use strict';
+  // Remove stale service worker/cache state from earlier PWA experiments.
+  try {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+    }
+  } catch(e) {}
+
+  function byId(id){ return document.getElementById(id); }
+  function hideDemoLock(){
+    var lock = byId('demo-lock');
+    if (lock) lock.classList.remove('show');
+    document.body.style.overflow = '';
+    try { window.DEMO_PENDING_PAGE = null; } catch(e) {}
+  }
+  function scrollToSection(id){
+    var target = byId(id || 'demo');
+    if (!target) return false;
+    var top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    try { history.replaceState(null, '', '#' + (id || 'demo')); } catch(e) {}
+    return false;
+  }
+  // Harden Back to site.
+  window.closeDemoLock = function(){
+    hideDemoLock();
+    return false;
+  };
+  // Harden top navigation / Request Demo from any state.
+  window.closeAppAndScroll = function(sectionId, e){
+    if (e && e.preventDefault) e.preventDefault();
+    hideDemoLock();
+    var overlay = byId('app-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ scrollToSection(sectionId || 'demo'); }, 50);
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#demo"], button[data-scroll-demo]') : null;
+    if (!a) return;
+    window.closeAppAndScroll('demo', e);
+  }, true);
+})();
+</script>
+
+</body></html>';
   return html;
 
 }
+
 
 
 /* ── Letter generation config (per letter type) ── */
@@ -9990,6 +10103,7 @@ function closePyrModal(){
   var modal = document.getElementById('pyr-modal');
   if(modal) modal.style.display = 'none';
 }
+
 
 
 function saExtractDominantColor(dataUrl, cb){
@@ -11075,17 +11189,21 @@ function pushToVTick(a){
 }
 function closeAppAndScroll(sectionId, e){
   if(e) e.preventDefault();
+  var lock=document.getElementById('demo-lock');
+  if(lock) lock.classList.remove('show');
   var overlay=document.getElementById('app-overlay');
-  if(overlay && window.getComputedStyle(overlay).display!=='none'){
-    overlay.style.display='none';
-    document.body.style.overflow='';
-  }
+  if(overlay) overlay.style.display='none';
+  document.body.style.overflow='';
   document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
-  var target=document.getElementById(sectionId);
-  if(target){
-    var top=target.getBoundingClientRect().top+window.scrollY-70;
-    window.scrollTo({top:top,behavior:'smooth'});
-  }
+  setTimeout(function(){
+    var target=document.getElementById(sectionId || 'demo');
+    if(target){
+      var top=target.getBoundingClientRect().top+window.scrollY-74;
+      window.scrollTo({top:top,behavior:'smooth'});
+      if(history && history.replaceState){ history.replaceState(null,'','#'+(sectionId || 'demo')); }
+    }
+  }, 60);
+  return false;
 }
 /* ════════════════════════════════════════════════════════════════════════
    SALES STUDIO — Founder-only outbound prospecting toolkit
@@ -11378,7 +11496,69 @@ function ssGenerateLeaveBehind(){
     '</div>'+
     
     '<scr'+'ipt>function lbDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_leavebehind.pdf",image:{type:"jpeg",quality:0.97},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true,windowWidth:el.scrollWidth},jsPDF:{unit:"px",format:[el.scrollWidth,el.scrollHeight],orientation:"portrait"}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
-    '</body></html>';
+    '
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a[href="#demo"]').forEach(function(a){
+    if(!a.getAttribute('onclick')) a.addEventListener('click',function(e){ if(typeof closeAppAndScroll==='function') closeAppAndScroll('demo',e); });
+  });
+});
+</script>
+
+
+<!-- KAIROS v1 Enterprise production stabilization patch -->
+<script>
+(function(){
+  'use strict';
+  // Remove stale service worker/cache state from earlier PWA experiments.
+  try {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+    }
+  } catch(e) {}
+
+  function byId(id){ return document.getElementById(id); }
+  function hideDemoLock(){
+    var lock = byId('demo-lock');
+    if (lock) lock.classList.remove('show');
+    document.body.style.overflow = '';
+    try { window.DEMO_PENDING_PAGE = null; } catch(e) {}
+  }
+  function scrollToSection(id){
+    var target = byId(id || 'demo');
+    if (!target) return false;
+    var top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    try { history.replaceState(null, '', '#' + (id || 'demo')); } catch(e) {}
+    return false;
+  }
+  // Harden Back to site.
+  window.closeDemoLock = function(){
+    hideDemoLock();
+    return false;
+  };
+  // Harden top navigation / Request Demo from any state.
+  window.closeAppAndScroll = function(sectionId, e){
+    if (e && e.preventDefault) e.preventDefault();
+    hideDemoLock();
+    var overlay = byId('app-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ scrollToSection(sectionId || 'demo'); }, 50);
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#demo"], button[data-scroll-demo]') : null;
+    if (!a) return;
+    window.closeAppAndScroll('demo', e);
+  }, true);
+})();
+</script>
+
+</body></html>';
   var blob = new Blob([html], { type:'text/html' });
   var url  = URL.createObjectURL(blob);
   SS_LAST_LB_URL = url;
@@ -11588,7 +11768,69 @@ function ssGeneratePack(){
     , 7) +
     
     '<scr'+'ipt>function packDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_pack.pdf",image:{type:"jpeg",quality:0.96},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true},jsPDF:{unit:"mm",format:"a4",orientation:"landscape"},pagebreak:{mode:["css","legacy"]}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
-    '</body></html>';
+    '
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a[href="#demo"]').forEach(function(a){
+    if(!a.getAttribute('onclick')) a.addEventListener('click',function(e){ if(typeof closeAppAndScroll==='function') closeAppAndScroll('demo',e); });
+  });
+});
+</script>
+
+
+<!-- KAIROS v1 Enterprise production stabilization patch -->
+<script>
+(function(){
+  'use strict';
+  // Remove stale service worker/cache state from earlier PWA experiments.
+  try {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+    }
+  } catch(e) {}
+
+  function byId(id){ return document.getElementById(id); }
+  function hideDemoLock(){
+    var lock = byId('demo-lock');
+    if (lock) lock.classList.remove('show');
+    document.body.style.overflow = '';
+    try { window.DEMO_PENDING_PAGE = null; } catch(e) {}
+  }
+  function scrollToSection(id){
+    var target = byId(id || 'demo');
+    if (!target) return false;
+    var top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    try { history.replaceState(null, '', '#' + (id || 'demo')); } catch(e) {}
+    return false;
+  }
+  // Harden Back to site.
+  window.closeDemoLock = function(){
+    hideDemoLock();
+    return false;
+  };
+  // Harden top navigation / Request Demo from any state.
+  window.closeAppAndScroll = function(sectionId, e){
+    if (e && e.preventDefault) e.preventDefault();
+    hideDemoLock();
+    var overlay = byId('app-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ scrollToSection(sectionId || 'demo'); }, 50);
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#demo"], button[data-scroll-demo]') : null;
+    if (!a) return;
+    window.closeAppAndScroll('demo', e);
+  }, true);
+})();
+</script>
+
+</body></html>';
   var blob = new Blob([html], { type:'text/html' });
   var url  = URL.createObjectURL(blob);
   SS_LAST_PACK_URL = url;
@@ -11670,42 +11912,65 @@ function saUpdatePortfolio(){
 </script>
 
 
-
 <script>
-/* ===== KAIROS CTA / OVERLAY RELIABILITY PATCH =====
-   Ensures Request Demo and Back to site work from the locked demo page and app overlay. */
-function kairosRequestDemo(event){
-  if(event && event.preventDefault) event.preventDefault();
-  try { closeDemoLock(); } catch(e) {}
-  try { closeApp(); } catch(e) {}
-  document.body.style.overflow = '';
-  var target = document.getElementById('demo');
-  if(target){
-    setTimeout(function(){ target.scrollIntoView({behavior:'smooth', block:'start'}); }, 40);
-  } else {
-    window.location.hash = 'demo';
-  }
-  return false;
-}
-function kairosBackToSite(event){
-  if(event && event.preventDefault) event.preventDefault();
-  try { closeDemoLock(); } catch(e) {}
-  try { closeApp(); } catch(e) {}
-  document.body.style.overflow = '';
-  setTimeout(function(){ window.scrollTo({top:0, behavior:'smooth'}); }, 30);
-  return false;
-}
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('a[href="#demo"]').forEach(function(a){
+    if(!a.getAttribute('onclick')) a.addEventListener('click',function(e){ if(typeof closeAppAndScroll==='function') closeAppAndScroll('demo',e); });
+  });
+});
+</script>
+
+
+<!-- KAIROS v1 Enterprise production stabilization patch -->
+<script>
 (function(){
-  function bindKairosCtas(){
-    document.querySelectorAll('a[href="#demo"]').forEach(function(a){
-      a.addEventListener('click', kairosRequestDemo);
-    });
-    var back = document.querySelector('#demo-lock .dl-back');
-    if(back){ back.addEventListener('click', kairosBackToSite); }
+  'use strict';
+  // Remove stale service worker/cache state from earlier PWA experiments.
+  try {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+    }
+    if (window.caches && caches.keys) {
+      caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+    }
+  } catch(e) {}
+
+  function byId(id){ return document.getElementById(id); }
+  function hideDemoLock(){
+    var lock = byId('demo-lock');
+    if (lock) lock.classList.remove('show');
+    document.body.style.overflow = '';
+    try { window.DEMO_PENDING_PAGE = null; } catch(e) {}
   }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindKairosCtas);
-  else bindKairosCtas();
-}());
+  function scrollToSection(id){
+    var target = byId(id || 'demo');
+    if (!target) return false;
+    var top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    try { history.replaceState(null, '', '#' + (id || 'demo')); } catch(e) {}
+    return false;
+  }
+  // Harden Back to site.
+  window.closeDemoLock = function(){
+    hideDemoLock();
+    return false;
+  };
+  // Harden top navigation / Request Demo from any state.
+  window.closeAppAndScroll = function(sectionId, e){
+    if (e && e.preventDefault) e.preventDefault();
+    hideDemoLock();
+    var overlay = byId('app-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(function(){ scrollToSection(sectionId || 'demo'); }, 50);
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var a = e.target && e.target.closest ? e.target.closest('a[href="#demo"], button[data-scroll-demo]') : null;
+    if (!a) return;
+    window.closeAppAndScroll('demo', e);
+  }, true);
+})();
 </script>
 
 </body>

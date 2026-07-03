@@ -10,14 +10,13 @@
   <meta name="robots" content="index, follow">
   <meta name="author" content="KAIROS">
   <meta name="theme-color" content="#09111F">
-  <meta name="kairos-release" content="v1.5-structured-data-fixed">
   <meta name="keywords" content="Kairos, AI decision intelligence platform, decision sciences platform, GCC collections AI, receivables decision intelligence, next best action engine, dynamic treatment engine, banking AI platform, fintech AI platform, customer decision engine, collections optimization, recoveries platform, real time decisioning, behavioral AI, operational decision intelligence">
 
   <link rel="canonical" href="https://runkairos.com/">
   <!-- KAIROS final icon set: clock-only, cache-busted, no PWA manifest fallback -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/kairos-tab-clock-32.png?v=20260703-v14-assets">
-  <link rel="icon" type="image/png" sizes="16x16" href="/kairos-tab-clock-16.png?v=20260703-v14-assets">
-  <link rel="apple-touch-icon" sizes="180x180" href="/kairos-tab-clock-180.png?v=20260703-v14-assets">
+  <link rel="icon" type="image/png" sizes="32x32" href="/kairos-tab-clock-32.png?v=20260702-final-qa">
+  <link rel="icon" type="image/png" sizes="16x16" href="/kairos-tab-clock-16.png?v=20260702-final-qa">
+  <link rel="apple-touch-icon" sizes="180x180" href="/kairos-tab-clock-180.png?v=20260702-final-qa">
 
   <meta name="msapplication-TileColor" content="#09111F">
   <!-- Google Search Console: after verification, paste the provided token below.
@@ -29,17 +28,17 @@
   <meta property="og:title" content="KAIROS | AI Decision Intelligence Platform">
   <meta property="og:description" content="AI-powered Decision Intelligence for banks, fintechs and enterprises. Predict behavior, optimize treatments and orchestrate next-best actions in real time.">
   <meta property="og:site_name" content="KAIROS">
-  <meta property="og:image" content="https://runkairos.com/kairos-og-image.png?v=20260703-v14-assets">
-  <meta property="og:image:secure_url" content="https://runkairos.com/kairos-og-image.png?v=20260703-v14-assets">
+  <meta property="og:image" content="https://runkairos.com/kairos-og-image.png?v=20260702-final-qa">
+  <meta property="og:image:secure_url" content="https://runkairos.com/kairos-og-image.png?v=20260702-final-qa">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="KAIROS AI Decision Intelligence Platform">
+  <meta property="og:image:alt" content="KAIROS Decision Intelligence Platform">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KAIROS | AI Decision Intelligence Platform">
   <meta name="twitter:description" content="AI-powered Decision Intelligence for banks, fintechs and enterprises across the GCC.">
-  <meta name="twitter:image" content="https://runkairos.com/kairos-og-image.png?v=20260703-v14-assets">
+  <meta name="twitter:image" content="https://runkairos.com/kairos-og-image.png?v=20260702-final-qa">
 
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -56,7 +55,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "KAIROS",
-  "alternateName": "KAIROS AI Decision Intelligence Platform",
+  "alternateName": "KAIROS Decision Intelligence Platform",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "url": "https://runkairos.com/",
@@ -202,8 +201,12 @@
     function auditFrontend(){
       var text = document.documentElement ? document.documentElement.innerHTML : '';
       /* Legacy-client scan intentionally avoids storing retired client names in source. */
-      var patterns = [/collections@[^\s'"]+\.ae/i, /\b[A-Z]{3}-2026-9X2K\b/, /sharepoint\.com\/sites\/Collections/i];
+      var patterns = [/collections@[^\s'"]+\.ae/i, /\b[A-Z]{3}-2026-9X2K\b/];
       var found = patterns.filter(function(rx){ return rx.test(text); }).map(function(rx){ return rx.source; });
+      /* SharePoint scan: only flag hosts that are NOT the fictional demo tenant. */
+      var spMatches = text.match(/[\w.-]*sharepoint\.com\/sites\/Collections/gi) || [];
+      var spLegacy = spMatches.filter(function(m){ return m.toLowerCase().indexOf('bankdemo.sharepoint.com') === -1; });
+      if(spLegacy.length){ found.push('sharepoint.com/sites/Collections on non-demo host: ' + spLegacy[0]); }
       if(found.length && ROOT.console && console.warn){ console.warn('[KAIROS security audit] Review possible legacy/client-specific references:', found); }
     }
     function syncPortfolioName(){
@@ -1284,8 +1287,76 @@ h3{color:#fff;}
 .dl-note{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font-size:10.5px;color:rgba(255,255,255,.45);line-height:1.55;font-style:italic;}
 
 </style>
+<style>.skip-link{position:absolute;left:-9999px;top:0;z-index:9999;background:#DAA84E;color:#09111F;padding:10px 18px;font-weight:700;border-radius:0 0 8px 0;}.skip-link:focus{left:0;}</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is KAIROS?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "KAIROS is a GCC-native collections decision intelligence platform. It scores every delinquent account in real time and recommends the next-best action — channel, timing, tone, and treatment — so institutions recover more, earlier in the DPD cycle, at a lower cost to collect."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does a proof-of-concept take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A typical proof-of-concept runs on a single portfolio segment and starts with secure file-based imports, so no core-banking integration is required on day one. Most institutions see the first decision outputs within weeks, with deeper API and core-system integration scheduled once the pilot has proven value."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does KAIROS support Islamic banking portfolios?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. KAIROS supports profit-rate-based products and Shariah-conscious treatment flows, with bilingual Arabic and English communication templates across SMS, WhatsApp, email, and agent scripts."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where is our data hosted and how is compliance handled?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "KAIROS supports in-country and in-region deployment models for data residency, with encryption in transit and at rest, role-based access control, and a full audit trail on every decision. Treatment strategies are built around CBUAE consumer-protection expectations and each institution's own policy rules."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How does KAIROS integrate with our existing systems?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Integration is staged. Pilots run on secure file transfer (CSV over SFTP); production adds REST APIs and connectors to core banking, loan management, and dialer systems. Outbound channels — SMS, WhatsApp, and email — connect through your approved gateways."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How is KAIROS priced?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Pricing combines a one-time pilot setup fee, a monthly platform fee, and an outcome-linked component tied to incremental recoveries, with annual production tiers based on portfolio size. Request an executive briefing for a model calibrated to your portfolio."
+   }
+  }
+ ]
+}
+</script>
+<style>
+#faq details{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:14px;margin-bottom:12px;overflow:hidden;}
+#faq details[open]{border-color:rgba(218,168,78,.45);}
+#faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px 22px;color:#fff;font-size:16px;font-weight:600;}
+#faq summary::-webkit-details-marker{display:none;}
+#faq summary::after{content:'+';color:var(--gold,#DAA84E);font-size:22px;font-weight:400;line-height:1;flex-shrink:0;transition:transform .2s;}
+#faq details[open] summary::after{transform:rotate(45deg);}
+#faq summary:hover{color:var(--gold,#DAA84E);}
+#faq .faq-a{padding:0 22px 20px;font-size:14.5px;color:rgba(255,255,255,.75);line-height:1.7;}
+</style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- ══ HEADER ══ -->
 <header id="site-header">
@@ -1311,6 +1382,7 @@ h3{color:#fff;}
       <a href="#decision-science">Decision &amp; Behavioral Science</a>
       <a href="#outcomes">Outcomes</a>
       <a href="#security">Security</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="header-cta-group">
       <button class="btn btn-ghost btn-sm" onclick="openApp()">Explore Live Platform</button>
@@ -1320,7 +1392,7 @@ h3{color:#fff;}
   </div>
 </header>
 
-<main>
+<main id="main-content">
 
 <!-- ══ HERO ══ -->
 <section class="hero-section" id="top">
@@ -1825,7 +1897,7 @@ h3{color:#fff;}
   <div style="position:fixed;top:0;left:0;right:0;z-index:850;background:rgba(9,17,31,.98);border-bottom:1px solid rgba(255,255,255,.1);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;">
     <button onclick="closeSection('ai-engine')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,147,58,.18);border:1.5px solid rgba(196,147,58,.5);color:var(--gold2);padding:8px 20px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;">← Go Back</button>
     <span style="font-family:var(--serif);font-size:15px;color:rgba(255,255,255,.7);">AI Engine — Decision Intelligence</span>
-    <button onclick="closeSection('ai-engine')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;">✕</button>
+    <button onclick="closeSection('ai-engine')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;" aria-label="Close">✕</button>
   </div>
   <div style="height:64px;"></div>
 <section class="ai-engine-section" style="padding:0 0 48px;background:transparent;" id="ai-engine">
@@ -1907,7 +1979,7 @@ h3{color:#fff;}
   <div style="position:fixed;top:0;left:0;right:0;z-index:850;background:rgba(9,17,31,.98);border-bottom:1px solid rgba(255,255,255,.1);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;">
     <button onclick="closeSection('omnichannel')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,147,58,.18);border:1.5px solid rgba(196,147,58,.5);color:var(--gold2);padding:8px 20px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;">← Go Back</button>
     <span style="font-family:var(--serif);font-size:15px;color:rgba(255,255,255,.7);">Omnichannel Recovery</span>
-    <button onclick="closeSection('omnichannel')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;">✕</button>
+    <button onclick="closeSection('omnichannel')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;" aria-label="Close">✕</button>
   </div>
   <div style="height:64px;"></div>
 <section class="omnichannel-section" style="padding:0 0 48px;background:transparent;" id="omnichannel">
@@ -2194,7 +2266,7 @@ h3{color:#fff;}
   <div style="position:fixed;top:0;left:0;right:0;z-index:850;background:rgba(9,17,31,.98);border-bottom:1px solid rgba(255,255,255,.1);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;">
     <button onclick="closeSection('decision-intelligence')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(196,147,58,.18);border:1.5px solid rgba(196,147,58,.5);color:var(--gold2);padding:8px 20px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;">← Go Back</button>
     <span style="font-family:var(--serif);font-size:15px;color:rgba(255,255,255,.7);">Decision Intelligence</span>
-    <button onclick="closeSection('decision-intelligence')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;">✕</button>
+    <button onclick="closeSection('decision-intelligence')" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:50%;font-size:15px;font-weight:700;cursor:pointer;" aria-label="Close">✕</button>
   </div>
   <div style="height:64px;"></div>
 <section class="decision-intel-section" style="padding:0 0 48px;background:transparent;" id="decision-intelligence">
@@ -2571,6 +2643,22 @@ h3{color:#fff;}
   </div>
 </section>
 <!-- ══ DEMO FORM ══ -->
+<section class="section-pad" id="faq" style="background:var(--ink2);">
+  <div class="container" style="max-width:860px;">
+    <div class="section-heading reveal" style="margin:0 0 36px;">
+      <div class="eyebrow">Common Questions</div>
+      <h2 style="color:#fff;font-size:clamp(26px,3.5vw,44px);">Frequently asked questions.</h2>
+      <p style="font-size:17px;color:rgba(255,255,255,.75);margin-top:16px;line-height:1.65;">What GCC collections and risk leaders ask before an executive briefing.</p>
+    </div>
+      <details class="reveal"><summary>What is KAIROS?</summary><div class="faq-a">KAIROS is a GCC-native collections decision intelligence platform. It scores every delinquent account in real time and recommends the next-best action — channel, timing, tone, and treatment — so institutions recover more, earlier in the DPD cycle, at a lower cost to collect.</div></details>
+      <details class="reveal"><summary>How long does a proof-of-concept take?</summary><div class="faq-a">A typical proof-of-concept runs on a single portfolio segment and starts with secure file-based imports, so no core-banking integration is required on day one. Most institutions see the first decision outputs within weeks, with deeper API and core-system integration scheduled once the pilot has proven value.</div></details>
+      <details class="reveal"><summary>Does KAIROS support Islamic banking portfolios?</summary><div class="faq-a">Yes. KAIROS supports profit-rate-based products and Shariah-conscious treatment flows, with bilingual Arabic and English communication templates across SMS, WhatsApp, email, and agent scripts.</div></details>
+      <details class="reveal"><summary>Where is our data hosted and how is compliance handled?</summary><div class="faq-a">KAIROS supports in-country and in-region deployment models for data residency, with encryption in transit and at rest, role-based access control, and a full audit trail on every decision. Treatment strategies are built around CBUAE consumer-protection expectations and each institution's own policy rules.</div></details>
+      <details class="reveal"><summary>How does KAIROS integrate with our existing systems?</summary><div class="faq-a">Integration is staged. Pilots run on secure file transfer (CSV over SFTP); production adds REST APIs and connectors to core banking, loan management, and dialer systems. Outbound channels — SMS, WhatsApp, and email — connect through your approved gateways.</div></details>
+      <details class="reveal"><summary>How is KAIROS priced?</summary><div class="faq-a">Pricing combines a one-time pilot setup fee, a monthly platform fee, and an outcome-linked component tied to incremental recoveries, with annual production tiers based on portfolio size. Request an executive briefing for a model calibrated to your portfolio.</div></details>
+  </div>
+</section>
+
 <section class="demo-section section-pad" id="demo">
   <div class="container demo-grid">
     <div class="demo-copy" style="display:flex;flex-direction:column;justify-content:center;">
@@ -2590,25 +2678,25 @@ h3{color:#fff;}
         <div style="font-size:15px;font-weight:600;color:#fff;">Complete the form — response within 24 hours.</div>
       </div>
       <div class="form-row">
-        <input id="df-first" tabindex="1" type="text" placeholder="First Name" required>
-        <input id="df-last" tabindex="2" type="text" placeholder="Last Name" required>
+        <input id="df-first" aria-label="First name" tabindex="1" type="text" placeholder="First Name" required>
+        <input id="df-last" aria-label="Last name" tabindex="2" type="text" placeholder="Last Name" required>
       </div>
       <div class="form-row">
-        <input id="df-email" tabindex="3" type="email" placeholder="Work Email" required autocomplete="email">
-        <input id="df-institution" tabindex="4" type="text" placeholder="Institution" autocomplete="organization">
+        <input id="df-email" aria-label="Work email" tabindex="3" type="email" placeholder="Work Email" required autocomplete="email">
+        <input id="df-institution" aria-label="Institution" tabindex="4" type="text" placeholder="Institution" autocomplete="organization">
       </div>
       <div class="form-row">
-        <input id="df-role" tabindex="5" type="text" placeholder="Role / Title">
-        <input id="df-industry" tabindex="6" type="text" placeholder="Industry (e.g. Retail Banking, Fintech, Telecom)">
+        <input id="df-role" aria-label="Role or title" tabindex="5" type="text" placeholder="Role / Title">
+        <input id="df-industry" aria-label="Industry" tabindex="6" type="text" placeholder="Industry (e.g. Retail Banking, Fintech, Telecom)">
       </div>
       <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.62);margin:10px 0 6px;">Portfolio Details</div>
       <div class="form-row">
-        <input id="df-delinquent-count" tabindex="7" type="text" inputmode="numeric" placeholder="# Delinquent Accounts / Month" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,',')">
-        <input id="df-portfolio-value" tabindex="8" type="text" inputmode="numeric" placeholder="Value of Delinquent Accounts (AED)" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,',')">
+        <input id="df-delinquent-count" aria-label="Delinquent accounts per month" tabindex="7" type="text" inputmode="numeric" placeholder="# Delinquent Accounts / Month" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,',')">
+        <input id="df-portfolio-value" aria-label="Value of delinquent accounts in AED" tabindex="8" type="text" inputmode="numeric" placeholder="Value of Delinquent Accounts (AED)" oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/\B(?=(\d{3})+(?!\d))/g,',')">
       </div>
       <div class="form-row">
-        <select id="df-dpd-bucket" tabindex="9" style="background:#0D1526;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 10px;font-size:13px;width:100%;"><option value="" style="background:#0D1526;color:#fff;">DPD Bucket Mix</option><option style="background:#0D1526;color:#fff;">Primarily 1–30 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 31–60 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 61–90 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 90+ DPD</option><option style="background:#0D1526;color:#fff;">Mixed across all buckets</option></select>
-        <select id="df-portfolio-type" tabindex="10" style="background:#0D1526;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 10px;font-size:13px;width:100%;"><option value="" style="background:#0D1526;color:#fff;">Portfolio Type</option><option style="background:#0D1526;color:#fff;">Credit Cards</option><option style="background:#0D1526;color:#fff;">Personal Loans</option><option style="background:#0D1526;color:#fff;">Auto Loans</option><option style="background:#0D1526;color:#fff;">Mortgage</option><option style="background:#0D1526;color:#fff;">BNPL</option><option style="background:#0D1526;color:#fff;">SME Loans</option><option style="background:#0D1526;color:#fff;">Telecom</option><option style="background:#0D1526;color:#fff;">Mixed</option></select>
+        <select id="df-dpd-bucket" aria-label="DPD bucket mix" tabindex="9" style="background:#0D1526;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 10px;font-size:13px;width:100%;"><option value="" style="background:#0D1526;color:#fff;">DPD Bucket Mix</option><option style="background:#0D1526;color:#fff;">Primarily 1–30 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 31–60 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 61–90 DPD</option><option style="background:#0D1526;color:#fff;">Primarily 90+ DPD</option><option style="background:#0D1526;color:#fff;">Mixed across all buckets</option></select>
+        <select id="df-portfolio-type" aria-label="Portfolio type" tabindex="10" style="background:#0D1526;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 10px;font-size:13px;width:100%;"><option value="" style="background:#0D1526;color:#fff;">Portfolio Type</option><option style="background:#0D1526;color:#fff;">Credit Cards</option><option style="background:#0D1526;color:#fff;">Personal Loans</option><option style="background:#0D1526;color:#fff;">Auto Loans</option><option style="background:#0D1526;color:#fff;">Mortgage</option><option style="background:#0D1526;color:#fff;">BNPL</option><option style="background:#0D1526;color:#fff;">SME Loans</option><option style="background:#0D1526;color:#fff;">Telecom</option><option style="background:#0D1526;color:#fff;">Mixed</option></select>
       </div>
       <div style="flex:1;"></div>
       <button class="form-submit" id="df-submit" tabindex="11" type="submit">Book an Executive Briefing →</button>
@@ -2637,6 +2725,7 @@ h3{color:#fff;}
     </div>
     <div class="footer-column">
       <h4>Company</h4>
+      <a href="#faq">FAQ</a>
       <a href="#demo">Request Briefing</a>
       <a href="#demo">White Paper</a>
       <a href="mailto:bps@runkairos.com?subject=KAIROS%20Privacy%20Policy%20Request">Privacy Policy</a>
@@ -3573,7 +3662,7 @@ h3{color:#fff;}
               <button onclick="ssUnlock()" style="background:var(--gold);color:#0B131F;border:none;padding:10px 20px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;">Unlock</button>
               <span id="ss-pwd-err" style="font-size:11px;color:#F87171;display:none;">Wrong passphrase</span>
             </div>
-            <p style="font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.5;margin:10px 0 0;font-style:italic;">Note: this is a browser-side gate — it keeps the section out of casual hands and search engines but is not enterprise security. Treat the passphrase as a soft barrier, not a strong one. (Same passphrase as demo access: <strong style="font-family:'IBM Plex Mono',monospace;color:rgba(255,255,255,.80);">oppurtune@2026</strong> — change it in the source if you share the file.)</p>
+            <p style="font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.5;margin:10px 0 0;font-style:italic;">Note: this is a browser-side gate — it keeps the section out of casual hands and search engines but is not enterprise security. Treat the passphrase as a soft barrier, not a strong one. (It uses the same passphrase as demo access — defined once in the source; change it before sharing the file.)</p>
           </div>
 
           <!-- ── Sales Studio body (revealed after unlock) ── -->
@@ -3923,8 +4012,8 @@ h3{color:#fff;}
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">SMS Text (English)</label>
 <textarea rows="3" placeholder="Hi &#123;CustomerName&#125;, this is Kairos Demo. Your payment of AED &#123;Amount&#125; is due..." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;font-family:var(--sans);"></textarea></div>
 <div style="display:flex;align-items:center;gap:10px;">
-  <input type="checkbox" id="pl-opt-1" checked style="accent-color:var(--teal);width:16px;height:16px;">
-  <label for="pl-opt" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
+  <input type="checkbox" id="pl-opt-sms" checked style="accent-color:var(--teal);width:16px;height:16px;">
+  <label for="pl-opt-sms" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
 </div>
 <div>
   <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Payment Gateway</label>
@@ -3989,8 +4078,8 @@ h3{color:#fff;}
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Email Body (HTML)</label>
 <textarea rows="4" placeholder="&lt;p&gt;Dear &#123;CustomerName&#125;,&lt;/p&gt;&lt;p&gt;Your balance of AED &#123;Amount&#125; is due...&lt;/p&gt;" style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;font-family:monospace;"></textarea></div>
 <div style="display:flex;align-items:center;gap:10px;">
-  <input type="checkbox" id="pl-opt-2" checked style="accent-color:var(--teal);width:16px;height:16px;">
-  <label for="pl-opt" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
+  <input type="checkbox" id="pl-opt-email" checked style="accent-color:var(--teal);width:16px;height:16px;">
+  <label for="pl-opt-email" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
 </div>
 <div>
   <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Payment Gateway</label>
@@ -4054,8 +4143,8 @@ h3{color:#fff;}
 <div><label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Notification Body</label>
 <textarea rows="2" placeholder="&#123;CustomerName&#125;، رسوم التأخير مُعفاة. ادفع AED &#123;Amount&#125; الآن." style="width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:9px 12px;font-size:13px;color:#fff;outline:none;resize:vertical;direction:rtl;"></textarea></div>
 <div style="display:flex;align-items:center;gap:10px;">
-  <input type="checkbox" id="pl-opt-3" checked style="accent-color:var(--teal);width:16px;height:16px;">
-  <label for="pl-opt" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
+  <input type="checkbox" id="pl-opt-inapp" checked style="accent-color:var(--teal);width:16px;height:16px;">
+  <label for="pl-opt-inapp" style="font-size:13px;color:rgba(255,255,255,.7);cursor:pointer;">Generate unique payment link per message (via payment gateway)</label>
 </div>
 <div>
   <label style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:5px;">Payment Gateway</label>
@@ -4181,10 +4270,10 @@ h3{color:#fff;}
   
 <div style="font-size:13px;color:rgba(255,255,255,.80);margin-bottom:10px;">KAIROS scrapes these sources for macroeconomic signals that affect delinquency.</div>
 <div style="display:flex;flex-direction:column;gap:7px;" id="news-sources-list">
-  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.reuters.com/world/middle-east" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;">✕</button></div>
-  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.bloomberg.com/middle-east" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;">✕</button></div>
-  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.khaleejtimes.com" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;">✕</button></div>
-  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://gulfnews.com" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;">✕</button></div>
+  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.reuters.com/world/middle-east" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;" aria-label="Close">✕</button></div>
+  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.bloomberg.com/middle-east" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;" aria-label="Close">✕</button></div>
+  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://www.khaleejtimes.com" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;" aria-label="Close">✕</button></div>
+  <div style="display:flex;gap:8px;align-items:center;"><input type="text" value="https://gulfnews.com" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;" aria-label="Close">✕</button></div>
 </div>
 <button onclick="addNewsSource()" style="margin-top:8px;background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.2);color:rgba(255,255,255,.80);padding:8px 14px;border-radius:6px;font-size:12px;cursor:pointer;width:100%;">+ Add source URL</button>
 <div style="display:flex;gap:12px;align-items:center;margin-top:10px;font-size:12px;color:rgba(255,255,255,.70);">
@@ -4422,42 +4511,42 @@ h3{color:#fff;}
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,rgba(196,147,58,.1),rgba(196,147,58,.5),rgba(196,147,58,.1));"></div>
       <!-- Books centred -->
       <div style="display:flex;gap:10px;align-items:flex-end;justify-content:center;flex-wrap:wrap;">
-        <a href="https://www.influenceatwork.com/principles-of-persuasion/" target="_blank" title="Principles of Influence" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.influenceatwork.com/principles-of-persuasion/" target="_blank" rel="noopener noreferrer" title="Principles of Influence" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:52px;height:84px;background:linear-gradient(135deg,#1a3a6b,#0d2244);border-radius:3px 6px 6px 3px;border-left:5px solid #DAA84E;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#DAA84E;letter-spacing:.06em;text-align:center;">INFLUENCE</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Principles of Influence</div>
         </a>
-        <a href="https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/loss-aversion/" target="_blank" title="Loss Aversion" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/loss-aversion/" target="_blank" rel="noopener noreferrer" title="Loss Aversion" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:46px;height:92px;background:linear-gradient(135deg,#2d1b4e,#1a0f2e);border-radius:3px 6px 6px 3px;border-left:5px solid #9b59b6;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#c39bd3;letter-spacing:.06em;text-align:center;">LOSS AVERSION</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Cognitive Bias Research</div>
         </a>
-        <a href="https://hbr.org/2016/11/how-to-use-the-science-of-persuasion" target="_blank" title="Science of Persuasion" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://hbr.org/2016/11/how-to-use-the-science-of-persuasion" target="_blank" rel="noopener noreferrer" title="Science of Persuasion" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:44px;height:74px;background:linear-gradient(135deg,#1e3d1e,#0f2010);border-radius:3px 6px 6px 3px;border-left:5px solid #27ae60;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#82e0aa;letter-spacing:.06em;text-align:center;">PERSUASION</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Science of Persuasion</div>
         </a>
-        <a href="https://www.collections-toolkit.com/behavioral-science" target="_blank" title="Behavioural Collections" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.collections-toolkit.com/behavioral-science" target="_blank" rel="noopener noreferrer" title="Behavioural Collections" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:56px;height:88px;background:linear-gradient(135deg,#3d1a0a,#220f05);border-radius:3px 6px 6px 3px;border-left:5px solid #e67e22;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#f0a65e;letter-spacing:.06em;text-align:center;">COLLECTIONS</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Behavioural Collections</div>
         </a>
-        <a href="https://www.fca.org.uk/publications/guidance-consultations/fair-treatment-vulnerable-customers" target="_blank" title="FCA Fair Treatment" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.fca.org.uk/publications/guidance-consultations/fair-treatment-vulnerable-customers" target="_blank" rel="noopener noreferrer" title="FCA Fair Treatment" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:46px;height:80px;background:linear-gradient(135deg,#0a1e3d,#050f22);border-radius:3px 6px 6px 3px;border-left:5px solid #2980b9;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#7fb3d3;letter-spacing:.06em;text-align:center;">FCA GUIDE</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">FCA Fair Treatment</div>
         </a>
-        <a href="https://www.cbuae.gov.ae/en/consumer-protection" target="_blank" title="CBUAE Framework" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.cbuae.gov.ae/en/consumer-protection" target="_blank" rel="noopener noreferrer" title="CBUAE Framework" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:50px;height:84px;background:linear-gradient(135deg,#1a1a0a,#0f0f05);border-radius:3px 6px 6px 3px;border-left:5px solid #f1c40f;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#f9e79f;letter-spacing:.06em;text-align:center;">CBUAE</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">UAE Consumer Protection</div>
         </a>
-        <a href="https://www.behavioraleconomics.com" target="_blank" title="Nudge Theory" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.behavioraleconomics.com" target="_blank" rel="noopener noreferrer" title="Nudge Theory" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:42px;height:70px;background:linear-gradient(135deg,#1e0a1e,#0f050f);border-radius:3px 6px 6px 3px;border-left:5px solid #8e44ad;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#d7bde2;letter-spacing:.06em;text-align:center;">NUDGE</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Nudge Theory</div>
         </a>
-        <a href="https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/" target="_blank" title="Behavioural Economics" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
+        <a href="https://www.behavioraleconomics.com/resources/mini-encyclopedia-of-be/" target="_blank" rel="noopener noreferrer" title="Behavioural Economics" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;">
           <div onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='none'" style="width:54px;height:90px;background:linear-gradient(135deg,#0d2b0d,#061506);border-radius:3px 6px 6px 3px;border-left:5px solid #1e8449;display:flex;align-items:center;justify-content:center;box-shadow:3px 3px 10px rgba(0,0,0,.6);transition:transform .25s;cursor:pointer;">
             <div style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7.5px;font-weight:800;color:#abebc6;letter-spacing:.06em;text-align:center;">BEHAV. ECON</div></div>
           <div style="font-size:8.5px;color:rgba(255,255,255,.62);margin-top:7px;text-align:center;width:64px;line-height:1.3;">Behavioural Economics</div>
@@ -4472,11 +4561,13 @@ h3{color:#fff;}
 
 <!-- Toast -->
 <div id="toast"></div>
+
+<script src="/html2pdf.bundle.min.js?v=20260703-v14"></script>
 <script>
 /* ===== KAIROS offline PDF engine (parent-side, no popup, no print dialog) ===== */
 function kairosDownloadDoc(docHtml, filename, opts){
   try{
-    if(typeof kairosPdfDisabled==='undefined'){ return _kairosFallbackOpen(docHtml); }
+    if(typeof html2pdf==='undefined'){ return _kairosFallbackOpen(docHtml); }
     var ifr=document.createElement('iframe');
     ifr.style.cssText='position:fixed;left:-99999px;top:0;width:1100px;height:1400px;border:0;opacity:0;pointer-events:none;';
     document.body.appendChild(ifr);
@@ -4488,10 +4579,10 @@ function kairosDownloadDoc(docHtml, filename, opts){
         margin:0, filename:filename||'KAIROS.pdf',
         image:{type:'jpeg',quality:0.97},
         html2canvas:{scale:2,backgroundColor:'#09111F',useCORS:true,windowWidth:body.scrollWidth||1100},
-        pdfEngineOptions:{unit:'px',format:[body.scrollWidth||1100, body.scrollHeight||1400],orientation:'portrait'},
+        jsPDF:{unit:'px',format:[body.scrollWidth||1100, body.scrollHeight||1400],orientation:'portrait'},
         pagebreak:{mode:['css','legacy']}
       }, opts||{});
-      kairosPdfDisabled().set(o).from(body).save().then(function(){ setTimeout(function(){ try{document.body.removeChild(ifr);}catch(e){} },400); })
+      html2pdf().set(o).from(body).save().then(function(){ setTimeout(function(){ try{document.body.removeChild(ifr);}catch(e){} },400); })
         .catch(function(){ try{document.body.removeChild(ifr);}catch(e){} _kairosFallbackOpen(docHtml); });
     };
     // give fonts/images a tick to settle inside the iframe
@@ -4514,9 +4605,9 @@ var SA_PORTFOLIO_VALUE=null;
 
 /* ── Offline PDF renderer (parent-side) ───────────────────────────────
    Every download document is built as an HTML string. Rather than open a
-   child window/iframe that loads kairosPdfDisabled from a CDN (which fails offline and
+   child window/iframe that loads html2pdf from a CDN (which fails offline and
    falls back to the Print dialog), we render the string in a hidden iframe the
-   parent fully controls and save it with the parent's inlined kairosPdfDisabled. */
+   parent fully controls and save it with the parent's inlined html2pdf. */
 /* ===========================================================================
    KAIROS PLATFORM — CODE INDEX   (search the [IDX:*] tag to jump to a section)
    ---------------------------------------------------------------------------
@@ -4538,7 +4629,7 @@ var SA_PORTFOLIO_VALUE=null;
 function kairosRenderPDF(html, filename, opts){
   opts = opts || {};
   try{
-    if(typeof kairosPdfDisabled === 'undefined'){
+    if(typeof html2pdf === 'undefined'){
       if(typeof showToast==='function') showToast('PDF engine not ready — please retry.');
       return;
     }
@@ -4560,10 +4651,10 @@ function kairosRenderPDF(html, filename, opts){
           filename: filename,
           image:   { type:'jpeg', quality: opts.quality || 0.97 },
           html2canvas: { scale:2, backgroundColor: opts.bg || '#09111F', useCORS:true, windowWidth: el.scrollWidth },
-          pdfEngineOptions:   opts.pdfEngineOptions || { unit:'px', format:[el.scrollWidth, el.scrollHeight], orientation:'portrait' }
+          jsPDF:   opts.jsPDF || { unit:'px', format:[el.scrollWidth, el.scrollHeight], orientation:'portrait' }
         };
         if(opts.pagebreak) o.pagebreak = opts.pagebreak;
-        kairosPdfDisabled().set(o).from(el).save()
+        html2pdf().set(o).from(el).save()
           .then(function(){ setTimeout(cleanup, 600); })
           .catch(function(e){ console.error('kairosRenderPDF/save', e); cleanup(); });
       }catch(e){ console.error('kairosRenderPDF/run', e); cleanup(); }
@@ -4584,7 +4675,7 @@ function kairosRenderDoc(html, filename, opts){
      there), producing a blank-on-dark PDF. Falls back to the passed-in HTML
      string if no live iframe is present. */
   try{
-    if(typeof kairosPdfDisabled === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready \u2014 please retry.'); return; }
+    if(typeof html2pdf === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready \u2014 please retry.'); return; }
     var _lif = document.querySelector('#doc-overlay-iframe, #strat-iframe, #wp-iframe');
     var _ldoc = _lif && (_lif.contentDocument || (_lif.contentWindow && _lif.contentWindow.document));
     var _lbody = _ldoc && _ldoc.body;
@@ -4606,7 +4697,7 @@ function kairosRenderDoc(html, filename, opts){
 function _kairosRenderDocRebuild(html, filename, opts){
   opts = opts || {};
   try{
-    if(typeof kairosPdfDisabled === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready \u2014 please retry.'); return; }
+    if(typeof html2pdf === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready \u2014 please retry.'); return; }
     if(typeof showToast==='function') showToast('Preparing PDF\u2026');
     var styles = (html.match(/<style[\s\S]*?<\/style>/gi) || []).join('\n');
     styles = styles
@@ -4626,11 +4717,11 @@ function _kairosRenderDocRebuild(html, filename, opts){
       .replace(/<div class="kbar"[\s\S]*?<\/div>/i,'')
       .replace(/<button[^>]*class="[^"]*\bprint-btn\b[^"]*"[\s\S]*?<\/button>/gi,'');
     /* Page geometry. For paginated (A4) docs, size the offscreen host to the
-       exact A4 pixel width kairosPdfDisabled uses internally (~96dpi) so our measurements
+       exact A4 pixel width html2pdf uses internally (~96dpi) so our measurements
        match the engine's layout — that lets us fit each slide to one page
        reliably. Non-paginated docs stay at the design width. */
-    var paginated = !!(opts.pdfEngineOptions && opts.pdfEngineOptions.format);
-    var landscape = paginated && opts.pdfEngineOptions.orientation && /land/i.test(opts.pdfEngineOptions.orientation);
+    var paginated = !!(opts.jsPDF && opts.jsPDF.format);
+    var landscape = paginated && opts.jsPDF.orientation && /land/i.test(opts.jsPDF.orientation);
     var W, pageHpx = 0;
     if(paginated){
       W       = landscape ? 1122 : 793;   /* A4 inner width  px @96dpi */
@@ -4642,7 +4733,7 @@ function _kairosRenderDocRebuild(html, filename, opts){
     host.id = '__kairos_pdf_host';
     /* Render the capture host OFF-SCREEN (not at 0,0 with a max z-index) so it
      never flashes over the page while we wait on fonts and html2canvas runs.
-     kairosPdfDisabled clones this into its own opacity:0 container for the actual
+     html2pdf clones this into its own opacity:0 container for the actual
      capture, so layout/measurements are unaffected by the off-screen position. */
   host.style.cssText = 'position:fixed;left:-100000px;top:0;width:'+W+'px;z-index:-1;background:'+(opts.bg||'#09111F')+';overflow:hidden;pointer-events:none;opacity:0;';
     host.innerHTML = fontLinks + styles + '<div class="kpdf-body" style="background:'+(opts.bg||'#09111F')+';width:'+W+'px;">'+inner+'</div>';
@@ -4697,13 +4788,13 @@ function _kairosRenderDocRebuild(html, filename, opts){
             /* Make every page-block exactly one page tall (filling the dark page)
                so short blocks don't leave a white gap and nothing spills onto a
                blank following page. The 6px slack keeps it just under a full page
-               so kairosPdfDisabled can't spill an extra page. */
+               so html2pdf can't spill an extra page. */
             sl.style.minHeight   = (pageHpx - 6) + 'px';
             sl.style.maxHeight   = (pageHpx - 6) + 'px';
             sl.style.overflow    = 'hidden';
           }
           /* The LAST block must not force a page break after it — otherwise
-             kairosPdfDisabled appends an empty trailing page. */
+             html2pdf appends an empty trailing page. */
           var _lastSlide = slides[slides.length-1];
           if(_lastSlide){ _lastSlide.style.pageBreakAfter = 'avoid'; _lastSlide.style.breakAfter = 'avoid'; _lastSlide.style.marginBottom = '0'; _lastSlide.style.borderBottom = 'none'; }
         } else if(!paginated){
@@ -4719,7 +4810,7 @@ function _kairosRenderDocRebuild(html, filename, opts){
         fitToPage();
         /* For a single-page (non-paginated) doc, size the page to the content's
            ACTUAL rendered width so nothing is clipped on the right, and add a few
-           px of height slack so kairosPdfDisabled's floor/ceil rounding can't spill a thin
+           px of height slack so html2pdf's floor/ceil rounding can't spill a thin
            trailing blank page. */
         var capW = W, capH = Math.max(target.scrollHeight, 200);
         if(!paginated){
@@ -4729,7 +4820,7 @@ function _kairosRenderDocRebuild(html, filename, opts){
         }
         /* ONE-PAGE MODE (the leave-behind): render to a canvas whose height is a
            fixed A4-proportioned value, and make the PDF page dimensions EXACTLY
-           equal that canvas. When page size == canvas size, kairosPdfDisabled produces
+           equal that canvas. When page size == canvas size, html2pdf produces
            exactly one page — it is mathematically impossible to spill. The dark
            page background fills any space below the (shorter) content. */
         var onePage = !!opts.onePage && paginated;
@@ -4737,9 +4828,9 @@ function _kairosRenderDocRebuild(html, filename, opts){
         if(onePage){ capH = onePageH; }
         /* SECTION DOCS (strategy '.sp' / pack '.slide'): fitToPage has already
            scaled+capped every section to one page, and their CSS page-break-after
-           keeps one section per page (clean alignment). kairosPdfDisabled's floor-rounded
+           keeps one section per page (clean alignment). html2pdf's floor-rounded
            page height then appends ONE empty trailing page. We render normally for
-           perfect alignment, then delete that trailing blank from the pdfEngineOptions object
+           perfect alignment, then delete that trailing blank from the jsPDF object
            before saving — the design is exactly one section per page, so the correct
            page count is known precisely. */
         var sectionBlocks = (paginated && !onePage) ? target.querySelectorAll('.slide, .sp') : null;
@@ -4761,13 +4852,13 @@ function _kairosRenderDocRebuild(html, filename, opts){
           filename: filename,
           image: { type:'jpeg', quality: opts.quality||0.97 },
           html2canvas: h2c,
-          pdfEngineOptions: onePage ? { unit:'px', format:[capW, onePageH], orientation:'portrait' }
-                         : (opts.pdfEngineOptions || { unit:'px', format:[capW, capH + 4], orientation:'portrait' })
+          jsPDF: onePage ? { unit:'px', format:[capW, onePageH], orientation:'portrait' }
+                         : (opts.jsPDF || { unit:'px', format:[capW, capH + 4], orientation:'portrait' })
         };
         if(opts.pagebreak && !onePage) o.pagebreak = opts.pagebreak;
         if(onePage) o.pagebreak = { mode:[] };   /* never insert page breaks for a one-page doc */
         var _wantPages = sectionDoc ? sectionBlocks.length : 0;
-        kairosPdfDisabled().set(o).from(target).toPdf().get('pdf', function(pdf){
+        html2pdf().set(o).from(target).toPdf().get('pdf', function(pdf){
           try{
             if(sectionDoc && _wantPages > 0){
               var have = pdf.internal.getNumberOfPages();
@@ -4795,17 +4886,17 @@ function _kairosRenderDocRebuild(html, filename, opts){
 function kairosRenderEl(el, filename, opts){
   opts = opts || {};
   try{
-    if(!el || typeof kairosPdfDisabled === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready — please retry.'); return; }
+    if(!el || typeof html2pdf === 'undefined'){ if(typeof showToast==='function') showToast('PDF engine not ready — please retry.'); return; }
     if(typeof showToast==='function') showToast('Preparing PDF…');
     var o = {
       margin:  (opts.margin!=null) ? opts.margin : 0,
       filename: filename,
       image:   { type:'jpeg', quality: opts.quality || 0.97 },
       html2canvas: { scale:2, backgroundColor: opts.bg || '#09111F', useCORS:true, windowWidth: el.scrollWidth },
-      pdfEngineOptions:   opts.pdfEngineOptions || { unit:'px', format:[el.scrollWidth, el.scrollHeight], orientation:'portrait' }
+      jsPDF:   opts.jsPDF || { unit:'px', format:[el.scrollWidth, el.scrollHeight], orientation:'portrait' }
     };
     if(opts.pagebreak) o.pagebreak = opts.pagebreak;
-    kairosPdfDisabled().set(o).from(el).save().catch(function(e){ console.error('kairosRenderEl', e); });
+    html2pdf().set(o).from(el).save().catch(function(e){ console.error('kairosRenderEl', e); });
   }catch(e){ console.error('kairosRenderEl', e); }
 }
 
@@ -7770,7 +7861,7 @@ function generateStrategyDocument(){
     coverPage + execPage + segPage + aiPage + bucketPage + rmPage + costPage + roadPage + signPage +
     '<div class="kbar" style="position:fixed;top:12px;right:14px;z-index:99;"><button class="print-btn" onclick="stratDownloadPDF()" style="background:#0EA89A;color:#fff;border:none;padding:9px 16px;border-radius:7px;font:700 12px Inter,sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.4);">\u2193 Download PDF</button></div>'+
     
-    '<scr'+'ipt>function stratDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof kairosPdfDisabled==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+bank.replace(/[^A-Za-z0-9]+/g,"_")+'_strategy.pdf",image:{type:"jpeg",quality:0.95},html2canvas:{scale:2,backgroundColor:"#06101F",useCORS:true},pdfEngineOptions:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}};kairosPdfDisabled().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
+    '<scr'+'ipt>function stratDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+bank.replace(/[^A-Za-z0-9]+/g,"_")+'_strategy.pdf",image:{type:"jpeg",quality:0.95},html2canvas:{scale:2,backgroundColor:"#06101F",useCORS:true},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
     '</body></html>';
 
   return html;
@@ -7799,7 +7890,7 @@ function openStrategyWindow(){
   lbl.style.cssText = 'color:#fff;font-weight:700;font-size:13px;';
   var pb = document.createElement('button');
   pb.textContent = '\u2193 Download PDF';
-  pb.onclick = function(){ kairosRenderDoc(window._stratHtml||'', 'KAIROS_'+String(window._stratBank||'Collections_Demo').replace(/[^A-Za-z0-9]+/g,'_')+'_strategy.pdf', {bg:'#06101F', pdfEngineOptions:{unit:'mm',format:'a4',orientation:'portrait'}, pagebreak:{mode:['css','legacy']}}); };
+  pb.onclick = function(){ kairosRenderDoc(window._stratHtml||'', 'KAIROS_'+String(window._stratBank||'Collections_Demo').replace(/[^A-Za-z0-9]+/g,'_')+'_strategy.pdf', {bg:'#06101F', jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}, pagebreak:{mode:['css','legacy']}}); };
   pb.style.cssText = 'background:#0EA89A;color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;margin-right:8px;';
   var cb = document.createElement('button');
   cb.textContent = '\u2715 Close';
@@ -8416,7 +8507,7 @@ function sb2RenderLanes(){
       '<div class="drop-zone">'+
         items.map(function(cid){
           var ch=SB2_CHANNELS.find(function(x){return x.id===cid;})||{icon:'?',label:cid,color:'#fff',bg:'rgba(255,255,255,.08)',bdr:'rgba(255,255,255,.15)'};
-          return '<div class="placed-node" style="background:'+ch.bg+';color:'+ch.color+';border:1px solid '+ch.bdr+';" onclick="sb2Remove(\''+b.id+'\',\''+cid+'\')">'+ch.icon+' '+ch.label+'<button class="pn-remove" title="Remove">✕</button></div>';
+          return '<div class="placed-node" style="background:'+ch.bg+';color:'+ch.color+';border:1px solid '+ch.bdr+';" onclick="sb2Remove(\''+b.id+'\',\''+cid+'\')">'+ch.icon+' '+ch.label+'<button class="pn-remove" title="Remove" aria-label="Close">✕</button></div>';
         }).join('')+
         (items.length===0?'<div class="drop-empty">Drop touchpoint here</div>':'')+
       '</div>'+
@@ -8481,7 +8572,7 @@ var CALENDLY_URL = 'https://calendly.com/bps-runkairos';
    Setup instructions are in the README block at the bottom of the file.
    Leave blank to disable lead capture (submissions will still work).
 ─────────────────────────────────────────────────────────────────────── */
-var LEAD_WEBHOOK_URL = ''; // <- paste your https://script.google.com/macros/s/.../exec URL here
+var LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyfkyFB_3bMGdkC8uPLHsmo5XaQPMy6vxcyk5hhc8NBSjoHkLrShzTzyO7vW0aF4UtqMw/exec'; // <- paste the /exec URL from kairos-lead-webhook.gs (Deploy as Web app, Execute as Me, Access: Anyone)
 
 function showLeadModal(name, email, institution, wpHtml){
   var old = document.getElementById('lead-modal');
@@ -8502,7 +8593,7 @@ function showLeadModal(name, email, institution, wpHtml){
           '<div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">KAIROS EXECUTIVE BRIEFING</div>'+
           '<div style="font-size:20px;font-weight:700;color:#fff;">Your personalised whitepaper is ready, '+escHtml(name)+'</div>'+
         '</div>'+
-        '<button onclick="document.getElementById(\'lead-modal\').remove()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;flex-shrink:0;">×</button>'+
+        '<button onclick="document.getElementById(\'lead-modal\').remove()" style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;flex-shrink:0;" aria-label="Close">×</button>'+
       '</div>'+
 
       '<div style="background:linear-gradient(135deg,rgba(14,168,154,.1),rgba(14,168,154,.04));border:1px solid rgba(14,168,154,.25);border-radius:14px;padding:28px 32px;margin-bottom:24px;">'+
@@ -8679,6 +8770,14 @@ async function submitDemo2(e){
 }
 
 function logLeadToSheet(lead){
+  /* Local backup first — every lead is kept on this device regardless of
+     webhook state, so nothing is lost on tab close or offline demos.
+     Export any time with kairosExportLeads() in the console. */
+  try{
+    var _store=JSON.parse(localStorage.getItem('kairos_leads_v1')||'[]');
+    _store.push(lead); if(_store.length>50)_store=_store.slice(-50);
+    localStorage.setItem('kairos_leads_v1',JSON.stringify(_store));
+  }catch(_){/* private mode / quota — ignore */}
   if(!LEAD_WEBHOOK_URL){
     /* Webhook not configured — gracefully fall back to a clipboard-copyable mailto link */
     try{
@@ -8707,6 +8806,22 @@ function logLeadToSheet(lead){
     }).catch(function(){ /* fire-and-forget — never break the demo flow */ });
   } catch(_) { /* swallow any error so the user's submission always completes */ }
 }
+
+/* Founder utility: download every locally captured lead as CSV.
+   Run kairosExportLeads() in the browser console on any device you demoed from. */
+window.kairosExportLeads=function(){
+  try{
+    var leads=JSON.parse(localStorage.getItem('kairos_leads_v1')||'[]');
+    if(!leads.length){ console.warn('[KAIROS] No locally stored leads on this device.'); return 0; }
+    var cols=['timestamp','name','email','institution','role','industry','delinquent_count','portfolio_value','dpd_bucket','portfolio_type','modelled_cost_saving','modelled_annual_recovery','modelled_addl_accounts','source'];
+    var esc=function(v){ v=(v==null?'':String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+    var csv=cols.join(',')+'\n'+leads.map(function(l){ return cols.map(function(c){ return esc(l[c]); }).join(','); }).join('\n');
+    var blob=new Blob([csv],{type:'text/csv'}); var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url; a.download='kairos-leads.csv'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},5000);
+    return leads.length;
+  }catch(err){ console.error('[KAIROS] Export failed',err); return -1; }
+};
 
 /* [IDX:WHITEPAPER] */
 function generateWhitepaperText(name, institution, role, portSize, industry, delinqCount, portValue, dpdBucket, portType){
@@ -9035,7 +9150,7 @@ function generateWhitepaperText(name, institution, role, portSize, industry, del
   '<button class="print-btn" onclick="wpDownloadPDF()">&#8595; Download PDF</button>'+
   '<style>@media print{.print-btn{display:none!important;}}</style>'+
   
-  '<scr'+'ipt>function wpDownloadPDF(){var btn=document.querySelector(".print-btn");if(btn){btn.textContent="\\u23F3 Preparing PDF\\u2026";btn.disabled=true;}function done(){if(btn){btn.textContent="\\u2193 Download PDF";btn.disabled=false;}}var el=document.body;if(typeof kairosPdfDisabled==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_Whitepaper_'+bank.replace(/[^A-Za-z0-9]+/g,"_")+'.pdf",image:{type:"jpeg",quality:0.97},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true,windowWidth:el.scrollWidth},pdfEngineOptions:{unit:"px",format:[el.scrollWidth,el.scrollHeight],orientation:"portrait"}};kairosPdfDisabled().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
+  '<scr'+'ipt>function wpDownloadPDF(){var btn=document.querySelector(".print-btn");if(btn){btn.textContent="\\u23F3 Preparing PDF\\u2026";btn.disabled=true;}function done(){if(btn){btn.textContent="\\u2193 Download PDF";btn.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_Whitepaper_'+bank.replace(/[^A-Za-z0-9]+/g,"_")+'.pdf",image:{type:"jpeg",quality:0.97},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true,windowWidth:el.scrollWidth},jsPDF:{unit:"px",format:[el.scrollWidth,el.scrollHeight],orientation:"portrait"}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
 
   /* ══ COVER ══ */
   '<div class="cover">'+
@@ -10190,7 +10305,7 @@ function openCloudSelector(opts){
     '<div style="width:100%;max-width:460px;background:#0B111F;border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.5);overflow:hidden;font-family:var(--sans);">'+
       '<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.08);">'+
         '<div style="font-size:14px;font-weight:700;color:#fff;">☁️ '+(opts.title||'Select Cloud Location')+'</div>'+
-        '<button onclick="closeCloudSelector()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.80);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:14px;line-height:1;">✕</button>'+
+        '<button onclick="closeCloudSelector()" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.80);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:14px;line-height:1;" aria-label="Close">✕</button>'+
       '</div>'+
       '<div id="cloud-step-1" style="padding:16px 18px;">'+
         '<div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:12px;">Choose a provider for the <strong style="color:var(--teal);">'+(opts.label||'transfer')+'</strong>.</div>'+
@@ -10744,7 +10859,7 @@ function addNewsSource(){
   if(!list)return;
   var row=document.createElement('div');
   row.style.cssText='display:flex;gap:8px;align-items:center;';
-  row.innerHTML='<input type="text" placeholder="https://example.com/news" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;">✕</button>';
+  row.innerHTML='<input type="text" placeholder="https://example.com/news" style="flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;outline:none;"><button onclick="this.parentElement.remove()" style="background:none;border:none;color:#F87171;cursor:pointer;font-size:14px;" aria-label="Close">✕</button>';
   list.appendChild(row);
 }
 
@@ -10879,7 +10994,7 @@ function ltrUploadSample(input){
           '<span style="color:rgba(255,255,255,.62);">OCR '+detected.confidence+'% confidence</span>'+
         '</div>'+
       '</div>'+
-      '<button onclick="ltrRemoveSample(\''+pid+'\')" style="background:none;border:none;color:rgba(255,255,255,.62);font-size:14px;cursor:pointer;padding:4px 6px;">✕</button>';
+      '<button onclick="ltrRemoveSample(\''+pid+'\')" style="background:none;border:none;color:rgba(255,255,255,.62);font-size:14px;cursor:pointer;padding:4px 6px;" aria-label="Close">✕</button>';
     showToast('Sample tagged: '+(typeMap[detected.type]||'Letter')+' · '+detected.dpd+' DPD · '+(langMap[detected.lang]||'EN'));
   }, 1400);
 }
@@ -11354,12 +11469,12 @@ function ssGenerateLeaveBehind(){
     '<div class="foot"><strong>Bhavesh Soni</strong> · Founder, KAIROS · runkairos.com · bps@runkairos.com · calendly.com/bps-runkairos<br>This brief is generated from the live KAIROS demo using publicly-disclosed UAE banking data and the conservative impact model. Numbers update in real time as parameters refine.</div>'+
     '</div>'+
     
-    '<scr'+'ipt>function lbDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof kairosPdfDisabled==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_leavebehind.pdf",image:{type:"jpeg",quality:0.97},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true,windowWidth:el.scrollWidth},pdfEngineOptions:{unit:"px",format:[el.scrollWidth,el.scrollHeight],orientation:"portrait"}};kairosPdfDisabled().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
+    '<scr'+'ipt>function lbDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_leavebehind.pdf",image:{type:"jpeg",quality:0.97},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true,windowWidth:el.scrollWidth},jsPDF:{unit:"px",format:[el.scrollWidth,el.scrollHeight],orientation:"portrait"}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
     '</body></html>';
   var blob = new Blob([html], { type:'text/html' });
   var url  = URL.createObjectURL(blob);
   SS_LAST_LB_URL = url;
-  window.__lbDoc = { html:html, file:'KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,'_')+'_leavebehind.pdf', opts:{ bg:'#09111F', margin:0, onePage:true, pdfEngineOptions:{ unit:'mm', format:'a4', orientation:'portrait' } } };
+  window.__lbDoc = { html:html, file:'KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,'_')+'_leavebehind.pdf', opts:{ bg:'#09111F', margin:0, onePage:true, jsPDF:{ unit:'mm', format:'a4', orientation:'portrait' } } };
   ssAddArtifact('📄 Leave-behind ('+ent.short+')',
     'One-page brief tailored to '+ent.name+'. Opens in a new tab — click "Download PDF" (top-right) to save a print-ready dark-brand PDF.',
     url, ent.short+'_leave_behind.html');
@@ -11564,12 +11679,12 @@ function ssGeneratePack(){
       '<div class="pilot-closer">If the pilot delivers the conservative number, you scale. If it doesn\'t, you walk — at no cost.</div>'
     , 7) +
     
-    '<scr'+'ipt>function packDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof kairosPdfDisabled==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_pack.pdf",image:{type:"jpeg",quality:0.96},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true},pdfEngineOptions:{unit:"mm",format:"a4",orientation:"landscape"},pagebreak:{mode:["css","legacy"]}};kairosPdfDisabled().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
+    '<scr'+'ipt>function packDownloadPDF(){var b=document.querySelector(".print-btn");if(b){b.textContent="\u23F3 Preparing\u2026";b.disabled=true;}function done(){if(b){b.textContent="\u2193 Download PDF";b.disabled=false;}}var el=document.body;if(typeof html2pdf==="undefined"){window.print();done();return;}var opt={margin:0,filename:"KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,"_")+'_pack.pdf",image:{type:"jpeg",quality:0.96},html2canvas:{scale:2,backgroundColor:"#09111F",useCORS:true},jsPDF:{unit:"mm",format:"a4",orientation:"landscape"},pagebreak:{mode:["css","legacy"]}};html2pdf().set(opt).from(el).save().then(done).catch(function(){window.print();done();});}<'+'/scr'+'ipt>'+
     '</body></html>';
   var blob = new Blob([html], { type:'text/html' });
   var url  = URL.createObjectURL(blob);
   SS_LAST_PACK_URL = url;
-  window.__packDoc = { html:html, file:'KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,'_')+'_pack.pdf', opts:{ bg:'#09111F', pdfEngineOptions:{ unit:'mm', format:'a4', orientation:'landscape' }, pagebreak:{ mode:['css','legacy'] } } };
+  window.__packDoc = { html:html, file:'KAIROS_'+ent.short.replace(/[^A-Za-z0-9]+/g,'_')+'_pack.pdf', opts:{ bg:'#09111F', jsPDF:{ unit:'mm', format:'a4', orientation:'landscape' }, pagebreak:{ mode:['css','legacy'] } } };
   ssAddArtifact('📊 Pack ('+ent.short+', 7 slides)',
     '7-slide pack tailored to '+ent.name+'. Opens in a new tab — click "Download PDF" (top-right) for a landscape dark-brand PDF.',
     url, ent.short+'_pack.html');
@@ -11586,7 +11701,7 @@ function ssAddArtifact(label, desc, url, filename){
   row.innerHTML =
     '<div style="flex:1;"><div style="font-size:12.5px;font-weight:700;color:#fff;">'+label+'</div>'+
     '<div style="font-size:10.5px;color:rgba(255,255,255,.65);margin-top:2px;">'+desc+'</div></div>'+
-    (url ? '<a href="'+url+'" target="_blank" style="background:rgba(196,147,58,.18);color:var(--gold);text-decoration:none;padding:6px 12px;border-radius:5px;font-size:11px;font-weight:700;">Open</a>' : '')+
+    (url ? '<a href="'+url+'" target="_blank" rel="noopener noreferrer" style="background:rgba(196,147,58,.18);color:var(--gold);text-decoration:none;padding:6px 12px;border-radius:5px;font-size:11px;font-weight:700;">Open</a>' : '')+
     (url && filename ? '<a href="'+url+'" download="'+filename+'" style="background:rgba(255,255,255,.08);color:#fff;text-decoration:none;padding:6px 12px;border-radius:5px;font-size:11px;font-weight:700;">Download</a>' : '');
   list.appendChild(row);
 }
@@ -11648,37 +11763,100 @@ function saUpdatePortfolio(){
 
 
 
-
-<!-- KAIROS v1.6 Senior QA Stabilizer: deterministic nav, CTA routing, overlay safety, demo form, PDF-safe fallback -->
-<style id="kairos-v16-senior-qa-css">
-  html{scroll-behavior:smooth;}
-  section[id], div[id="top"]{scroll-margin-top:88px!important;}
-  header{z-index:10000!important;background:#09111F!important;}
-  #app-overlay{z-index:15000!important;}
-  #demo-lock{z-index:20000!important;}
-  .kairos-hidden-broken-output{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;}
+<!-- KAIROS FINAL QA STABILIZER: navigation, demo form, platform overlay, PDF fallback, cache cleanup -->
+<style id="kairos-final-qa-css">
+  header{z-index:10000;background:#09111F!important;}
+  .hero-section{overflow:hidden;}
+  #demo-lock{z-index:20000;}
+  #app-overlay{z-index:15000;}
+  .kairos-hidden-broken-output{display:none!important;}
 </style>
-<script id="kairos-v16-senior-qa-js">
+<script id="kairos-final-qa-js">
 (function(){
   'use strict';
-  var HEADER_OFFSET = 86;
-  var SECTION_ALIASES = {'top':'top','problem':'problem','why':'why-kairos','why-kairos':'why-kairos','platform':'platform','platform-in-action':'platform','decision-science':'decision-science','science':'decision-science','outcomes':'outcomes','security':'security','demo':'demo'};
-  function byId(id){ return document.getElementById(id); }
-  function norm(id){ return SECTION_ALIASES[(id||'').replace(/^#/,'').trim()] || (id||'').replace(/^#/,'').trim(); }
-  function closeMobileNav(){var nav=document.querySelector('.main-nav'); if(nav && nav.dataset.kairosMobileOpen==='1'){nav.dataset.kairosMobileOpen='0';nav.style.display='';nav.style.position='';nav.style.left='';nav.style.right='';nav.style.top='';nav.style.background='';nav.style.padding='';nav.style.flexDirection='';nav.style.borderBottom='';}}
-  function closeDemoLock(){var lock=byId('demo-lock'); if(lock){lock.classList.remove('show');lock.style.display='none';lock.setAttribute('aria-hidden','true');} try{window.DEMO_PENDING_PAGE=null;}catch(e){} document.body.style.overflow='';}
-  function closeAppOverlay(){var app=byId('app-overlay'); if(app){app.style.display='none';app.setAttribute('aria-hidden','true');} document.body.style.overflow='';}
-  function scrollToSection(id, updateHash){id=norm(id||'top');var target=byId(id);if(!target&&id!=='demo')target=byId('demo');if(!target)return false;closeDemoLock();closeAppOverlay();closeMobileNav();var y=target.getBoundingClientRect().top+window.pageYOffset-HEADER_OFFSET;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});if(updateHash!==false&&history&&history.pushState){history.pushState(null,'','#'+id);}return false;}
-  function openDemoGate(){closeAppOverlay();closeMobileNav();if(typeof window.openDemoLock==='function'){try{window.openDemoLock();return false;}catch(e){}}var lock=byId('demo-lock');if(lock){lock.style.display='block';lock.classList.add('show');lock.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';return false;}if(typeof window.openApp==='function'){try{window.openApp();return false;}catch(e){}}return scrollToSection('demo',true);}
-  function markHeaderLinks(){var mapping=[['The Problem','#problem'],['Why KAIROS','#why-kairos'],['Platform in Action','#platform'],['Decision & Behavioral Science','#decision-science'],['Outcomes','#outcomes'],['Security','#security']];mapping.forEach(function(pair){document.querySelectorAll('header a').forEach(function(a){if((a.textContent||'').replace(/\s+/g,' ').trim()===pair[0]){a.setAttribute('href',pair[1]);a.dataset.scrollTarget=pair[1].slice(1);a.removeAttribute('onclick');}});});document.querySelectorAll('header a, .site-footer a').forEach(function(a){var txt=(a.textContent||'').replace(/\s+/g,' ').trim();if(/Request Demo|Request Executive Demo|Request Briefing|White Paper/i.test(txt)){a.setAttribute('href','#demo');a.dataset.scrollTarget='demo';a.removeAttribute('onclick');}if(/Explore Live Platform|Open Demo|Executive Dashboard|AI Decision Engine|Customer 360|Omnichannel|Analytics/i.test(txt)){a.setAttribute('href','#app');a.dataset.openApp='1';a.removeAttribute('onclick');}});var brand=document.querySelector('header .brand-logo');if(brand){brand.setAttribute('href','#top');brand.dataset.scrollTarget='top';brand.removeAttribute('onclick');}}
-  document.addEventListener('click',function(e){var a=e.target&&e.target.closest?e.target.closest('a,button'):null;if(!a)return;if(a.matches('.dl-back,[data-close-demo-lock]')){e.preventDefault();e.stopPropagation();closeDemoLock();return false;}if(a.matches('.close-app,[data-close-app]')){e.preventDefault();e.stopPropagation();closeAppOverlay();return false;}if(a.dataset&&a.dataset.openApp==='1'){e.preventDefault();e.stopPropagation();openDemoGate();return false;}var href=a.getAttribute&&a.getAttribute('href');var target=(a.dataset&&a.dataset.scrollTarget)||(href&&href.charAt(0)==='#'?href.slice(1):'');if(target&&norm(target)&&byId(norm(target))){e.preventDefault();e.stopPropagation();scrollToSection(target,true);return false;}},true);
-  document.addEventListener('click',function(e){var b=e.target&&e.target.closest?e.target.closest('.nav-toggle'):null;if(!b)return;var nav=document.querySelector('.main-nav');if(!nav)return;e.preventDefault();e.stopPropagation();var open=nav.dataset.kairosMobileOpen==='1';if(open){closeMobileNav();return false;}nav.dataset.kairosMobileOpen='1';nav.style.display='flex';nav.style.position='absolute';nav.style.left='0';nav.style.right='0';nav.style.top='64px';nav.style.background='#09111F';nav.style.padding='18px 24px';nav.style.flexDirection='column';nav.style.borderBottom='1px solid rgba(255,255,255,.10)';return false;},true);
-  document.addEventListener('submit',function(e){var form=e.target;if(!form||!form.closest)return;if(form.closest('#demo')){e.preventDefault();var toast=byId('toast');if(toast){toast.textContent='Thanks — your executive briefing request has been captured.';toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},4200);}else alert('Thanks — your executive briefing request has been captured.');return false;}},true);
-  window.kairosDownloadDoc=window.kairosDownloadDoc||function(html,filename){var blob=new Blob([html||document.documentElement.outerHTML],{type:'text/html'});var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=(filename||'kairos-document.html').replace(/\.pdf$/i,'.html');document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},3000);};
-  document.addEventListener('DOMContentLoaded',function(){markHeaderLinks();closeDemoLock();closeAppOverlay();try{if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});});}}catch(e){}if(location.hash){setTimeout(function(){scrollToSection(location.hash.slice(1),false);},180);}});
-  window.kairosScrollToSection=scrollToSection; window.closeDemoLock=function(){closeDemoLock();return false;}; window.closeApp=function(){closeAppOverlay();return false;};
+  var DEMO_ID='demo', APP_ID='app-overlay', LOCK_ID='demo-lock';
+  function byId(id){return document.getElementById(id);}
+  function closeLock(){var lock=byId(LOCK_ID); if(lock){lock.classList.remove('show'); lock.style.display='none';} document.body.style.overflow=''; try{window.DEMO_PENDING_PAGE=null;}catch(e){} return false;}
+  function hideOverlay(){var overlay=byId(APP_ID); if(overlay){overlay.style.display='none'; overlay.setAttribute('aria-hidden','true');} document.body.style.overflow=''; return false;}
+  function scrollToSection(sectionId){
+    var id = sectionId || DEMO_ID;
+    var target = byId(id);
+    if(!target && id !== DEMO_ID) target = byId(DEMO_ID);
+    if(target){
+      var y = target.getBoundingClientRect().top + window.scrollY - 78;
+      window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+    }
+    return false;
+  }
+  function closeMobileNav(){
+    var mn=document.querySelector('.main-nav');
+    if(mn && mn.getAttribute('style') && mn.style.position==='absolute') mn.removeAttribute('style');
+  }
+  window.closeDemoLock=function(){closeLock(); return false;};
+  window.closeApp=function(){hideOverlay(); return false;};
+  window.closeAppAndScroll=function(sectionId,e){
+    if(e&&e.preventDefault)e.preventDefault();
+    closeLock(); hideOverlay(); closeMobileNav();
+    setTimeout(function(){ scrollToSection(sectionId || DEMO_ID); },30);
+    return false;
+  };
+  // Reliable top navigation: each header link now scrolls to its own target section.
+  document.addEventListener('click',function(e){
+    var t=e.target&&e.target.closest?e.target.closest('header .main-nav a[href^="#"], header a[href="#demo"], a.js-scroll-section'):null;
+    if(!t) return;
+    var href=t.getAttribute('href')||'';
+    if(href.length<2) return;
+    e.preventDefault(); e.stopPropagation();
+    window.closeAppAndScroll(href.slice(1),e);
+  },true);
+  // Keep the public demo CTA simple and reliable from any state.
+  document.addEventListener('click',function(e){
+    var t=e.target&&e.target.closest?e.target.closest('a[href="#demo"],button[data-scroll-demo],.js-request-demo'):null;
+    if(!t) return;
+    /* v1.4: never intercept real form controls — the briefing form submit must reach submitDemo2 */
+    if((t.closest && t.closest('form')) || t.type==='submit') return;
+    e.preventDefault(); e.stopPropagation(); window.closeAppAndScroll('demo',e);
+  },true);
+  // Back-to-site from the private passphrase gate must always work.
+  document.addEventListener('click',function(e){
+    var t=e.target&&e.target.closest?e.target.closest('.dl-back,[data-close-demo-lock]'):null;
+    if(!t) return; e.preventDefault(); e.stopPropagation(); closeLock();
+  },true);
+  // Make all forms degrade gracefully if no backend endpoint is connected.
+  document.addEventListener('submit',function(e){
+    var form=e.target; if(!form||!form.closest)return;
+    if(form.closest('#demo') && typeof window.submitDemo2!=='function'){
+      /* v1.4: fallback only — when submitDemo2 exists it owns this form (whitepaper + lead log) */
+      e.preventDefault();
+      var toast=byId('toast');
+      if(toast){toast.textContent='Thanks — your executive briefing request has been captured. Please email bps@runkairos.com if you do not hear back within 24 hours.'; toast.classList.add('show'); setTimeout(function(){toast.classList.remove('show');},4500);}
+      else { alert('Thanks — your executive briefing request has been captured.'); }
+      return false;
+    }
+  },true);
+  // Safe PDF/document fallback: never write library code into the page.
+  window.kairosDownloadDoc=function(docHtml, filename, opts){
+    try{
+      if(typeof html2pdf==='function'){
+        var wrap=document.createElement('div'); wrap.style.cssText='position:fixed;left:-99999px;top:0;width:1100px;background:#09111F;'; wrap.innerHTML=docHtml; document.body.appendChild(wrap);
+        html2pdf().set(Object.assign({margin:0,filename:filename||'KAIROS.pdf',image:{type:'jpeg',quality:.96},html2canvas:{scale:2,backgroundColor:'#09111F',useCORS:true},jsPDF:{unit:'px',format:[1100,1400],orientation:'portrait'}},opts||{})).from(wrap).save().then(function(){wrap.remove();}).catch(function(){wrap.remove(); openHtml(docHtml, filename);});
+        return;
+      }
+    }catch(err){console.warn('[KAIROS] PDF fallback',err);}
+    openHtml(docHtml,filename);
+  };
+  function openHtml(html,filename){
+    var blob=new Blob([html],{type:'text/html'}); var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download=(filename||'KAIROS-document.html').replace(/\.pdf$/i,'.html'); document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){URL.revokeObjectURL(url);},5000);
+  }
+  // Remove stale PWA/service-worker state so Chrome stops reusing old app metadata for new visits.
+  try{ if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(function(rs){rs.forEach(function(r){r.unregister();});}); } if(window.caches&&caches.keys){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});});} }catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){
+    closeLock(); hideOverlay();
+    // Make sure Request Demo links remain anchors for SEO but reliable for users.
+    document.querySelectorAll('a[href="#demo"]').forEach(function(a){a.removeAttribute('onclick');});
+    var demoSection=byId('demo'); if(demoSection){demoSection.querySelectorAll('button,a').forEach(function(el){ if(el.closest('form')||el.type==='submit') return; if(/request demo|book|briefing/i.test(el.textContent||'')){el.classList.add('js-request-demo');}});}
+  });
 })();
 </script>
-
 </body>
 </html>

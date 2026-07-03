@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /html2pdf.bundle.min.js
 
 Sitemap: https://runkairos.com/sitemap.xml

@@ -10,6 +10,6 @@ To request an executive briefing, visit [runkairos.com](https://runkairos.com/#d
 
 ## Repository notes
 
-The site is a self-contained static build deployed via Cloudflare Pages. `_headers` defines HTTP response headers, `robots.txt` and `sitemap.xml` handle crawling, and `html2pdf.bundle.min.js` supports in-browser document export.
+The site is a self-contained static build hosted on GitHub Pages behind the Cloudflare proxy. Security and caching headers are applied via Cloudflare rules, `robots.txt` and `sitemap.xml` handle crawling, and `html2pdf.bundle.min.js` supports in-browser document export.
 
 © KAIROS. All rights reserved.

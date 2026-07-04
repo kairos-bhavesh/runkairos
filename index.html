@@ -5242,7 +5242,7 @@ function engReset(){
    soft gate (not server auth). Separate from the founder-only Sales
    Studio gate, which keeps its own passphrase. */
 var DEMO_PASSPHRASE   = 'oppurtune@2026';
-window.KAIROS_BUILD='v3.6 (2026-07-04)';
+window.KAIROS_BUILD='v3.7 (2026-07-04)';
 try{ console.info('%cKAIROS build '+window.KAIROS_BUILD,'color:#DAA84E;font-weight:700'); }catch(e){}
 var DEMO_UNLOCKED     = false;
 var DEMO_PENDING_PAGE = null;
@@ -8617,7 +8617,7 @@ var CALENDLY_URL = 'https://calendly.com/bps-runkairos';
    Setup instructions are in the README block at the bottom of the file.
    Leave blank to disable lead capture (submissions will still work).
 ─────────────────────────────────────────────────────────────────────── */
-var LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyfkyFB_3bMGdkC8uPLHsmo5XaQPMy6vxcyk5hhc8NBSjoHkLrShzTzyO7vW0aF4UtqMw/exec'; // <- paste the /exec URL from kairos-lead-webhook.gs (Deploy as Web app, Execute as Me, Access: Anyone)
+var LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby-ZgXCfls7XDBcD75gK5z2OTUEoIYWmjEcJEmSEc2DAr0imQTqclHOgjTJMmMbFayedw/exec'; // <- paste the /exec URL from kairos-lead-webhook.gs (Deploy as Web app, Execute as Me, Access: Anyone)
 
 function showLeadModal(name, email, institution, wpHtml){
   var old = document.getElementById('lead-modal');
@@ -11921,7 +11921,7 @@ function saUpdatePortfolio(){
   });
 })();
 </script>
-<div id="kairos-build-badge" style="position:fixed;bottom:8px;right:10px;z-index:2147483600;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.28);font-family:'IBM Plex Mono',monospace;pointer-events:none;">v3.6</div>
+<div id="kairos-build-badge" style="position:fixed;bottom:8px;right:10px;z-index:2147483600;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.28);font-family:'IBM Plex Mono',monospace;pointer-events:none;">v3.7</div>
 <script>
 /* ── v2.8 resilience layer ─────────────────────────────────────────────
    1) The critical journey buttons are bound programmatically, so they work

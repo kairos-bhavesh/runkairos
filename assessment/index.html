@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAIROS · Collections Transformation Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --obsidian:#09111F;
+    --obsidian-2:#12161C;
+    --obsidian-3:#1B212A;
+    --hairline:#2A3138;
+    --gold:#C4933A;
+    --gold-soft:#8A7038;
+    --teal:#0EA89A;
+    --teal-soft:#173F3E;
+    --paper:#F6F3EC;
+    --paper-dim:#B9C0C8;
+    --ink:#EDEAE1;
+    --ink-dim:#9AA3AC;
+    --risk:#B5544A;
+    --good:#4C9A7E;
+    --radius:2px;
+    --serif:'Fraunces', Georgia, serif;
+    --sans:'Inter', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--obsidian);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold-soft);color:var(--paper);}
+
+  a{color:var(--gold);}
+
+  /* ---------- shell ---------- */
+  #app{min-height:100vh;display:flex;flex-direction:column;}
+
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;border-bottom:1px solid var(--hairline);
+    background:linear-gradient(180deg, var(--obsidian-2), var(--obsidian));
+    position:sticky;top:0;z-index:40;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-icon{width:28px;height:28px;flex-shrink:0;}
+  .brand-word{
+    font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:0.08em;
+    color:#FFFFFF;text-transform:uppercase;
+  }
+  .brand-divider{width:1px;height:22px;background:var(--hairline);}
+  .brand-text{font-family:var(--serif);font-size:14px;letter-spacing:0.02em;color:var(--paper-dim);}
+  .brand-sub{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-dim);margin-top:1px;}
+
+  .topbar-right{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--ink-dim);}
+  .pill{
+    border:1px solid var(--hairline);padding:5px 11px;border-radius:20px;
+    font-size:11px;letter-spacing:0.04em;color:var(--paper-dim);
+  }
+
+  main{flex:1;display:flex;width:100%;max-width:1280px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- cover ---------- */
+  .cover{
+    width:100%;max-width:760px;margin:56px auto;padding:0 8px;
+  }
+  .cover-eyebrow{
+    font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal);
+    margin-bottom:14px;display:flex;align-items:center;gap:10px;
+  }
+  .cover-eyebrow::before{content:'';width:26px;height:1px;background:var(--teal);}
+  .cover h1{
+    font-family:var(--serif);font-weight:600;font-size:42px;line-height:1.12;
+    margin:0 0 18px;color:var(--ink);
+  }
+  .cover h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .cover p.lead{color:var(--paper-dim);font-size:16px;line-height:1.65;max-width:600px;margin:0 0 30px;}
+  .cover-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hairline);border:1px solid var(--hairline);margin-bottom:36px;}
+  .cover-stat{background:var(--obsidian-2);padding:16px 18px;}
+  .cover-stat .n{font-family:var(--serif);font-size:22px;color:var(--gold);}
+  .cover-stat .l{font-size:11px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;}
+
+  .field-block{margin-bottom:22px;}
+  .field-label{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);margin-bottom:9px;display:block;}
+  .field-required::after{content:' *';color:var(--risk);}
+
+  input[type=text], input[type=number], textarea, select{
+    width:100%;background:var(--obsidian-2);border:1px solid var(--hairline);
+    color:var(--ink);padding:12px 14px;font-family:var(--sans);font-size:14px;
+    border-radius:var(--radius);outline:none;transition:border-color .15s;
+  }
+  input[type=text]:focus, input[type=number]:focus, textarea:focus, select:focus{border-color:var(--gold-soft);}
+  textarea{resize:vertical;min-height:80px;}
+  input::placeholder, textarea::placeholder{color:#5b6470;}
+
+  select.kairos-select{
+    appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A455' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;background-size:16px;
+    padding-right:40px;cursor:pointer;
+  }
+  select.kairos-select option{background:var(--obsidian-2);color:var(--ink);}
+  select.kairos-select optgroup{background:var(--obsidian);color:var(--gold);font-style:normal;font-weight:600;}
+
+  .detected-type{
+    margin-top:10px;display:flex;align-items:center;gap:8px;
+    font-size:12px;color:var(--teal);letter-spacing:0.02em;
+  }
+  .detected-type .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+  .detected-type b{color:var(--ink);font-weight:600;}
+
+  .btn{
+    font-family:var(--sans);font-weight:600;font-size:13px;letter-spacing:0.03em;
+    padding:13px 26px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;
+    display:inline-flex;align-items:center;gap:8px;transition:all .15s;
+  }
+  .btn-primary{background:var(--gold);color:var(--obsidian);}
+  .btn-primary:hover{background:#dab868;}
+  .btn-ghost{background:transparent;border-color:var(--hairline);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--gold-soft);color:var(--gold);}
+  .btn-teal{background:var(--teal);color:var(--paper);}
+  .btn-teal:hover{background:#348e8b;}
+  .btn:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn svg{width:14px;height:14px;}
+
+  .cover-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .saved-row{margin-top:26px;padding-top:22px;border-top:1px solid var(--hairline);}
+  .saved-row .field-label{margin-bottom:10px;}
+  .saved-list{display:flex;flex-direction:column;gap:6px;max-height:180px;overflow:auto;}
+  .saved-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:9px 12px;border:1px solid var(--hairline);font-size:12.5px;color:var(--paper-dim);
+    background:var(--obsidian-2);
+  }
+  .saved-item button{background:none;border:none;color:var(--teal);cursor:pointer;font-size:12px;font-family:var(--sans);font-weight:600;}
+  .saved-empty{font-size:12.5px;color:#5b6470;font-style:italic;}
+
+  /* ---------- wizard shell ---------- */
+  .wizard{display:none;width:100%;padding:28px 0 80px;gap:36px;}
+  .wizard.active{display:flex;}
+
+  .sidenav{width:240px;flex-shrink:0;position:sticky;top:78px;align-self:flex-start;}
+  .progress-track{height:3px;background:var(--hairline);margin-bottom:24px;position:relative;}
+  .progress-fill{height:100%;background:var(--gold);width:0%;transition:width .3s;}
+  .progress-label{font-size:11px;color:var(--ink-dim);margin-bottom:20px;letter-spacing:0.04em;}
+  .step-list{display:flex;flex-direction:column;gap:2px;}
+  .step-item{
+    display:flex;align-items:baseline;gap:10px;padding:10px 12px;cursor:pointer;
+    border-left:2px solid transparent;font-size:12.5px;color:var(--ink-dim);transition:all .15s;
+  }
+  .step-item .num{font-family:var(--serif);font-size:12px;color:#5b6470;min-width:16px;}
+  .step-item:hover{color:var(--ink);}
+  .step-item.done{color:var(--paper-dim);}
+  .step-item.done .num{color:var(--teal);}
+  .step-item.active{color:var(--gold);border-left-color:var(--gold);background:var(--obsidian-2);}
+  .step-item.active .num{color:var(--gold);}
+
+  .wizard-content{flex:1;min-width:0;max-width:760px;}
+  .section-panel{display:none;}
+  .section-panel.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-head{margin-bottom:28px;}
+  .section-eyebrow{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+  .section-head h2{font-family:var(--serif);font-size:26px;font-weight:600;margin:0 0 10px;color:var(--ink);}
+  .section-head p{color:var(--ink-dim);font-size:13.5px;max-width:560px;margin:0;}
+
+  .question{margin-bottom:30px;padding-bottom:28px;border-bottom:1px solid var(--hairline);}
+  .question:last-child{border-bottom:none;}
+  .q-text{font-size:14.5px;color:var(--ink);margin-bottom:4px;font-weight:500;}
+  .q-hint{font-size:12px;color:var(--ink-dim);margin-bottom:14px;}
+
+  .options-grid{display:flex;flex-direction:column;gap:8px;}
+  .options-grid.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .opt{position:relative;}
+  .opt input{position:absolute;opacity:0;width:1px;height:1px;}
+  .opt label{
+    display:flex;align-items:center;gap:11px;padding:13px 16px;
+    border:1px solid var(--hairline);background:var(--obsidian-2);
+    cursor:pointer;font-size:13.5px;color:var(--paper-dim);transition:all .15s;
+  }
+  .opt label .marker{
+    width:15px;height:15px;border:1px solid #4b5560;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .opt input[type=radio] + label .marker{border-radius:50%;}
+  .opt input[type=checkbox] + label .marker{border-radius:2px;}
+  .opt label .marker::after{
+    content:'';width:7px;height:7px;background:var(--gold);opacity:0;transition:opacity .1s;
+  }
+  .opt input[type=checkbox] + label .marker::after{border-radius:1px;}
+  .opt input[type=radio] + label .marker::after{border-radius:50%;}
+  .opt input:checked + label{border-color:var(--gold-soft);background:rgba(201,164,85,0.07);color:var(--ink);}
+  .opt input:checked + label .marker::after{opacity:1;}
+  .opt input:focus-visible + label{outline:1px solid var(--gold);outline-offset:1px;}
+
+  .q-textarea{margin-top:6px;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr;} .options-grid.cols-2{grid-template-columns:1fr;}}
+
+  .wizard-footer{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:36px;padding-top:24px;border-top:1px solid var(--hairline);
+  }
+  .footer-hint{font-size:11.5px;color:#5b6470;}
+
+  /* ---------- results ---------- */
+  .results{display:none;width:100%;padding:44px 0 90px;}
+  .results.active{display:block;}
+  .results-inner{max-width:900px;margin:0 auto;}
+
+  .stage-banner{
+    border:1px solid var(--gold-soft);background:linear-gradient(135deg, rgba(201,164,85,0.08), transparent);
+    padding:34px 36px;margin-bottom:32px;
+  }
+  .stage-eyebrow{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+  .stage-banner h2{font-family:var(--serif);font-size:30px;margin:0 0 10px;color:var(--ink);}
+  .stage-banner h2 em{color:var(--gold);font-style:italic;}
+  .stage-banner p{color:var(--paper-dim);font-size:14px;max-width:640px;margin:0;}
+
+  .track{margin:34px 0 8px;position:relative;}
+  .track-line{height:2px;background:var(--hairline);position:relative;margin:0 6px;}
+  .track-fill{position:absolute;top:0;left:0;height:2px;background:var(--gold);transition:width .6s ease;}
+  .track-nodes{display:flex;justify-content:space-between;margin-top:-6px;position:relative;}
+  .track-node{width:14px;height:14px;border-radius:50%;background:var(--obsidian);border:2px solid var(--hairline);position:relative;}
+  .track-node.passed{border-color:var(--gold);background:var(--gold);}
+  .track-node.current{border-color:var(--gold);background:var(--obsidian);box-shadow:0 0 0 4px rgba(201,164,85,0.18);}
+  .track-labels{display:flex;justify-content:space-between;margin-top:10px;}
+  .track-labels span{font-size:10.5px;color:var(--ink-dim);text-align:center;flex:1;letter-spacing:0.02em;}
+  .track-labels span:first-child{text-align:left;}
+  .track-labels span:last-child{text-align:right;}
+
+  .dims{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:32px 0;}
+  @media(max-width:640px){.dims{grid-template-columns:1fr;}}
+  .dim-card{border:1px solid var(--hairline);background:var(--obsidian-2);padding:18px 20px;}
+  .dim-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .dim-name{font-size:12.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--paper-dim);}
+  .dim-score{font-family:var(--serif);font-size:15px;color:var(--gold);}
+  .dim-bar{height:5px;background:var(--hairline);position:relative;}
+  .dim-bar-fill{height:100%;background:var(--teal);}
+  .dim-label{font-size:11.5px;color:var(--ink-dim);margin-top:8px;}
+
+  .rec-block{margin:38px 0;}
+  .rec-block h3{font-family:var(--serif);font-size:19px;color:var(--ink);margin:0 0 6px;}
+  .rec-block h3 .flag{color:var(--gold);}
+  .rec-block .rec-sub{font-size:12px;color:var(--teal);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;}
+  .rec-card{border:1px solid var(--hairline);background:var(--obsidian-2);padding:24px 26px;margin-bottom:16px;}
+  .rec-card p{color:var(--paper-dim);font-size:13.8px;margin:0 0 12px;}
+  .rec-card p:last-child{margin-bottom:0;}
+  .rec-card ul{margin:0;padding-left:18px;color:var(--paper-dim);font-size:13.5px;}
+  .rec-card li{margin-bottom:6px;}
+  .alert-card{border-color:var(--risk);background:rgba(181,84,74,0.08);}
+  .alert-card .rec-tag{color:var(--risk);}
+  .rec-tag{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--gold);margin-bottom:8px;display:block;}
+
+  .gap-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+  .gap-chip{border:1px solid var(--risk);color:#e0a49d;font-size:11.5px;padding:5px 12px;background:rgba(181,84,74,0.08);}
+
+  .export-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px;padding-top:28px;border-top:1px solid var(--hairline);}
+
+  .copy-box{
+    display:none;margin-top:16px;background:var(--obsidian-2);border:1px solid var(--hairline);
+    padding:16px;font-family:'SF Mono', Menlo, monospace;font-size:11.5px;color:var(--paper-dim);
+    max-height:340px;overflow:auto;white-space:pre-wrap;line-height:1.6;
+  }
+  .copy-box.show{display:block;}
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:var(--gold);color:var(--obsidian);
+    padding:12px 20px;font-size:13px;font-weight:600;border-radius:2px;z-index:100;
+    opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translateY(0);}
+
+  @media(max-width:900px){
+    .wizard{flex-direction:column;}
+    .sidenav{position:static;width:100%;}
+    .step-list{flex-direction:row;flex-wrap:wrap;}
+    .step-item{border-left:none;border-bottom:2px solid transparent;}
+    .step-item.active{border-left:none;border-bottom-color:var(--gold);}
+  }
+  @media(max-width:640px){
+    .cover h1{font-size:32px;}
+    .cover-stats{grid-template-columns:1fr;}
+    .topbar{padding:14px 18px;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <svg class="brand-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="82" fill="none" stroke="#0EA89A" stroke-width="9"/>
+        <g stroke="#0EA89A" stroke-width="9" stroke-linecap="round">
+          <line x1="100" y1="12"  x2="100" y2="30"/>
+          <line x1="188" y1="100" x2="170" y2="100"/>
+          <line x1="100" y1="188" x2="100" y2="170"/>
+          <line x1="12"  y1="100" x2="30"  y2="100"/>
+        </g>
+        <line x1="100" y1="100" x2="146.4" y2="58.13" stroke="#E3AF52" stroke-width="11" stroke-linecap="round"/>
+        <circle cx="100" cy="100" r="12" fill="#E3AF52"/>
+      </svg>
+      <div class="brand-word">KAIROS</div>
+      <div class="brand-divider"></div>
+      <div>
+        <div class="brand-text">Assessment</div>
+        <div class="brand-sub">Collections Maturity Index · CMI</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <a href="../" style="font-size:12px;color:rgba(255,255,255,.55);text-decoration:none;margin-right:14px;" onmouseover="this.style.color='#5EEAD4'" onmouseout="this.style.color='rgba(255,255,255,.55)'">← runkairos.com</a>
+      <span class="pill" id="statusPill">Not started</span>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ============ COVER ============ -->
+    <div class="cover" id="coverScreen">
+      <div class="cover-eyebrow">GCC Collections Decision Intelligence</div>
+      <h1>Where does this portfolio sit<br>on the <em>transformation journey</em>?</h1>
+      <p class="lead">This intake maps a bank's collections operating model, technology stack, segmentation, channels and decisioning maturity against five transformation stages — then generates a bespoke Kairos engagement recommendation you can carry straight into the next conversation.</p>
+
+      <div class="cover-stats">
+        <div class="cover-stat"><div class="n">10</div><div class="l">Sections</div></div>
+        <div class="cover-stat"><div class="n">~12</div><div class="l">Minutes</div></div>
+        <div class="cover-stat"><div class="n">5</div><div class="l">Maturity Stages</div></div>
+      </div>
+
+      <div class="field-block">
+        <label class="field-label field-required">Select Institution</label>
+        <select id="entitySelect" class="kairos-select">
+          <option value="" disabled selected>Choose an institution…</option>
+        </select>
+        <div class="detected-type" id="detectedType" style="display:none;"></div>
+      </div>
+
+      <div class="two-col">
+        <div class="field-block">
+          <label class="field-label field-required">Institution / Portfolio Name</label>
+          <input type="text" id="instName" placeholder="Select an institution above, or type a custom name">
+        </div>
+        <div class="field-block">
+          <label class="field-label">Your Role / Contact (for this pack)</label>
+          <input type="text" id="respondentRole" placeholder="e.g. Head of Collections, EIB">
+        </div>
+      </div>
+
+      <div class="field-block" id="customTypeBlock" style="display:none;">
+        <label class="field-label field-required">Institution Type</label>
+        <div class="options-grid cols-2" id="instTypeGroup"></div>
+      </div>
+
+      <div class="cover-actions">
+        <button class="btn btn-primary" id="startBtn">Begin Assessment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <span class="footer-hint">Progress saves automatically as you go.</span>
+      </div>
+
+      <div class="saved-row">
+        <label class="field-label">Saved Assessments</label>
+        <div class="saved-list" id="savedList"><div class="saved-empty">No saved assessments yet — storage unavailable in this view or none created.</div></div>
+      </div>
+    </div>
+
+    <!-- ============ WIZARD ============ -->
+    <div class="wizard" id="wizardScreen">
+      <div class="sidenav">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">Section 1 of 10</div>
+        <div class="step-list" id="stepList"></div>
+      </div>
+      <div class="wizard-content">
+        <div id="sectionsContainer"></div>
+      </div>
+    </div>
+
+    <!-- ============ RESULTS ============ -->
+    <div class="results" id="resultsScreen">
+      <div class="results-inner" id="resultsInner"></div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ======================= DATA MODEL ======================= */
+
+const INST_TYPES = ["Conventional Bank","Islamic Bank","Digital Bank / Neobank","BNPL Provider","Finance Company"];
+
+// Entity picker — mirrors the institution list used in Kairos Demo Settings.
+// Selecting a listed entity auto-detects Institution Type; only "Custom" reveals the manual radio picker.
+const ENTITIES = [
+  {name:"First Abu Dhabi Bank (FAB)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Emirates NBD (ENBD)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Abu Dhabi Commercial Bank (ADCB)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Mashreq Bank", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Commercial Bank of Dubai (CBD)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"National Bank of Fujairah (NBF)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"RAKBANK (National Bank of Ras Al Khaimah)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Commercial Bank International (CBI)", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Bank of Sharjah", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"Invest Bank", type:"Conventional Bank", group:"Conventional Banks"},
+  {name:"United Arab Bank (UAB)", type:"Conventional Bank", group:"Conventional Banks"},
+
+  {name:"Emirates Islamic Bank (EIB)", type:"Islamic Bank", group:"Islamic Banks"},
+  {name:"Dubai Islamic Bank (DIB)", type:"Islamic Bank", group:"Islamic Banks"},
+  {name:"Abu Dhabi Islamic Bank (ADIB)", type:"Islamic Bank", group:"Islamic Banks"},
+  {name:"Sharjah Islamic Bank (SIB)", type:"Islamic Bank", group:"Islamic Banks"},
+  {name:"Ajman Bank", type:"Islamic Bank", group:"Islamic Banks"},
+
+  {name:"Wio Bank", type:"Digital Bank / Neobank", group:"Digital Banks / Neobanks"},
+  {name:"Zand Bank", type:"Digital Bank / Neobank", group:"Digital Banks / Neobanks"},
+  {name:"Liv. (Emirates NBD)", type:"Digital Bank / Neobank", group:"Digital Banks / Neobanks"},
+
+  {name:"Tabby", type:"BNPL Provider", group:"BNPL Providers"},
+  {name:"Tamara", type:"BNPL Provider", group:"BNPL Providers"},
+  {name:"Postpay", type:"BNPL Provider", group:"BNPL Providers"},
+
+  {name:"Kairos Demo (Composite Market Model)", type:"Conventional Bank", group:"Kairos Reference"}
+];
+
+// Each maturity question option carries a score 1-5 mapped to the 5-stage journey.
+// dim: which maturity dimension it feeds (operatingModel, technology, segmentation, channels, decisioning)
+
+const SECTIONS = [
+{
+  id:"profile", title:"Institution Profile & Portfolio", eyebrow:"Section 01",
+  intro:"Ground the assessment in the shape of the book so recommendations are sized correctly.",
+  scored:false,
+  questions:[
+    {id:"p_segments", type:"checkbox", text:"Which portfolio segments does this collections function cover?", cols:2,
+      options:["Retail Unsecured (Personal Loans/Credit Cards)","Retail Secured (Auto/Mortgage)","SME","Corporate/Wholesale","BNPL / POS Finance","Cards Only"]},
+    {id:"p_size", type:"radio", text:"Approximate size of the managed receivables book (ENR)",
+      options:["Under AED 1B","AED 1B – 5B","AED 5B – 15B","AED 15B – 40B","Above AED 40B"]},
+    {id:"p_npl", type:"radio", text:"Current reported NPL ratio (approximate, self-declared)",
+      options:["Under 2%","2% – 4%","4% – 7%","7% – 12%","Above 12% / Not tracked centrally"]},
+    {id:"p_geo", type:"checkbox", text:"Geographic footprint relevant to this collections operation", cols:2,
+      options:["UAE only","Wider GCC","MENA","South Asia expat corridor","Global / multi-region"]}
+  ]
+},
+{
+  id:"opmodel", title:"Collections Operating Model", eyebrow:"Section 02",
+  intro:"How the collections function is structured, staffed and tiered today.",
+  scored:true, dim:"operatingModel",
+  questions:[
+    {id:"o_structure", type:"radio", text:"How is early-stage vs late-stage collections structured?", score:true,
+      options:[
+        {t:"No formal separation — one team handles all delinquency stages",s:1},
+        {t:"Basic split by DPD bucket, manually reassigned",s:2},
+        {t:"Defined tiers (early/mid/late/legal) with handoff rules",s:3},
+        {t:"Tiers plus specialist pods (hardship, settlement, legal, recoveries)",s:4},
+        {t:"Dynamic tiering that reassigns accounts in real time based on behaviour",s:5}
+      ]},
+    {id:"o_inhouse", type:"radio", text:"In-house vs outsourced collections mix", score:true,
+      options:[
+        {t:"Fully outsourced with limited visibility into agency performance",s:1},
+        {t:"Outsourced with periodic MIS reporting",s:2},
+        {t:"Hybrid — in-house early stage, outsourced late stage",s:3},
+        {t:"Hybrid with unified performance management across both",s4:0,s:4},
+        {t:"Primarily in-house with agencies used only for overflow/recoveries",s:5}
+      ]},
+    {id:"o_capacity", type:"radio", text:"How is agent capacity and workload allocated across the portfolio?", score:true,
+      options:[
+        {t:"Flat allocation — every agent gets an equal, unranked list",s:1},
+        {t:"Manual supervisor judgment on high-value accounts",s:2},
+        {t:"Rule-based prioritisation (e.g. DPD + balance thresholds)",s:3},
+        {t:"Score-based prioritisation refreshed periodically (weekly/monthly)",s:4},
+        {t:"Real-time, propensity-based allocation refreshed daily or intraday",s:5}
+      ]},
+    {id:"o_kpis", type:"checkbox", text:"Which KPIs are actively tracked and reviewed by leadership?", cols:2,
+      options:["Roll rate","Cost-to-collect","Recovery rate","PTP keep rate","Right-Party Contact rate","Cure rate","None formally tracked"]}
+  ]
+},
+{
+  id:"tech", title:"Technology & Systems Landscape", eyebrow:"Section 03",
+  intro:"The core systems, data plumbing and integration readiness underneath the collections process.",
+  scored:true, dim:"technology",
+  questions:[
+    {id:"t_core", type:"radio", text:"How does collections data reach the team from core banking / loan systems?", score:true,
+      options:[
+        {t:"Manual exports (Excel/CSV) pulled periodically",s:1},
+        {t:"Scheduled batch feeds into a basic collections tool",s:2},
+        {t:"Dedicated collections system with nightly integration",s:3},
+        {t:"Near real-time integration via APIs/middleware",s:4},
+        {t:"Fully event-driven, real-time data fabric across systems",s:5}
+      ]},
+    {id:"t_stack", type:"checkbox", text:"Which of the following are currently in production?", cols:2,
+      options:["Dedicated collections/workflow system","Predictive dialer","Case management CRM","Data warehouse / lakehouse","BI / dashboarding layer (Tableau, Power BI, etc.)","None of the above — mostly spreadsheets"]},
+    {id:"t_api", type:"radio", text:"How would you describe API / integration readiness for a new decisioning layer?", score:true,
+      options:[
+        {t:"No API layer — everything is file-based or manual",s:1},
+        {t:"Limited APIs, IT-dependent for any new integration",s:2},
+        {t:"Established API gateway, integrations take weeks",s:3},
+        {t:"Mature API layer, integrations achievable in days",s:4},
+        {t:"API-first architecture with sandbox/test environments available",s:5}
+      ]},
+    {id:"t_dataquality", type:"radio", text:"How reliable is customer contact and payment data across systems?", score:true,
+      options:[
+        {t:"Frequently stale or conflicting across systems",s:1},
+        {t:"Usable but requires manual cleansing regularly",s:2},
+        {t:"Generally reliable with occasional gaps",s:3},
+        {t:"High reliability, validated at source",s:4},
+        {t:"Single source of truth, continuously validated",s:5}
+      ]}
+  ]
+},
+{
+  id:"segmentation", title:"Segmentation & Treatment Strategy", eyebrow:"Section 04",
+  intro:"How the delinquent book is sliced, and whether treatment paths adapt to customer behaviour.",
+  scored:true, dim:"segmentation",
+  questions:[
+    {id:"s_method", type:"radio", text:"How is the portfolio segmented for treatment purposes today?", score:true,
+      options:[
+        {t:"Not segmented — same approach applied broadly",s:1},
+        {t:"Segmented by DPD bucket only",s:2},
+        {t:"Segmented by DPD + balance + product",s:3},
+        {t:"Segmented by risk score / propensity-to-pay model",s:4},
+        {t:"Multi-dimensional, continuously re-scored dynamic segmentation",s:5}
+      ]},
+    {id:"s_treatment", type:"radio", text:"Are treatment paths (settlement offers, restructuring, escalation) standardised or judgment-based?", score:true,
+      options:[
+        {t:"Entirely agent/supervisor judgment",s:1},
+        {t:"Loose guidelines, inconsistently applied",s:2},
+        {t:"Documented treatment matrix, manually applied",s:3},
+        {t:"System-enforced treatment paths by segment",s:4},
+        {t:"Adaptive treatment paths that update based on outcome data",s:5}
+      ]},
+    {id:"s_hardship", type:"radio", text:"How are hardship/vulnerable customers identified and handled?",
+      options:["No formal identification process","Ad hoc, agent-flagged","Documented hardship policy with manual review","Systematic flagging with dedicated treatment track"]},
+    {id:"s_sharia", type:"radio", text:"If applicable — are Sharia-compliant restructuring/settlement structures required?",
+      options:["Not applicable — conventional book","Yes, required and currently manual","Yes, required and partially systematised","Yes, required and fully systematised"]}
+  ]
+},
+{
+  id:"channels", title:"Channels & Contact Orchestration", eyebrow:"Section 05",
+  intro:"Post the CBUAE WhatsApp Business messaging directive (effective 1 May 2026), channel mix has become a live strategic question for every UAE collections desk.",
+  scored:true, dim:"channels",
+  questions:[
+    {id:"c_channels", type:"checkbox", text:"Which channels are currently used for collections outreach?", cols:2,
+      options:["Outbound calls (own team)","Outbound calls (agency/dialer)","SMS","WhatsApp Business","Email","In-app push notification","Field visits","Physical letters"]},
+    {id:"c_whatsapp", type:"radio", text:"How has the CBUAE WhatsApp Business messaging restriction affected this operation?", score:true,
+      options:[
+        {t:"Significant disruption — no alternative channel scaled yet",s:1},
+        {t:"Aware of the directive, alternative channels being evaluated",s2:0,s:2},
+        {t:"Partially migrated to SMS/app/email, gaps remain",s:3},
+        {t:"Fully migrated with orchestrated multi-channel fallback",s:4},
+        {t:"Not materially affected — channel-agnostic architecture already in place",s:5}
+      ]},
+    {id:"c_orchestration", type:"radio", text:"Is channel selection per customer rule-based, or does it adapt based on response history?", score:true,
+      options:[
+        {t:"Same channel sequence applied to everyone",s:1},
+        {t:"Basic rules (e.g. call first, then SMS)",s:2},
+        {t:"Segment-based channel sequencing",s:3},
+        {t:"Response-history-informed channel selection",s:4},
+        {t:"Real-time next-best-channel decisioning per customer",s:5}
+      ]},
+    {id:"c_language", type:"radio", text:"Is outreach content bilingual / localised (Arabic-English, and other expat languages)?",
+      options:["English only","Arabic and English, manually translated","Arabic and English, templated","Multi-language with dynamic localisation"]}
+  ]
+},
+{
+  id:"decisioning", title:"Decisioning, Analytics & AI Maturity", eyebrow:"Section 06",
+  intro:"The heart of the transformation question: how decisions get made, and how much of that is model-driven versus judgment-driven.",
+  scored:true, dim:"decisioning",
+  questions:[
+    {id:"d_scoring", type:"radio", text:"What drives who gets contacted, when, and how?", score:true,
+      options:[
+        {t:"Agent/supervisor experience and gut feel",s:1},
+        {t:"Fixed business rules (DPD, balance thresholds)",s:2},
+        {t:"Statistical scorecards refreshed periodically",s:3},
+        {t:"Machine learning models refreshed regularly",s:4},
+        {t:"Continuously learning models with real-time feedback loops",s:5}
+      ]},
+    {id:"d_ptp", type:"radio", text:"Is Promise-to-Pay (PTP) likelihood and keep-rate predicted, or tracked after the fact?", score:true,
+      options:[
+        {t:"Not tracked systematically",s:1},
+        {t:"Tracked manually after the fact",s:2},
+        {t:"Reported via dashboard, not predictive",s:3},
+        {t:"Predictive PTP likelihood scoring in use",s:4},
+        {t:"Predictive PTP feeding directly into next-best-action",s:5}
+      ]},
+    {id:"d_nba", type:"radio", text:"Does the organisation have a Next-Best-Action capability today?", score:true,
+      options:[
+        {t:"No — one-size-fits-all workflow",s:1},
+        {t:"Informal — supervisor discretion only",s:2},
+        {t:"Rule-based NBA logic in the workflow tool",s:3},
+        {t:"Model-driven NBA for select segments",s:4},
+        {t:"Model-driven NBA across the full portfolio, continuously tuned",s:5}
+      ]},
+    {id:"d_team", type:"radio", text:"Is there an in-house data science / analytics capability supporting collections?",
+      options:["None","Shared enterprise analytics team, low collections focus","Dedicated analyst(s), no data science / ML capability","Dedicated collections data science capability"]},
+    {id:"d_dashboards", type:"radio", text:"How does leadership currently get visibility into collections performance?",
+      options:["Manual spreadsheet reports","Periodic static reports/PDFs","Semi-live BI dashboards","Real-time executive dashboard with drill-down"]}
+  ]
+},
+{
+  id:"compliance", title:"Compliance, Sharia & Regulatory Posture", eyebrow:"Section 07",
+  intro:"Regulatory context that shapes what a solution needs to support from day one.",
+  scored:false,
+  questions:[
+    {id:"cp_cbuae", type:"radio", text:"How is CBUAE consumer protection / collections conduct regulation currently operationalised?",
+      options:["Manual policy documents, periodic training","Checklist-based compliance review","Rules embedded in the workflow system","Automated compliance monitoring with audit trail"]},
+    {id:"cp_wps", type:"radio", text:"Is WPS (Wage Protection System) salary data used to inform collections timing/strategy?",
+      options:["Not used","Aware of it but not integrated","Used manually by senior collectors","Integrated into segmentation/timing logic"]},
+    {id:"cp_audit", type:"radio", text:"What level of audit trail exists for collections contact and treatment decisions?",
+      options:["Minimal — largely undocumented","Manual logs, inconsistent","System-logged contact history","Full decision-level audit trail (why an action was taken)"]},
+    {id:"cp_sharia2", type:"checkbox", text:"Which regulatory/compliance bodies actively govern this portfolio?", cols:2,
+      options:["CBUAE","Higher Sharia Authority (HSA)","Internal Sharia Supervisory Board","DIFC/ADGM (if applicable)","Not applicable / other"]}
+  ]
+},
+{
+  id:"performance", title:"Performance Metrics & Benchmarks", eyebrow:"Section 08",
+  intro:"Self-reported figures used to size the potential impact of a Kairos engagement. Approximate values are fine.",
+  scored:false,
+  questions:[
+    {id:"pf_costcollect", type:"radio", text:"Approximate cost-to-collect as a % of amounts recovered",
+      options:["Under 3%","3% – 5%","5% – 8%","8% – 12%","Above 12% / not measured"]},
+    {id:"pf_recovery", type:"radio", text:"Approximate recovery rate on accounts entering delinquency",
+      options:["Above 45%","30% – 45%","20% – 30%","10% – 20%","Below 10% / not measured"]},
+    {id:"pf_roll", type:"radio", text:"Trend in early-to-late-stage roll rates over the last 12 months",
+      options:["Improving (fewer accounts rolling deeper)","Broadly stable","Worsening (more accounts rolling deeper)","Not tracked centrally"]},
+    {id:"pf_notes", type:"textarea", text:"Any specific benchmark figures, targets, or board-level pressure points worth noting?", placeholder:"e.g. Board has set a target to reduce cost-to-collect by 20% in FY27..."}
+  ]
+},
+{
+  id:"priorities", title:"Pain Points, Priorities & Vendor History", eyebrow:"Section 09",
+  intro:"What's actually keeping this function up at night, and what's already been tried.",
+  scored:false,
+  questions:[
+    {id:"pr_pain", type:"checkbox", text:"Which of these are live pain points today?", cols:2,
+      options:["Rising NPL / roll rates","High cost-to-collect","Agent productivity / capacity constraints","Poor right-party-contact rates","Post-WhatsApp-ban channel gap","Lack of leadership visibility/dashboards","Regulatory/audit exposure","Inconsistent treatment across teams","Legacy vendor underperforming","No predictive capability at all"]},
+    {id:"pr_priority", type:"radio", text:"If Kairos could solve exactly one problem in the next 90 days, which would move the needle most?",
+      options:["Better prioritisation of who to contact and when","Real-time executive visibility into portfolio health","A working alternative to WhatsApp-based outreach","Predictive PTP / next-best-action decisioning","A defensible, auditable compliance trail"]},
+    {id:"pr_vendor", type:"radio", text:"Has this institution evaluated or deployed a collections decisioning/analytics vendor before?",
+      options:["No prior evaluation","Evaluated, did not proceed","Currently piloting another vendor","Currently live with another vendor, evaluating alternatives"]},
+    {id:"pr_notes", type:"textarea", text:"Anything else specific to this account we should know before designing the solution?", placeholder:"Open notes from the meeting..."}
+  ]
+},
+{
+  id:"readiness", title:"Transformation Readiness & Buying Process", eyebrow:"Section 10",
+  intro:"How ready the organisation is to actually move — this shapes the commercial structure of the proposal.",
+  scored:false,
+  questions:[
+    {id:"r_sponsor", type:"radio", text:"Who is the internal sponsor for a collections transformation initiative?",
+      options:["No clear sponsor yet","Head of Collections / Operations","CFRO / Chief Risk Officer","CFO / CRO with Board visibility"]},
+    {id:"r_budget", type:"radio", text:"Where would budget for this kind of initiative most likely come from?",
+      options:["No identified budget yet","Existing Collections/Ops opex","Digital transformation / innovation budget","Dedicated project budget already approved"]},
+    {id:"r_timeline", type:"radio", text:"What timeline is realistic for a first proof-of-concept?",
+      options:["Exploratory only, no near-term timeline","3–6 months","1–3 months","Immediate — ready to start"]},
+    {id:"r_format", type:"radio", text:"Preferred format for a first engagement?",
+      options:["Paid proof-of-concept on a live segment","Sandbox demo with synthetic/historical data","Workshop / advisory engagement first","Straight to commercial proposal"]}
+  ]
+}
+];
+
+const DIM_LABELS = {
+  operatingModel:"Operating Model",
+  technology:"Technology & Data",
+  segmentation:"Segmentation & Treatment",
+  channels:"Channel Orchestration",
+  decisioning:"Decisioning & AI"
+};
+
+const STAGES = [
+  {n:1, name:"Manual & Reactive", range:[1,1.8], blurb:"Collections runs on spreadsheets, tenure, and agent judgment. Decisions are made in the moment with little system support."},
+  {n:2, name:"Systematic & Rules-Based", range:[1.8,2.6], blurb:"Fixed rules and DPD-bucket logic drive most decisions. The workflow is codified but static — it doesn't learn from outcomes."},
+  {n:3, name:"Data-Enabled & Segmented", range:[2.6,3.4], blurb:"Structured segmentation and dashboards exist. The organisation has the data, but decisioning is still largely rule-driven rather than predictive."},
+  {n:4, name:"Analytics-Driven & Predictive", range:[3.4,4.2], blurb:"Scorecards and predictive models actively shape prioritisation and treatment. The gap is real-time adaptation and channel orchestration."},
+  {n:5, name:"AI-Augmented & Autonomous", range:[4.2,5.01], blurb:"Continuously learning models drive prioritisation, treatment and channel selection in near real time, with tight feedback loops."}
+];
+
+/* ======================= STATE ======================= */
+
+let state = {
+  meta:{institution:"", instType:"", respondent:""},
+  answers:{},   // qid -> value (string or array)
+  currentSection:0
+};
+
+/* ======================= BUILD: COVER ======================= */
+
+function buildInstTypeOptions(){
+  const wrap = document.getElementById('instTypeGroup');
+  wrap.innerHTML = INST_TYPES.map((t,i)=>`
+    <div class="opt">
+      <input type="radio" name="instType" id="it_${i}" value="${t}">
+      <label for="it_${i}"><span class="marker"></span>${t}</label>
+    </div>`).join('');
+  wrap.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('change', e=>{ state.meta.instType = e.target.value; });
+  });
+}
+
+function buildEntitySelect(){
+  const sel = document.getElementById('entitySelect');
+  const groups = {};
+  ENTITIES.forEach(e=>{ (groups[e.group] = groups[e.group] || []).push(e); });
+  let html = sel.innerHTML;
+  Object.keys(groups).forEach(g=>{
+    html += '<optgroup label="'+g+'">';
+    groups[g].forEach(e=>{ html += '<option value="'+e.name.replace(/"/g,'&quot;')+'">'+e.name+'</option>'; });
+    html += '</optgroup>';
+  });
+  html += '<option value="__custom__">+ Custom / Other Institution (not listed)</option>';
+  sel.innerHTML = html;
+  sel.addEventListener('change', onEntityChange);
+}
+
+function onEntityChange(e){
+  const val = e.target.value;
+  const nameField = document.getElementById('instName');
+  const customBlock = document.getElementById('customTypeBlock');
+  const detected = document.getElementById('detectedType');
+
+  if(val === '__custom__'){
+    customBlock.style.display = 'block';
+    detected.style.display = 'none';
+    state.meta.instType = '';
+    nameField.value = '';
+    nameField.placeholder = 'Type the institution name';
+    state.meta.institution = '';
+    nameField.focus();
+  } else {
+    const entity = ENTITIES.find(function(e2){ return e2.name === val; });
+    customBlock.style.display = 'none';
+    document.querySelectorAll('input[name="instType"]').forEach(function(r){ r.checked = false; });
+    if(entity){
+      state.meta.instType = entity.type;
+      nameField.value = entity.name;
+      state.meta.institution = entity.name;
+      detected.style.display = 'flex';
+      detected.innerHTML = '<span class="dot"></span>Detected type: <b>'+entity.type+'</b>';
+    }
+  }
+}
+
+document.getElementById('instName').addEventListener('input', e=>{ state.meta.institution = e.target.value; });
+document.getElementById('respondentRole').addEventListener('input', e=>{ state.meta.respondent = e.target.value; });
+
+document.getElementById('startBtn').addEventListener('click', ()=>{
+  if(!state.meta.institution.trim()){
+    document.getElementById('instName').style.borderColor = 'var(--risk)';
+    document.getElementById('instName').focus();
+    return;
+  }
+  if(!state.meta.instType){
+    const sel = document.getElementById('entitySelect');
+    if(sel.value === '__custom__'){
+      document.getElementById('customTypeBlock').scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      sel.style.borderColor = 'var(--risk)';
+      sel.focus();
+    }
+    showToast('Please select an institution type before continuing');
+    return;
+  }
+  document.getElementById('coverScreen').style.display = 'none';
+  document.getElementById('wizardScreen').classList.add('active');
+  document.getElementById('statusPill').textContent = 'In progress';
+  renderSideNav();
+  renderSections();
+  goToSection(0);
+});
+
+/* ======================= BUILD: WIZARD ======================= */
+
+function renderSideNav(){
+  const list = document.getElementById('stepList');
+  list.innerHTML = SECTIONS.map((s,i)=>`
+    <div class="step-item" data-idx="${i}">
+      <span class="num">${String(i+1).padStart(2,'0')}</span>
+      <span>${s.title}</span>
+    </div>`).join('');
+  list.querySelectorAll('.step-item').forEach(el=>{
+    el.addEventListener('click', ()=> goToSection(parseInt(el.dataset.idx)) );
+  });
+}
+
+function optHTML(q, opt, idx){
+  const isObj = typeof opt === 'object';
+  const label = isObj ? opt.t : opt;
+  const inputType = q.type === 'checkbox' ? 'checkbox' : 'radio';
+  const name = q.id;
+  const id = `${q.id}_${idx}`;
+  return `
+    <div class="opt">
+      <input type="${inputType}" name="${name}" id="${id}" value="${label.replace(/"/g,'&quot;')}" data-score="${isObj?opt.s:''}">
+      <label for="${id}"><span class="marker"></span>${label}</label>
+    </div>`;
+}
+
+function questionHTML(q){
+  let body = '';
+  if(q.type === 'radio' || q.type === 'checkbox'){
+    const colClass = q.cols === 2 ? 'options-grid cols-2' : 'options-grid';
+    body = `<div class="${colClass}">${q.options.map((o,i)=>optHTML(q,o,i)).join('')}</div>`;
+  } else if(q.type === 'textarea'){
+    body = `<textarea class="q-textarea" id="${q.id}" placeholder="${q.placeholder||''}"></textarea>`;
+  } else if(q.type === 'text'){
+    body = `<input type="text" id="${q.id}" placeholder="${q.placeholder||''}">`;
+  }
+  return `
+    <div class="question" data-qid="${q.id}">
+      <div class="q-text">${q.text}</div>
+      ${q.hint?`<div class="q-hint">${q.hint}</div>`:''}
+      ${body}
+    </div>`;
+}
+
+function renderSections(){
+  const container = document.getElementById('sectionsContainer');
+  container.innerHTML = SECTIONS.map((s,i)=>`
+    <div class="section-panel" data-idx="${i}" id="panel_${s.id}">
+      <div class="section-head">
+        <div class="section-eyebrow">${s.eyebrow}</div>
+        <h2>${s.title}</h2>
+        <p>${s.intro}</p>
+      </div>
+      ${s.questions.map(questionHTML).join('')}
+      <div class="wizard-footer">
+        <button class="btn btn-ghost" data-nav="prev" ${i===0?'disabled':''}>Back</button>
+        <span class="footer-hint" id="autosaveHint_${i}"></span>
+        <button class="btn btn-primary" data-nav="next">${i===SECTIONS.length-1?'View Results':'Continue'}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+
+  // wire inputs
+  container.querySelectorAll('input, textarea').forEach(el=>{
+    const evt = (el.type === 'text' || el.tagName === 'TEXTAREA') ? 'input' : 'change';
+    el.addEventListener(evt, ()=> captureAnswer(el));
+  });
+
+  container.querySelectorAll('[data-nav]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const panel = btn.closest('.section-panel');
+      const idx = parseInt(panel.dataset.idx);
+      if(btn.dataset.nav === 'next'){
+        if(idx === SECTIONS.length-1){ showResults(); }
+        else { goToSection(idx+1); }
+      } else {
+        goToSection(idx-1);
+      }
+    });
+  });
+}
+
+function captureAnswer(el){
+  const qid = el.id || el.name;
+  if(el.type === 'checkbox'){
+    if(!Array.isArray(state.answers[qid])) state.answers[qid] = [];
+    if(el.checked) state.answers[qid].push(el.value);
+    else state.answers[qid] = state.answers[qid].filter(v=>v!==el.value);
+  } else if(el.type === 'radio'){
+    state.answers[el.name] = el.value;
+    state.answers['__score_'+el.name] = el.dataset.score ? parseInt(el.dataset.score) : null;
+  } else {
+    state.answers[qid] = el.value;
+  }
+}
+
+function goToSection(idx){
+  state.currentSection = idx;
+  document.querySelectorAll('.section-panel').forEach(p=> p.classList.toggle('active', parseInt(p.dataset.idx)===idx));
+  document.querySelectorAll('.step-item').forEach(s=>{
+    const i = parseInt(s.dataset.idx);
+    s.classList.toggle('active', i===idx);
+    s.classList.toggle('done', i<idx);
+  });
+  const pct = Math.round(((idx)/(SECTIONS.length-1))*100);
+  document.getElementById('progressFill').style.width = idx===0? '4%' : pct+'%';
+  document.getElementById('progressLabel').textContent = `Section ${idx+1} of ${SECTIONS.length} — ${SECTIONS[idx].title}`;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ======================= SCORING ======================= */
+
+function computeScores(){
+  const dims = {operatingModel:[], technology:[], segmentation:[], channels:[], decisioning:[]};
+  SECTIONS.filter(s=>s.scored).forEach(s=>{
+    s.questions.filter(q=>q.score).forEach(q=>{
+      const sc = state.answers['__score_'+q.id];
+      if(sc){ dims[s.dim].push(sc); }
+    });
+  });
+  const dimAverages = {};
+  Object.keys(dims).forEach(k=>{
+    const arr = dims[k];
+    dimAverages[k] = arr.length ? (arr.reduce((a,b)=>a+b,0)/arr.length) : null;
+  });
+  const validAverages = Object.values(dimAverages).filter(v=>v!==null);
+  const overall = validAverages.length ? (validAverages.reduce((a,b)=>a+b,0)/validAverages.length) : 1;
+  let stage = STAGES[0];
+  for(const st of STAGES){ if(overall >= st.range[0] && overall < st.range[1]){ stage = st; break; } if(overall>=4.2){stage=STAGES[4];} }
+  return {dimAverages, overall, stage};
+}
+
+function gapFlags(){
+  const flags = [];
+  const a = state.answers;
+  if(a.c_whatsapp && (a.c_whatsapp.includes('Significant disruption') || a.c_whatsapp.includes('Aware of the directive'))){
+    flags.push('WhatsApp channel gap (CBUAE directive)');
+  }
+  if(a.d_ptp && (a.d_ptp.startsWith('Not tracked') || a.d_ptp.startsWith('Tracked manually'))){
+    flags.push('No predictive PTP modelling');
+  }
+  if(a.d_nba && (a.d_nba.startsWith('No —') || a.d_nba.startsWith('Informal'))){
+    flags.push('No Next-Best-Action capability');
+  }
+  if(a.s_method && (a.s_method.startsWith('Not segmented') || a.s_method.startsWith('Segmented by DPD bucket only'))){
+    flags.push('Coarse or absent segmentation');
+  }
+  if(a.t_stack && a.t_stack.includes('None of the above — mostly spreadsheets')){
+    flags.push('Spreadsheet-dependent core workflow');
+  }
+  if(a.d_dashboards && a.d_dashboards.startsWith('Manual spreadsheet')){
+    flags.push('No real-time executive visibility');
+  }
+  if(a.cp_audit && (a.cp_audit.startsWith('Minimal') || a.cp_audit.startsWith('Manual logs'))){
+    flags.push('Weak compliance / decision audit trail');
+  }
+  return flags;
+}
+
+function recommendation(scoreData, flags){
+  const stageN = scoreData.stage.n;
+  const isIslamic = state.meta.instType === 'Islamic Bank';
+  let engagement, tag, points;
+
+  if(stageN <= 2){
+    tag = 'Foundation Sprint';
+    engagement = `A ${state.meta.institution || 'this portfolio'} sitting at "${scoreData.stage.name}" gets the fastest, most visible win from replacing manual triage with a structured decision engine — before layering in predictive modelling. This is the highest-leverage starting point: it's the difference agents and leadership feel in week one.`;
+    points = [
+      'Deploy Kairos segmentation + rules-based prioritisation engine on the current book (no core system replacement required)',
+      'Stand up a real-time executive dashboard so leadership sees roll rates, RPC, and recovery live instead of in periodic reports',
+      'Digitise the treatment matrix so paths are system-enforced rather than judgment-based',
+      '6–8 week paid proof-of-concept on one segment, structured to prove cost-to-collect and RPC improvement before wider rollout'
+    ];
+  } else if(stageN === 3){
+    tag = 'Decisioning Uplift POC';
+    engagement = `The data and structure are already there — the gap is that decisioning is still rule-driven rather than predictive. Kairos slots in as a decisioning layer on top of the existing stack via API, without disrupting what's already working.`;
+    points = [
+      'Integrate Kairos predictive PTP and propensity scoring against the existing segmented book',
+      'Introduce Next-Best-Action logic for treatment and channel sequencing on the top 2–3 highest-value segments',
+      'Benchmark cost-to-collect and recovery rate against the Kairos composite market model to quantify the gap',
+      '8–12 week paid POC with a defined before/after measurement window'
+    ];
+  } else if(stageN === 4){
+    tag = 'Predictive Optimisation Layer';
+    engagement = `Scorecards and predictive models are already shaping decisions — Kairos's role here is closing the gap between model output and real-time action, particularly around channel orchestration post the WhatsApp restriction.`;
+    points = [
+      'Layer real-time Next-Best-Channel orchestration across SMS, app, email and voice to close the WhatsApp-driven contact gap',
+      'Move from periodic model refresh to continuously-tuned decisioning with tighter feedback loops',
+      'Extend the audit trail to decision-level explainability for CBUAE and internal audit readiness',
+      'Structured pilot on one under-performing segment to prove incremental lift over the existing model stack'
+    ];
+  } else {
+    tag = 'Autonomous Orchestration Partnership';
+    engagement = `This is a genuinely advanced operation. The conversation here isn't "should we build a decisioning capability" — it's "can an external layer meaningfully beat what's already running." Position Kairos as a benchmarking and marginal-gains partner, not a replacement.`;
+    points = [
+      'Run a blind benchmark: Kairos decisioning vs. current model stack on a held-out segment over a fixed window',
+      'Propose an outcome-based commercial structure (base fee + performance bonus) rather than a flat licence, matched to the risk profile of a mature counterparty',
+      'Position around specific edge cases the current stack likely under-serves — hardship/vulnerable customer treatment, cross-border expat behaviour, or regulatory explainability',
+      'Executive workshop to identify the 1–2 segments most likely to show measurable lift'
+    ];
+  }
+
+  if(isIslamic){
+    points.push('Structure all settlement/restructuring recommendation logic through Sharia-compliant treatment templates from day one');
+  }
+  if(flags.includes('WhatsApp channel gap (CBUAE directive)')){
+    points.unshift('Treat the CBUAE WhatsApp Business restriction (effective 1 May 2026) as the urgent, time-boxed opening move — this is a live operational gap, not a future-state nice-to-have');
+  }
+
+  return {tag, engagement, points};
+}
+
+/* ======================= RESULTS RENDER ======================= */
+
+function showResults(){
+  document.getElementById('wizardScreen').classList.remove('active');
+  document.getElementById('resultsScreen').classList.add('active');
+  document.getElementById('statusPill').textContent = 'Complete';
+
+  const scoreData = computeScores();
+  const flags = gapFlags();
+  const rec = recommendation(scoreData, flags);
+
+  const overallPct = ((scoreData.overall-1)/4)*100;
+
+  const dimHTML = Object.keys(DIM_LABELS).map(k=>{
+    const v = scoreData.dimAverages[k];
+    const pct = v ? ((v-1)/4)*100 : 0;
+    return `
+      <div class="dim-card">
+        <div class="dim-top"><span class="dim-name">${DIM_LABELS[k]}</span><span class="dim-score">${v?v.toFixed(1):'—'} / 5</span></div>
+        <div class="dim-bar"><div class="dim-bar-fill" style="width:${pct}%"></div></div>
+        <div class="dim-label">${v ? STAGES.find(s=> v>=s.range[0] && v<s.range[1] || (v>=4.2&&s.n===5)).name : 'Not scored'}</div>
+      </div>`;
+  }).join('');
+
+  const trackHTML = `
+    <div class="track">
+      <div class="track-line"><div class="track-fill" style="width:${overallPct}%"></div></div>
+      <div class="track-nodes">
+        ${STAGES.map(s=>`<div class="track-node ${s.n<scoreData.stage.n?'passed':''} ${s.n===scoreData.stage.n?'current':''}"></div>`).join('')}
+      </div>
+      <div class="track-labels">${STAGES.map(s=>`<span>${s.name}</span>`).join('')}</div>
+    </div>`;
+
+  const gapHTML = flags.length ? `
+    <div class="rec-block">
+      <h3>Priority Gaps Identified</h3>
+      <div class="gap-grid">${flags.map(f=>`<span class="gap-chip">${f}</span>`).join('')}</div>
+    </div>` : '';
+
+  document.getElementById('resultsInner').innerHTML = `
+    <div class="stage-banner">
+      <div class="stage-eyebrow">Transformation Stage</div>
+      <h2>Stage ${scoreData.stage.n} — <em>${scoreData.stage.name}</em></h2>
+      <p>${scoreData.stage.blurb}</p>
+      ${trackHTML}
+    </div>
+
+    <div class="dims">${dimHTML}</div>
+
+    ${gapHTML}
+
+    <div class="rec-block">
+      <span class="rec-sub">Kairos Engagement Recommendation</span>
+      <h3><span class="flag">${rec.tag}</span> for ${escapeHTML(state.meta.institution)}</h3>
+      <div class="rec-card">
+        <p>${rec.engagement}</p>
+        <ul>${rec.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="export-row">
+      <button class="btn btn-primary" id="btnCopy">Copy Summary for Claude
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 9h10v10H9zM5 15V5h10"/></svg>
+      </button>
+      <button class="btn btn-ghost" id="btnDownload">Download JSON</button>
+      <button class="btn btn-teal" id="btnSave">Save Assessment</button>
+      <button class="btn btn-ghost" id="btnRestart">Start New Assessment</button>
+    </div>
+    <div class="copy-box" id="copyBox"></div>
+  `;
+
+  document.getElementById('btnCopy').addEventListener('click', ()=> copySummary(scoreData, flags, rec));
+  document.getElementById('btnDownload').addEventListener('click', ()=> downloadJSON(scoreData, flags, rec));
+  document.getElementById('btnSave').addEventListener('click', ()=> saveAssessment(scoreData, flags, rec));
+  document.getElementById('btnRestart').addEventListener('click', ()=> location.reload());
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function escapeHTML(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ======================= EXPORT ======================= */
+
+function buildPayload(scoreData, flags, rec){
+  const readable = {};
+  SECTIONS.forEach(s=>{
+    s.questions.forEach(q=>{
+      const v = state.answers[q.id];
+      if(v !== undefined && v !== '' && !(Array.isArray(v) && v.length===0)){
+        readable[q.text] = v;
+      }
+    });
+  });
+  return {
+    institution: state.meta.institution,
+    institutionType: state.meta.instType,
+    respondent: state.meta.respondent,
+    completedAt: new Date().toISOString(),
+    transformationStage: {number: scoreData.stage.n, name: scoreData.stage.name, overallScore: Number(scoreData.overall.toFixed(2))},
+    dimensionScores: Object.fromEntries(Object.entries(scoreData.dimAverages).map(([k,v])=>[DIM_LABELS[k], v?Number(v.toFixed(2)):null])),
+    priorityGaps: flags,
+    kairosRecommendation: {focus: rec.tag, summary: rec.engagement, nextSteps: rec.points},
+    fullResponses: readable
+  };
+}
+
+function summaryText(scoreData, flags, rec){
+  const payload = buildPayload(scoreData, flags, rec);
+  let out = `KAIROS COLLECTIONS TRANSFORMATION ASSESSMENT\n`;
+  out += `${'='.repeat(48)}\n`;
+  out += `Institution: ${payload.institution}\n`;
+  out += `Type: ${payload.institutionType || '—'}\n`;
+  out += `Respondent: ${payload.respondent || '—'}\n`;
+  out += `Completed: ${new Date(payload.completedAt).toLocaleString()}\n\n`;
+  out += `TRANSFORMATION STAGE: ${payload.transformationStage.number} — ${payload.transformationStage.name} (overall ${payload.transformationStage.overallScore}/5)\n\n`;
+  out += `DIMENSION SCORES\n`;
+  Object.entries(payload.dimensionScores).forEach(([k,v])=>{ out += `  - ${k}: ${v ?? 'n/a'}/5\n`; });
+  out += `\nPRIORITY GAPS\n`;
+  out += payload.priorityGaps.length ? payload.priorityGaps.map(f=>`  - ${f}`).join('\n') : '  - None flagged';
+  out += `\n\nKAIROS RECOMMENDATION: ${payload.kairosRecommendation.focus}\n${payload.kairosRecommendation.summary}\n`;
+  payload.kairosRecommendation.nextSteps.forEach(p=>{ out += `  - ${p}\n`; });
+  out += `\nFULL RESPONSES\n${'-'.repeat(48)}\n`;
+  Object.entries(payload.fullResponses).forEach(([q,a])=>{
+    out += `Q: ${q}\nA: ${Array.isArray(a)?a.join(', '):a}\n\n`;
+  });
+  return out;
+}
+
+function copySummary(scoreData, flags, rec){
+  const text = summaryText(scoreData, flags, rec);
+  const box = document.getElementById('copyBox');
+  box.textContent = text;
+  box.classList.add('show');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=> showToast('Summary copied — paste it back into chat with Claude')).catch(()=> showToast('Copy failed — select the text below manually'));
+  } else {
+    showToast('Clipboard unavailable — select the text below manually');
+  }
+}
+
+function downloadJSON(scoreData, flags, rec){
+  const payload = buildPayload(scoreData, flags, rec);
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const slug = (state.meta.institution||'assessment').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+  a.href = url; a.download = `kairos-assessment-${slug || 'export'}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('JSON downloaded');
+}
+
+/* ======================= PERSISTENCE (window.storage, with fallback) ======================= */
+
+const storageAvailable = () => typeof window.storage !== 'undefined' && window.storage;
+
+async function saveAssessment(scoreData, flags, rec){
+  if(!storageAvailable()){ showToast('Storage unavailable in this view — use Download JSON instead'); return; }
+  try{
+    const payload = buildPayload(scoreData, flags, rec);
+    const slug = (state.meta.institution||'assessment').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'assessment';
+    const key = `kairos-assessment:${slug}-${Date.now()}`;
+    const result = await window.storage.set(key, JSON.stringify(payload), false);
+    if(result){ showToast('Assessment saved'); } else { showToast('Save failed'); }
+  }catch(err){ showToast('Save failed'); console.error(err); }
+}
+
+async function loadSavedList(){
+  const container = document.getElementById('savedList');
+  if(!storageAvailable()){
+    container.innerHTML = `<div class="saved-empty">Storage unavailable in this view — assessments won't persist here, but Download JSON always works.</div>`;
+    return;
+  }
+  try{
+    const res = await window.storage.list('kairos-assessment:', false);
+    const keys = (res && res.keys) ? res.keys : [];
+    if(!keys.length){
+      container.innerHTML = `<div class="saved-empty">No saved assessments yet.</div>`;
+      return;
+    }
+    const items = [];
+    for(const k of keys){
+      try{
+        const r = await window.storage.get(k, false);
+        if(r && r.value){
+          const p = JSON.parse(r.value);
+          items.push({key:k, inst: p.institution || k, date: p.completedAt});
+        }
+      }catch(e){ /* skip unreadable key */ }
+    }
+    items.sort((a,b)=> new Date(b.date) - new Date(a.date));
+    container.innerHTML = items.map(it=>`
+      <div class="saved-item">
+        <span>${escapeHTML(it.inst)} — ${it.date ? new Date(it.date).toLocaleDateString() : ''}</span>
+        <button data-key="${it.key}">Reopen</button>
+      </div>`).join('');
+    container.querySelectorAll('button[data-key]').forEach(btn=>{
+      btn.addEventListener('click', ()=> reopenAssessment(btn.dataset.key));
+    });
+  }catch(err){
+    container.innerHTML = `<div class="saved-empty">Could not load saved assessments.</div>`;
+    console.error(err);
+  }
+}
+
+async function reopenAssessment(key){
+  try{
+    const r = await window.storage.get(key, false);
+    if(!r || !r.value){ showToast('Could not load that assessment'); return; }
+    const payload = JSON.parse(r.value);
+    const text = `Reopened read-only summary for ${payload.institution}. Use "Download JSON" workflow / paste into chat — full re-editing isn't supported from a saved snapshot.`;
+    document.getElementById('coverScreen').style.display='none';
+    document.getElementById('resultsScreen').classList.add('active');
+    document.getElementById('statusPill').textContent = 'Viewing saved';
+    const scoreLike = {stage:{n:payload.transformationStage.number,name:payload.transformationStage.name,blurb:''}, overall:payload.transformationStage.overallScore, dimAverages:Object.fromEntries(Object.entries(payload.dimensionScores).map(([k,v])=>[Object.keys(DIM_LABELS).find(dk=>DIM_LABELS[dk]===k),v]))};
+    document.getElementById('resultsInner').innerHTML = `
+      <div class="stage-banner">
+        <div class="stage-eyebrow">Saved Assessment</div>
+        <h2>Stage ${payload.transformationStage.number} — <em>${payload.transformationStage.name}</em></h2>
+        <p>${text}</p>
+      </div>
+      <div class="rec-block">
+        <span class="rec-sub">Kairos Engagement Recommendation</span>
+        <h3><span class="flag">${payload.kairosRecommendation.focus}</span> for ${escapeHTML(payload.institution)}</h3>
+        <div class="rec-card">
+          <p>${payload.kairosRecommendation.summary}</p>
+          <ul>${payload.kairosRecommendation.nextSteps.map(p=>`<li>${p}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="export-row">
+        <button class="btn btn-primary" id="btnCopySaved">Copy Summary for Claude</button>
+        <button class="btn btn-ghost" id="btnRestart2">Start New Assessment</button>
+      </div>
+      <div class="copy-box" id="copyBox"></div>
+    `;
+    document.getElementById('btnCopySaved').addEventListener('click', ()=>{
+      const box = document.getElementById('copyBox');
+      const text2 = JSON.stringify(payload, null, 2);
+      box.textContent = text2; box.classList.add('show');
+      if(navigator.clipboard) navigator.clipboard.writeText(text2).then(()=>showToast('Copied'));
+    });
+    document.getElementById('btnRestart2').addEventListener('click', ()=> location.reload());
+  }catch(err){ showToast('Could not load that assessment'); console.error(err); }
+}
+
+/* ======================= UI HELPERS ======================= */
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 2600);
+}
+
+/* ======================= INIT ======================= */
+
+buildInstTypeOptions();
+buildEntitySelect();
+loadSavedList();
+
+})();
+</script>
+</body>
+</html>

@@ -994,6 +994,22 @@ function recommendation(scoreData, flags){
 
 /* ======================= RESULTS RENDER ======================= */
 
+
+/* ─────────────────────────────────────────────────────────────
+   [IDX:LEADS] CMI lead capture → same webhook as the FinTech demo
+   Mirrors logLeadToSheet(): no-cors POST with payload as query param
+   (survives Apps Script's 302 redirect). Fire-and-forget.
+   ───────────────────────────────────────────────────────────── */
+var KAIROS_LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby-ZgXCfls7XDBcD75gK5z2OTUEoIYWmjEcJEmSEc2DAr0imQTqclHOgjTJMmMbFayedw/exec';
+function cmiLogLead(lead){
+  try{
+    if(!KAIROS_LEAD_WEBHOOK_URL){ window._kairosLastLead = lead; return; }
+    var _url = KAIROS_LEAD_WEBHOOK_URL + (KAIROS_LEAD_WEBHOOK_URL.indexOf('?')>=0?'&':'?') + 'payload=' + encodeURIComponent(JSON.stringify(lead));
+    fetch(_url, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(lead) })
+      .catch(function(){});
+  }catch(_){ }
+}
+
 function showResults(){
   document.getElementById('wizardScreen').classList.remove('active');
   document.getElementById('resultsScreen').classList.add('active');
@@ -1002,6 +1018,25 @@ function showResults(){
   const scoreData = computeScores();
   const flags = gapFlags();
   const rec = recommendation(scoreData, flags);
+
+  /* [IDX:LEADS] capture the completed assessment as a qualified lead */
+  try{
+    var _emailEl = document.getElementById('cmiEmail');
+    var _email   = _emailEl ? (_emailEl.value||'').trim() : '';
+    cmiLogLead({
+      lead_type:            'CMI Assessment',
+      respondent:           (state.meta.respondent || ''),
+      email:                _email,
+      institution:          (state.meta.institution || ''),
+      institution_type:     (state.meta.instType || ''),
+      cmi_overall_score:    (scoreData.overall!=null ? scoreData.overall.toFixed(2) : ''),
+      cmi_stage_number:     (scoreData.stage && scoreData.stage.n) || '',
+      cmi_stage_name:       (scoreData.stage && scoreData.stage.name) || '',
+      recommendation_tag:   (rec && rec.tag) || '',
+      source:               (typeof location!=='undefined' && location.href) ? location.href : ''
+    });
+  }catch(_){ }
+
 
   const overallPct = ((scoreData.overall-1)/4)*100;
 
@@ -1052,6 +1087,16 @@ function showResults(){
       </div>
     </div>
 
+    <div class="rec-card" style="border:1px solid rgba(14,168,154,.35);background:linear-gradient(160deg,rgba(14,168,154,.08),rgba(255,255,255,.01));margin:18px 0;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#5EEAD4;margin-bottom:8px;">Get your full CMI pack</div>
+      <p style="margin-bottom:12px;">Send this benchmarked assessment and the recommended engagement plan to your inbox.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <input type="email" id="cmiEmail" placeholder="you@institution.com" style="flex:1;min-width:220px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#fff;font-size:14px;">
+        <button class="btn btn-teal" id="cmiEmailBtn" type="button">Email my pack</button>
+      </div>
+      <div id="cmiEmailMsg" style="font-size:12px;color:#5EEAD4;margin-top:10px;display:none;">Thank you — your pack is on its way. Our team will follow up shortly.</div>
+    </div>
+
     <div class="export-row">
       <button class="btn btn-primary" id="btnCopy">Copy Summary for Claude
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 9h10v10H9zM5 15V5h10"/></svg>
@@ -1067,6 +1112,30 @@ function showResults(){
   document.getElementById('btnDownload').addEventListener('click', ()=> downloadJSON(scoreData, flags, rec));
   document.getElementById('btnSave').addEventListener('click', ()=> saveAssessment(scoreData, flags, rec));
   document.getElementById('btnRestart').addEventListener('click', ()=> location.reload());
+
+  var _emailBtn = document.getElementById('cmiEmailBtn');
+  if(_emailBtn){
+    _emailBtn.addEventListener('click', function(){
+      var el = document.getElementById('cmiEmail');
+      var email = el ? (el.value||'').trim() : '';
+      if(!email || email.indexOf('@')<1){ if(el){ el.style.borderColor='#E3AF52'; el.focus(); } return; }
+      cmiLogLead({
+        lead_type:          'CMI Assessment — Pack Request',
+        respondent:         (state.meta.respondent || ''),
+        email:              email,
+        institution:        (state.meta.institution || ''),
+        institution_type:   (state.meta.instType || ''),
+        cmi_overall_score:  (scoreData.overall!=null ? scoreData.overall.toFixed(2) : ''),
+        cmi_stage_number:   (scoreData.stage && scoreData.stage.n) || '',
+        cmi_stage_name:     (scoreData.stage && scoreData.stage.name) || '',
+        recommendation_tag: (rec && rec.tag) || '',
+        source:             (typeof location!=='undefined' && location.href) ? location.href : ''
+      });
+      var msg = document.getElementById('cmiEmailMsg');
+      if(msg) msg.style.display='block';
+      _emailBtn.disabled=true; _emailBtn.textContent='Sent \u2713';
+    });
+  }
 
   window.scrollTo({top:0, behavior:'smooth'});
 }

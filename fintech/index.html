@@ -3692,6 +3692,19 @@ h3{color:#fff;}
                 <div id="sa-color-auto" style="font-size:11px;color:rgba(255,255,255,.62);margin-top:6px;">Auto-extracted from logo on upload — edit to override.</div>
               </div>
               <button onclick="saApply()" style="background:var(--teal);color:#fff;border:none;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;width:100%;letter-spacing:.02em;">Apply Configuration →</button>
+
+              <!-- [IDX:CMI-INVITE] Push a Collections Maturity Index assessment to a prospect -->
+              <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);">
+                <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5EEAD4;margin-bottom:4px;">Push CMI Assessment</div>
+                <div style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;margin-bottom:12px;">Email a prospect their maturity assessment. You're notified the moment they complete it.</div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <input id="ci-name" type="text" placeholder="Contact name — e.g. Ahmed Al Mansoori" style="width:100%;background:#09111F;border:1px solid rgba(255,255,255,.14);color:#fff;padding:10px 12px;border-radius:7px;font-size:13px;">
+                  <input id="ci-email" type="email" placeholder="Work email — e.g. ahmed@bank.ae" style="width:100%;background:#09111F;border:1px solid rgba(255,255,255,.14);color:#fff;padding:10px 12px;border-radius:7px;font-size:13px;">
+                  <input id="ci-inst" type="text" placeholder="Institution — e.g. Emirates Islamic Bank" style="width:100%;background:#09111F;border:1px solid rgba(255,255,255,.14);color:#fff;padding:10px 12px;border-radius:7px;font-size:13px;">
+                  <button onclick="cmiSendInvite()" id="ci-send" style="background:var(--gold);color:#09111F;border:none;padding:11px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;width:100%;letter-spacing:.02em;">Send Assessment Invite →</button>
+                  <div id="ci-msg" style="font-size:11.5px;line-height:1.5;display:none;"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:22px;">
@@ -5444,7 +5457,7 @@ function engReset(){
    soft gate (not server auth). Separate from the founder-only Sales
    Studio gate, which keeps its own passphrase. */
 var DEMO_PASSPHRASE   = 'oppurtune@2026';
-window.KAIROS_BUILD='v6.6 (2026-08-02)';
+window.KAIROS_BUILD='v6.7 (2026-08-02)';
 try{ console.info('%cKAIROS build '+window.KAIROS_BUILD,'color:#DAA84E;font-weight:700'); }catch(e){}
 var DEMO_UNLOCKED     = false;
 var DEMO_PENDING_PAGE = null;
@@ -9094,6 +9107,38 @@ async function submitDemo2(e){
   if(btn){ btn.textContent='✓ Whitepaper ready'; btn.disabled=false; btn.style.background='#059669'; }
 }
 
+/* [IDX:CMI-INVITE] Send a CMI assessment invite via the leads webhook (Apps Script sends the email) */
+function cmiSendInvite(){
+  var name=(document.getElementById('ci-name')||{}).value||'';
+  var email=((document.getElementById('ci-email')||{}).value||'').trim();
+  var inst=(document.getElementById('ci-inst')||{}).value||'';
+  var msg=document.getElementById('ci-msg');
+  var btn=document.getElementById('ci-send');
+  function show(txt,color){ if(msg){ msg.style.display='block'; msg.style.color=color; msg.textContent=txt; } }
+  if(!email || email.indexOf('@')<1){ show('Enter a valid work email to send the invite.', '#E3AF52'); return; }
+  var ref='INV-'+Date.now().toString(36).toUpperCase()+'-'+Math.floor(Math.random()*46656).toString(36).toUpperCase();
+  var invite={
+    action:            'cmi_invite',
+    invite_ref:        ref,
+    respondent:        name,
+    email:             email,
+    institution:       inst,
+    invite_link:       'https://runkairos.com/assessment/?ref='+encodeURIComponent(ref),
+    sent_by:           'Sales Studio',
+    source:            (typeof location!=='undefined' && location.href) ? location.href : ''
+  };
+  try{
+    var _url = LEAD_WEBHOOK_URL + (LEAD_WEBHOOK_URL.indexOf('?')>=0?'&':'?') + 'payload=' + encodeURIComponent(JSON.stringify(invite));
+    fetch(_url, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(invite) }).catch(function(){});
+    show('Invite queued for '+email+'  \u00b7  ref '+ref+'. You will be notified when they complete it.', '#5EEAD4');
+    if(btn){ btn.disabled=true; btn.textContent='Invite Sent ✓'; }
+    setTimeout(function(){
+      ['ci-name','ci-email','ci-inst'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+      if(btn){ btn.disabled=false; btn.textContent='Send Another Invite →'; }
+    }, 2600);
+  }catch(_){ show('Could not queue the invite — check connection and retry.', '#E3AF52'); }
+}
+
 function logLeadToSheet(lead){
   /* Local backup first — every lead is kept on this device regardless of
      webhook state, so nothing is lost on tab close or offline demos.
@@ -12229,7 +12274,7 @@ function saUpdatePortfolio(){
   });
 })();
 </script>
-<div id="kairos-build-badge" style="position:fixed;bottom:8px;right:10px;z-index:2147483600;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.28);font-family:'IBM Plex Mono',monospace;pointer-events:none;">v6.6</div>
+<div id="kairos-build-badge" style="position:fixed;bottom:8px;right:10px;z-index:2147483600;font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.28);font-family:'IBM Plex Mono',monospace;pointer-events:none;">v6.7</div>
 <script>
 /* ── v2.8 resilience layer ─────────────────────────────────────────────
    1) The critical journey buttons are bound programmatically, so they work

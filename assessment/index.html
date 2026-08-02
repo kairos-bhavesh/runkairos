@@ -1001,6 +1001,12 @@ function recommendation(scoreData, flags){
    (survives Apps Script's 302 redirect). Fire-and-forget.
    ───────────────────────────────────────────────────────────── */
 var KAIROS_LEAD_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby-ZgXCfls7XDBcD75gK5z2OTUEoIYWmjEcJEmSEc2DAr0imQTqclHOgjTJMmMbFayedw/exec';
+function cmiGetRef(){
+  try{
+    var p=new URLSearchParams(location.search);
+    return p.get('ref') || '';
+  }catch(_){ return ''; }
+}
 function cmiLogLead(lead){
   try{
     if(!KAIROS_LEAD_WEBHOOK_URL){ window._kairosLastLead = lead; return; }
@@ -1033,6 +1039,7 @@ function showResults(){
       cmi_stage_number:     (scoreData.stage && scoreData.stage.n) || '',
       cmi_stage_name:       (scoreData.stage && scoreData.stage.name) || '',
       recommendation_tag:   (rec && rec.tag) || '',
+      invite_ref:           cmiGetRef(),
       source:               (typeof location!=='undefined' && location.href) ? location.href : ''
     });
   }catch(_){ }
@@ -1098,7 +1105,7 @@ function showResults(){
     </div>
 
     <div class="export-row">
-      <button class="btn btn-primary" id="btnCopy">Copy Summary for Claude
+      <button class="btn btn-primary" id="btnCopy">Copy Summary
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 9h10v10H9zM5 15V5h10"/></svg>
       </button>
       <button class="btn btn-ghost" id="btnDownload">Download JSON</button>
@@ -1129,6 +1136,7 @@ function showResults(){
         cmi_stage_number:   (scoreData.stage && scoreData.stage.n) || '',
         cmi_stage_name:     (scoreData.stage && scoreData.stage.name) || '',
         recommendation_tag: (rec && rec.tag) || '',
+        invite_ref:         cmiGetRef(),
         source:             (typeof location!=='undefined' && location.href) ? location.href : ''
       });
       var msg = document.getElementById('cmiEmailMsg');
@@ -1195,7 +1203,7 @@ function copySummary(scoreData, flags, rec){
   box.textContent = text;
   box.classList.add('show');
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(()=> showToast('Summary copied — paste it back into chat with Claude')).catch(()=> showToast('Copy failed — select the text below manually'));
+    navigator.clipboard.writeText(text).then(()=> showToast('Summary copied to clipboard')).catch(()=> showToast('Copy failed — select the text below manually'));
   } else {
     showToast('Clipboard unavailable — select the text below manually');
   }
@@ -1271,7 +1279,7 @@ async function reopenAssessment(key){
     const r = await window.storage.get(key, false);
     if(!r || !r.value){ showToast('Could not load that assessment'); return; }
     const payload = JSON.parse(r.value);
-    const text = `Reopened read-only summary for ${payload.institution}. Use "Download JSON" workflow / paste into chat — full re-editing isn't supported from a saved snapshot.`;
+    const text = `Reopened read-only summary for ${payload.institution}. Use the "Download JSON" workflow — full re-editing isn't supported from a saved snapshot.`;
     document.getElementById('coverScreen').style.display='none';
     document.getElementById('resultsScreen').classList.add('active');
     document.getElementById('statusPill').textContent = 'Viewing saved';
@@ -1291,7 +1299,7 @@ async function reopenAssessment(key){
         </div>
       </div>
       <div class="export-row">
-        <button class="btn btn-primary" id="btnCopySaved">Copy Summary for Claude</button>
+        <button class="btn btn-primary" id="btnCopySaved">Copy Summary</button>
         <button class="btn btn-ghost" id="btnRestart2">Start New Assessment</button>
       </div>
       <div class="copy-box" id="copyBox"></div>
